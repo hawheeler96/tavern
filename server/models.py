@@ -131,3 +131,7 @@ class Party(db.Model, SerializerMixin):
 
     # relationships
     user = association_proxy("characters", "user")
+    character = db.relationship("Character", back_populates="party")
+
+    # serialization rules
+    serialize_rules = ("-character",)
