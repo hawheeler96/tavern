@@ -68,7 +68,7 @@ class Character(db.Model, SerializerMixin):
     race = db.relationship("Race", back_populates="character")
 
     # serialization rules
-    serialize_rules = ("-abilityscores", "-skills", "-user", "-race")
+    serialize_rules = ("-abilityscores", "-skills", "-user", "-race", "-party")
 
 
 class Race(db.Model, SerializerMixin):
