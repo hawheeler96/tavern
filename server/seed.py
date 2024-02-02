@@ -12,7 +12,7 @@ if __name__ == "__main__":
         Party.query.delete()
         
         print('Creating user...')
-        holly = User(name="Holly Wheeler", password_hash="1234")
+        holly = User(name="Holly Wheeler", email="hollyawheeler.96@gmail.com", password_hash="1234")
         
         print('Populating race...')
         dhampir = Race(
