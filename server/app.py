@@ -1,4 +1,5 @@
 # Remote library imports
+from sqlite3 import paramstyle
 from tempfile import TemporaryFile
 from flask import Flask, request, make_response, jsonify, session
 from flask_restful import Api, Resource
@@ -249,10 +250,55 @@ class RacesById(Resource):
         race = Race.query.get(id)
         if not race:
             return make_response({"error": "Race not found"}, 404)
-        
+
         return make_response(race.to_dict(), 200)
-    
+
+
 api.add_resource(RacesById, "/races/<int:id>")
+
+
+class Parties(Resource):
+    def get(self):
+        party = [party.to_dict() for party in Party.query.all()]
+        return make_response(party, 200)
+
+
+api.add_resource(Parties, "/parties")
+
+
+class PartyById(Resource):
+    def get(self, id):
+        party = Party.query.get(id)
+        if not party:
+            return make_response({"error": "Party not found"}, 404)
+
+        return make_response(party.to_dict(rules=("character",)), 200)
+
+    def patch(self, id):
+        party = Party.query.get(id)
+        if not party:
+            return make_response({"error": "Party not found"}, 404)
+        data = request.get_json()
+        try:
+            for attr in data:
+                setattr(party, attr, data[attr])
+                db.session.add(party)
+                db.session.commit()
+            return make_response(party, 202)
+        except ValueError:
+            return make_response({"error": "unable to PATCH"}, 400)
+
+    def delete(self, id):
+        party = Party.query.get(id)
+        if not party:
+            return make_response({"error": "Party not found"}, 404)
+
+        db.session.delete(party)
+        db.session.commit()
+        
+        return make_response({}, 204)
+
+api.add_resource(PartyById, "/parties/<int:id>")
 
 
 if __name__ == "__main__":
