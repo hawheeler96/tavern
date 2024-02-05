@@ -1,12 +1,12 @@
 from flask_sqlalchemy import SQLAlchemy
 from itsdangerous import Serializer
-from sqlalchemy import MetaData
+from sqlalchemy import MetaData, JSON
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.util import b
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.hybrid import hybrid_property
-from flask import request
+import requests
 
 from config import db, bcrypt
 
@@ -47,15 +47,15 @@ class Character(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     name = db.Column(db.String, nullable=False)
     dnd_class = db.Column(db.String, nullable=False)
-    subclasses = db.Column(db.String)
+    subclasses = db.Column(JSON, nullable=True)
     dnd_class_level = db.Column(db.String)
     total_level = db.Column(db.Integer, nullable=False)
     proficiency_mod = db.Column(db.Integer, nullable=False)
     hp = db.Column(db.Integer, nullable=False)
     hit_die = db.Column(db.String)
-    proficiency_choices = db.Column(db.String)
-    proficiencies = db.Column(db.String)
-    saving_throws = db.Column(db.String)
+    proficiency_choices = db.Column(JSON, nullable=True)
+    proficiencies = db.Column(JSON, nullable=True)
+    saving_throws = db.Column(JSON, nullable=True)
     abilityscores_id = db.Column(db.Integer, db.ForeignKey("abilityscores.id"))
     skills_id = db.Column(db.Integer, db.ForeignKey("skills.id"))
     feats = db.Column(db.String)
@@ -65,11 +65,10 @@ class Character(db.Model, SerializerMixin):
     gold = db.Column(db.Integer, nullable=False)
     party_id = db.Column(db.Integer, db.ForeignKey("parties.id"))
     race_id = db.Column(db.Integer, db.ForeignKey("races.id"))
-    dnd_class_api_url = db.Column(db.String)
-    dnd_class_levels_api_url = db.Column(db.String)
+    dnd_class_api_url = db.Column(db.String, nullable=False)
+    dnd_class_levels_api_url = db.Column(db.String, nullable=False)
 
-    @staticmethod
-    def get_dnd_class_api_url(class_name):
+    def get_dnd_class_api_url(self):
         class_api_urls = {
             "wizard": "https://www.dnd5eapi.co/api/classes/wizard",
             "fighter": "https://www.dnd5eapi.co/api/classes/fighter",
@@ -83,24 +82,21 @@ class Character(db.Model, SerializerMixin):
             "sorcerer": "https://www.dnd5eapi.co/api/classes/sorcerer",
             "warlock": "https://www.dnd5eapi.co/api/classes/warlock",
         }
-        return class_api_urls.get(class_name.lower())
+        if self.dnd_class:
+            return class_api_urls.get(self.dnd_class.lower())
+        return None
 
     def fetch_dnd_class_info(self):
         if self.dnd_class_api_url:
-            response = request.get(self.dnd_class_api_url)
-            if response.status_code == 200:
-                data = response.json()
-                self.hit_die = data.get("hit_die")
-                self.proficiency_choices = data.get("proficiency_choices")
-                self.proficiencies = data.get("proficiencies")
-                self.saving_throws = data.get("saving_throws")
-                self.subclasses = data.get("subclasses")
-            else:
-                raise ValueError(
-                    f"Error fetching data from API. Status code: {response.status_code}"
-                )
+            response = requests.get(self.dnd_class_api_url)
+            data = response.json()
+            self.hit_die = data.get("hit_die")
+            self.proficiency_choices = data.get("proficiency_choices")
+            self.proficiencies = data.get("proficiencies")
+            self.saving_throws = data.get("saving_throws")
+            self.subclasses = data.get("subclasses")
 
-    def get_dnd_class_levels_api_url(class_name):
+    def get_dnd_class_levels_api_url(self):
         class_api_urls = {
             "wizard": "https://www.dnd5eapi.co/api/classes/wizard/levels",
             "fighter": "https://www.dnd5eapi.co/api/classes/fighter/levels",
@@ -114,7 +110,7 @@ class Character(db.Model, SerializerMixin):
             "sorcerer": "https://www.dnd5eapi.co/api/classes/sorcerer/levels",
             "warlock": "https://www.dnd5eapi.co/api/classes/warlock/levels",
         }
-        return class_api_urls.get(class_name.lower())
+        return class_api_urls.get(self.dnd_class.lower())
 
     # relationships
     abilityscores = db.relationship("AbilityScore", back_populates="character")
@@ -132,18 +128,16 @@ class Race(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    languages = db.Column(db.String)
-    ability_bonuses = db.Column(db.String)
+    languages = db.Column(JSON, nullable=True)
+    ability_bonuses = db.Column(JSON, nullable=True)
     creature_type = db.Column(db.String, nullable=False)
     size = db.Column(db.String, nullable=False)
     speed = db.Column(db.Integer, nullable=False)
-    traits = db.Column(db.String, nullable=True)
-    starting_proficiencies = db.Column(db.String)
-    starting_proficiency_options = db.Column(db.String)
+    traits = db.Column(JSON, nullable=True)
+    starting_proficiencies = db.Column(JSON, nullable=True)
     dnd_race_api_url = db.Column(db.String)
 
-    @staticmethod
-    def get_dnd_class_api_url(race_name):
+    def get_dnd_class_api_url(self):
         race_api_urls = {
             "dragonborn": "https://www.dnd5eapi.co/api/races/dragonborn",
             "dwarf": "https://www.dnd5eapi.co/api/races/dwarf",
@@ -155,27 +149,18 @@ class Race(db.Model, SerializerMixin):
             "human": "https://www.dnd5eapi.co/api/races/human",
             "tiefling": "https://www.dnd5eapi.co/api/races/tiefling",
         }
-        return race_api_urls.get(race_name.lower())
+        return race_api_urls.get(self.name.lower())
 
     def fetch_dnd_race_info(self):
         if self.dnd_race_api_url:
-            response = request.get(self.dnd_race_api_url)
-            if response.status_code == 200:
-                data = response.json()
-                self.name = data.get("name")
-                self.speed = data.get("speed")
-                self.ability_bonuses = data.get("ability_bonuses")
-                self.size = data.get("size")
-                self.starting_proficiencies = data.get("starting_proficiencies")
-                self.starting_proficiency_options = data.get(
-                    "starting_proficiency_options"
-                )
-                self.languages = data.get("languages")
-                self.traits = data.get("traits")
-            else:
-                raise ValueError(
-                    f"Error fetching data from API. Status code: {response.status_code}"
-                )
+            response = requests.get(self.dnd_race_api_url)
+            data = response.json()
+            self.speed = data.get("speed")
+            self.ability_bonuses = data.get("ability_bonuses")
+            self.size = data.get("size")
+            self.starting_proficiencies = data.get("starting_proficiencies")
+            self.languages = data.get("languages")
+            self.traits = data.get("traits")
 
     # relationships
     character = db.relationship("Character", back_populates="race")

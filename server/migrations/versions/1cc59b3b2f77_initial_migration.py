@@ -1,8 +1,8 @@
 """initial migration
 
-Revision ID: 377df870a460
+Revision ID: 1cc59b3b2f77
 Revises: 
-Create Date: 2024-02-05 09:37:44.274847
+Create Date: 2024-02-05 13:22:44.375176
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '377df870a460'
+revision = '1cc59b3b2f77'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -43,14 +43,13 @@ def upgrade():
     op.create_table('races',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=True),
-    sa.Column('languages', sa.String(), nullable=True),
-    sa.Column('ability_bonuses', sa.String(), nullable=True),
+    sa.Column('languages', sa.JSON(), nullable=True),
+    sa.Column('ability_bonuses', sa.JSON(), nullable=True),
     sa.Column('creature_type', sa.String(), nullable=False),
     sa.Column('size', sa.String(), nullable=False),
     sa.Column('speed', sa.Integer(), nullable=False),
-    sa.Column('traits', sa.String(), nullable=True),
-    sa.Column('starting_proficiencies', sa.String(), nullable=True),
-    sa.Column('starting_proficiency_options', sa.String(), nullable=True),
+    sa.Column('traits', sa.JSON(), nullable=True),
+    sa.Column('starting_proficiencies', sa.JSON(), nullable=True),
     sa.Column('dnd_race_api_url', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
@@ -88,15 +87,15 @@ def upgrade():
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('dnd_class', sa.String(), nullable=False),
-    sa.Column('subclasses', sa.String(), nullable=True),
-    sa.Column('dnd_class_level', sa.Integer(), nullable=True),
+    sa.Column('subclasses', sa.JSON(), nullable=True),
+    sa.Column('dnd_class_level', sa.String(), nullable=True),
     sa.Column('total_level', sa.Integer(), nullable=False),
     sa.Column('proficiency_mod', sa.Integer(), nullable=False),
     sa.Column('hp', sa.Integer(), nullable=False),
     sa.Column('hit_die', sa.String(), nullable=True),
-    sa.Column('proficiency_choices', sa.String(), nullable=True),
-    sa.Column('proficiencies', sa.String(), nullable=True),
-    sa.Column('saving_throws', sa.String(), nullable=True),
+    sa.Column('proficiency_choices', sa.JSON(), nullable=True),
+    sa.Column('proficiencies', sa.JSON(), nullable=True),
+    sa.Column('saving_throws', sa.JSON(), nullable=True),
     sa.Column('abilityscores_id', sa.Integer(), nullable=True),
     sa.Column('skills_id', sa.Integer(), nullable=True),
     sa.Column('feats', sa.String(), nullable=True),
@@ -106,8 +105,8 @@ def upgrade():
     sa.Column('gold', sa.Integer(), nullable=False),
     sa.Column('party_id', sa.Integer(), nullable=True),
     sa.Column('race_id', sa.Integer(), nullable=True),
-    sa.Column('dnd_class_api_url', sa.String(), nullable=True),
-    sa.Column('dnd_class_levels_api_url', sa.String(), nullable=True),
+    sa.Column('dnd_class_api_url', sa.String(), nullable=False),
+    sa.Column('dnd_class_levels_api_url', sa.String(), nullable=False),
     sa.ForeignKeyConstraint(['abilityscores_id'], ['abilityscores.id'], name=op.f('fk_characters_abilityscores_id_abilityscores')),
     sa.ForeignKeyConstraint(['party_id'], ['parties.id'], name=op.f('fk_characters_party_id_parties')),
     sa.ForeignKeyConstraint(['race_id'], ['races.id'], name=op.f('fk_characters_race_id_races')),

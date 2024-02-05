@@ -24,7 +24,6 @@ if __name__ == "__main__":
             speed = "30",
             traits = "Darkvision, Fey Ancestry, Trance",
             starting_proficiencies = "Skill: Perception",
-            starting_proficiency_options = "",
             dnd_race_api_url = "https://www.dnd5eapi.co/api/races/elf"
         )
         
@@ -82,7 +81,7 @@ if __name__ == "__main__":
             proficiency_mod=2,
             hp=23,
             hit_die="d10",
-            proficiency_choices=json.dumps([
+            proficiency_choices=
                 {
                     "desc": "Choose two skills from Acrobatics, Animal Handling, Athletics, History, Insight, Intimidation, Perception, and Survival",
                     "choose": 2,
@@ -156,9 +155,8 @@ if __name__ == "__main__":
                             }
                         ]
                     }
-                }
-            ]),
-            proficiencies=json.dumps([
+                },
+            proficiencies= [
                 {
                     "index": "all-armor",
                     "name": "All armor",
@@ -188,9 +186,8 @@ if __name__ == "__main__":
                     "index": "saving-throw-con",
                     "name": "Saving Throw: CON",
                     "url": "/api/proficiencies/saving-throw-con"
-                }
-            ]),
-            saving_throws=json.dumps([
+                }],
+            saving_throws=[
                 {
                     "index": "str",
                     "name": "STR",
@@ -201,7 +198,7 @@ if __name__ == "__main__":
                     "name": "CON",
                     "url": "/api/ability-scores/con"
                 }
-            ]),
+            ],
             feats="",
             description="A pale elven-looking girl with choppy black hair. The lower half of her face is covered by a mask.",
             background="Noble",
