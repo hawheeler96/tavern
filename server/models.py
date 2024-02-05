@@ -6,6 +6,7 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.util import b
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.hybrid import hybrid_property
+from flask import request
 
 from config import db, bcrypt
 
@@ -46,10 +47,15 @@ class Character(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     name = db.Column(db.String, nullable=False)
     dnd_class = db.Column(db.String, nullable=False)
-    dnd_subclass = db.Column(db.String)
-    level = db.Column(db.Integer, nullable=False)
-    proficiency = db.Column(db.Integer, nullable=False)
+    subclasses = db.Column(db.String)
+    dnd_class_level = db.Column(db.String)
+    total_level = db.Column(db.Integer, nullable=False)
+    proficiency_mod = db.Column(db.Integer, nullable=False)
     hp = db.Column(db.Integer, nullable=False)
+    hit_die = db.Column(db.String)
+    proficiency_choices = db.Column(db.String)
+    proficiencies = db.Column(db.String)
+    saving_throws = db.Column(db.String)
     abilityscores_id = db.Column(db.Integer, db.ForeignKey("abilityscores.id"))
     skills_id = db.Column(db.Integer, db.ForeignKey("skills.id"))
     feats = db.Column(db.String)
@@ -59,6 +65,56 @@ class Character(db.Model, SerializerMixin):
     gold = db.Column(db.Integer, nullable=False)
     party_id = db.Column(db.Integer, db.ForeignKey("parties.id"))
     race_id = db.Column(db.Integer, db.ForeignKey("races.id"))
+    dnd_class_api_url = db.Column(db.String)
+    dnd_class_levels_api_url = db.Column(db.String)
+
+    @staticmethod
+    def get_dnd_class_api_url(class_name):
+        class_api_urls = {
+            "wizard": "https://www.dnd5eapi.co/api/classes/wizard",
+            "fighter": "https://www.dnd5eapi.co/api/classes/fighter",
+            "barbarian": "https://www.dnd5eapi.co/api/classes/barbarian",
+            "bard": "https://www.dnd5eapi.co/api/classes/bard",
+            "cleric": "https://www.dnd5eapi.co/api/classes/cleric",
+            "druid": "https://www.dnd5eapi.co/api/classes/druid",
+            "monk": "https://www.dnd5eapi.co/api/classes/monk",
+            "paladin": "https://www.dnd5eapi.co/api/classes/paladin",
+            "rogue": "https://www.dnd5eapi.co/api/classes/rogue",
+            "sorcerer": "https://www.dnd5eapi.co/api/classes/sorcerer",
+            "warlock": "https://www.dnd5eapi.co/api/classes/warlock",
+        }
+        return class_api_urls.get(class_name.lower())
+
+    def fetch_dnd_class_info(self):
+        if self.dnd_class_api_url:
+            response = request.get(self.dnd_class_api_url)
+            if response.status_code == 200:
+                data = response.json()
+                self.hit_die = data.get("hit_die")
+                self.proficiency_choices = data.get("proficiency_choices")
+                self.proficiencies = data.get("proficiencies")
+                self.saving_throws = data.get("saving_throws")
+                self.subclasses = data.get("subclasses")
+            else:
+                raise ValueError(
+                    f"Error fetching data from API. Status code: {response.status_code}"
+                )
+
+    def get_dnd_class_levels_api_url(class_name):
+        class_api_urls = {
+            "wizard": "https://www.dnd5eapi.co/api/classes/wizard/levels",
+            "fighter": "https://www.dnd5eapi.co/api/classes/fighter/levels",
+            "barbarian": "https://www.dnd5eapi.co/api/classes/barbarian/levels",
+            "bard": "https://www.dnd5eapi.co/api/classes/bard/levels",
+            "cleric": "https://www.dnd5eapi.co/api/classes/cleric/levels",
+            "druid": "https://www.dnd5eapi.co/api/classes/druid/levels",
+            "monk": "https://www.dnd5eapi.co/api/classes/monk/levels",
+            "paladin": "https://www.dnd5eapi.co/api/classes/paladin/levels",
+            "rogue": "https://www.dnd5eapi.co/api/classes/rogue/levels",
+            "sorcerer": "https://www.dnd5eapi.co/api/classes/sorcerer/levels",
+            "warlock": "https://www.dnd5eapi.co/api/classes/warlock/levels",
+        }
+        return class_api_urls.get(class_name.lower())
 
     # relationships
     abilityscores = db.relationship("AbilityScore", back_populates="character")
@@ -75,11 +131,51 @@ class Race(db.Model, SerializerMixin):
     __tablename__ = "races"
 
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
     languages = db.Column(db.String)
+    ability_bonuses = db.Column(db.String)
     creature_type = db.Column(db.String, nullable=False)
     size = db.Column(db.String, nullable=False)
     speed = db.Column(db.Integer, nullable=False)
-    features = db.Column(db.String, nullable=True)
+    traits = db.Column(db.String, nullable=True)
+    starting_proficiencies = db.Column(db.String)
+    starting_proficiency_options = db.Column(db.String)
+    dnd_race_api_url = db.Column(db.String)
+
+    @staticmethod
+    def get_dnd_class_api_url(race_name):
+        race_api_urls = {
+            "dragonborn": "https://www.dnd5eapi.co/api/races/dragonborn",
+            "dwarf": "https://www.dnd5eapi.co/api/races/dwarf",
+            "elf": "https://www.dnd5eapi.co/api/races/elf",
+            "gnome": "https://www.dnd5eapi.co/api/races/gnome",
+            "half-elf": "https://www.dnd5eapi.co/api/races/half-elf",
+            "half-orc": "https://www.dnd5eapi.co/api/races/half-orc",
+            "halfling": "https://www.dnd5eapi.co/api/races/halfling",
+            "human": "https://www.dnd5eapi.co/api/races/human",
+            "tiefling": "https://www.dnd5eapi.co/api/races/tiefling",
+        }
+        return race_api_urls.get(race_name.lower())
+
+    def fetch_dnd_race_info(self):
+        if self.dnd_race_api_url:
+            response = request.get(self.dnd_race_api_url)
+            if response.status_code == 200:
+                data = response.json()
+                self.name = data.get("name")
+                self.speed = data.get("speed")
+                self.ability_bonuses = data.get("ability_bonuses")
+                self.size = data.get("size")
+                self.starting_proficiencies = data.get("starting_proficiencies")
+                self.starting_proficiency_options = data.get(
+                    "starting_proficiency_options"
+                )
+                self.languages = data.get("languages")
+                self.traits = data.get("traits")
+            else:
+                raise ValueError(
+                    f"Error fetching data from API. Status code: {response.status_code}"
+                )
 
     # relationships
     character = db.relationship("Character", back_populates="race")

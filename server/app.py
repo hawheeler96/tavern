@@ -18,10 +18,12 @@ def index():
 class Characters(Resource):
     def get(self):
         characters = [
-            character.to_dict(rules=("abilityscores", "skills", "party"))
+            character.to_dict(rules=("abilityscores", "skills", "party", "race"))
             for character in Character.query.all()
         ]
         return make_response(characters, 200)
+
+        
 
 api.add_resource(Characters, "/characters")
 
