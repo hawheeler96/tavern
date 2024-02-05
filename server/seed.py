@@ -15,15 +15,17 @@ if __name__ == "__main__":
         holly = User(name="Holly Wheeler", email="hollyawheeler.96@gmail.com", password_hash="1234")
         
         print('Populating race...')
-        dhampir = Race(
-            languages="",
-            creature_type="Humanoid",
-            size="Medium",
-            speed=35,
-            features=json.dumps([
-                "Vampiric Bite",
-                "Spider Climb",
-            ])
+        elf = Race(
+            name = "Elf",
+            languages = "Common, Elvish, Primordial",
+            ability_bonuses = "Dexterity +2, Charisma +1",
+            creature_type = "Humanoid",
+            size = "Medium",
+            speed = "30",
+            traits = "Darkvision, Fey Ancestry, Trance",
+            starting_proficiencies = "Skill: Perception",
+            starting_proficiency_options = "",
+            dnd_race_api_url = "https://www.dnd5eapi.co/api/races/elf"
         )
         
         print('Populating ability scores...')
@@ -74,16 +76,140 @@ if __name__ == "__main__":
         nerezza = Character(
             name="Nerezza Nakadorova", 
             dnd_class="Fighter",
-            dnd_subclass="",
-            level=3,
-            proficiency=2,
+            subclasses="",
+            dnd_class_level="Fighter 3",
+            total_level=3,
+            proficiency_mod=2,
             hp=23,
+            hit_die="d10",
+            proficiency_choices=json.dumps([
+                {
+                    "desc": "Choose two skills from Acrobatics, Animal Handling, Athletics, History, Insight, Intimidation, Perception, and Survival",
+                    "choose": 2,
+                    "type": "proficiencies",
+                    "from": {
+                        "option_set_type": "options_array",
+                        "options": [
+                            {
+                                "option_type": "reference",
+                                "item": {
+                                    "index": "skill-acrobatics",
+                                    "name": "Skill: Acrobatics",
+                                    "url": "/api/proficiencies/skill-acrobatics"
+                                }
+                            },
+                            {
+                                "option_type": "reference",
+                                "item": {
+                                    "index": "skill-animal-handling",
+                                    "name": "Skill: Animal Handling",
+                                    "url": "/api/proficiencies/skill-animal-handling"
+                                }
+                            },
+                            {
+                                "option_type": "reference",
+                                "item": {
+                                    "index": "skill-athletics",
+                                    "name": "Skill: Athletics",
+                                    "url": "/api/proficiencies/skill-athletics"
+                                }
+                            },
+                            {
+                                "option_type": "reference",
+                                "item": {
+                                    "index": "skill-history",
+                                    "name": "Skill: History",
+                                    "url": "/api/proficiencies/skill-history"
+                                }
+                            },
+                            {
+                                "option_type": "reference",
+                                "item": {
+                                    "index": "skill-insight",
+                                    "name": "Skill: Insight",
+                                    "url": "/api/proficiencies/skill-insight"
+                                }
+                            },
+                            {
+                                "option_type": "reference",
+                                "item": {
+                                    "index": "skill-intimidation",
+                                    "name": "Skill: Intimidation",
+                                    "url": "/api/proficiencies/skill-intimidation"
+                                }
+                            },
+                            {
+                                "option_type": "reference",
+                                "item": {
+                                    "index": "skill-perception",
+                                    "name": "Skill: Perception",
+                                    "url": "/api/proficiencies/skill-perception"
+                                }
+                            },
+                            {
+                                "option_type": "reference",
+                                "item": {
+                                    "index": "skill-survival",
+                                    "name": "Skill: Survival",
+                                    "url": "/api/proficiencies/skill-survival"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]),
+            proficiencies=json.dumps([
+                {
+                    "index": "all-armor",
+                    "name": "All armor",
+                    "url": "/api/proficiencies/all-armor"
+                },
+                {
+                    "index": "shields",
+                    "name": "Shields",
+                    "url": "/api/proficiencies/shields"
+                },
+                {
+                    "index": "simple-weapons",
+                    "name": "Simple Weapons",
+                    "url": "/api/proficiencies/simple-weapons"
+                },
+                {
+                    "index": "martial-weapons",
+                    "name": "Martial Weapons",
+                    "url": "/api/proficiencies/martial-weapons"
+                },
+                {
+                    "index": "saving-throw-str",
+                    "name": "Saving Throw: STR",
+                    "url": "/api/proficiencies/saving-throw-str"
+                },
+                {
+                    "index": "saving-throw-con",
+                    "name": "Saving Throw: CON",
+                    "url": "/api/proficiencies/saving-throw-con"
+                }
+            ]),
+            saving_throws=json.dumps([
+                {
+                    "index": "str",
+                    "name": "STR",
+                    "url": "/api/ability-scores/str"
+                },
+                {
+                    "index": "con",
+                    "name": "CON",
+                    "url": "/api/ability-scores/con"
+                }
+            ]),
             feats="",
             description="A pale elven-looking girl with choppy black hair. The lower half of her face is covered by a mask.",
             background="Noble",
             languages="Common, Elvish, Primordial",
             gold=48,
-            race = dhampir,
+            dnd_class_api_url="https://www.dnd5eapi.co/api/classes/fighter",
+            dnd_class_levels_api_url="https://www.dnd5eapi.co/api/classes/fighter/levels",
+            race = elf,
             abilityscores = ascores,
             skills=skills,
             user= holly,
@@ -91,7 +217,7 @@ if __name__ == "__main__":
         )
         
         db.session.add(holly)
-        db.session.add(dhampir)
+        db.session.add(elf)
         db.session.add(skills)
         db.session.add(party)
         db.session.add(nerezza)
