@@ -188,7 +188,7 @@ class AbilityScore(db.Model, SerializerMixin):
 
     # relationships
     character = db.relationship("Character", back_populates="abilityscores")
-
+    # skills = db.relationship("Skill", back_populates="abilityscores")
     # serialization rules
     serialize_rules = ("-character",)
 
@@ -218,6 +218,7 @@ class Skill(db.Model, SerializerMixin):
 
     # relationships
     character = db.relationship("Character", back_populates="skills")
+    # abilityscores = db.relationship("AbilityScore", back_populates = "skills")
 
     # serialization rules
     serialize_rules = ("-character",)
