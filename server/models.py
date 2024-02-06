@@ -46,11 +46,11 @@ class Character(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     name = db.Column(db.String, nullable=False)
-    dnd_class = db.Column(db.String, nullable=False)
+    dnd_class = db.Column(JSON, nullable=False)
     subclasses = db.Column(JSON, nullable=True)
-    dnd_class_level = db.Column(db.String)
-    total_level = db.Column(db.Integer, nullable=False)
-    proficiency_mod = db.Column(db.Integer, nullable=False)
+    dnd_class_level = db.Column(JSON, nullable=False)
+    # total_level = db.Column(db.Integer, nullable=False)
+    # proficiency_mod = db.Column(db.Integer, nullable=False)
     hp = db.Column(db.Integer, nullable=False)
     hit_die = db.Column(db.String)
     proficiency_choices = db.Column(JSON, nullable=True)
@@ -111,6 +111,22 @@ class Character(db.Model, SerializerMixin):
             "warlock": "https://www.dnd5eapi.co/api/classes/warlock/levels",
         }
         return class_api_urls.get(self.dnd_class.lower())
+
+    def get_class_level(self, level):
+        if self.dnd_class_levels_api_url:
+            response = requests.get(f"{self.dnd_class_levels_api_url}/{level}")
+            data = response.json()
+            self.dnd_class_level = data.get("class", "level")
+   
+    def get_prof_mod(self):
+        if not self.dnd_class_levels_api_url:
+            return None
+        if not self.dnd_class_level:
+            return None
+        response = requests.get(f"{self.dnd_class_levels_api_url}/{self.dnd_class_level.level}")
+        data = response.json()
+        prof_mod = data.get("prof_mod")
+        return prof_mod
 
     # relationships
     abilityscores = db.relationship("AbilityScore", back_populates="character")

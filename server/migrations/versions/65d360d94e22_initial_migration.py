@@ -1,8 +1,8 @@
 """initial migration
 
-Revision ID: 1cc59b3b2f77
+Revision ID: 65d360d94e22
 Revises: 
-Create Date: 2024-02-05 13:22:44.375176
+Create Date: 2024-02-06 11:20:01.057951
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '1cc59b3b2f77'
+revision = '65d360d94e22'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -86,11 +86,9 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('name', sa.String(), nullable=False),
-    sa.Column('dnd_class', sa.String(), nullable=False),
+    sa.Column('dnd_class', sa.JSON(), nullable=False),
     sa.Column('subclasses', sa.JSON(), nullable=True),
-    sa.Column('dnd_class_level', sa.String(), nullable=True),
-    sa.Column('total_level', sa.Integer(), nullable=False),
-    sa.Column('proficiency_mod', sa.Integer(), nullable=False),
+    sa.Column('dnd_class_level', sa.JSON(), nullable=False),
     sa.Column('hp', sa.Integer(), nullable=False),
     sa.Column('hit_die', sa.String(), nullable=True),
     sa.Column('proficiency_choices', sa.JSON(), nullable=True),
