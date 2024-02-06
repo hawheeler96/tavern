@@ -13,6 +13,60 @@ from config import app, db, api
 from models import User, Character, AbilityScore, Skill, Party, Race
 
 
+@app.route("/signup", methods=("POST",))
+def signup():
+    data = request.get_json()
+    email = data.get("email")
+    name = data.get("name")
+    password = data.get("password")
+
+    user = User(email=email, name=name)
+    user.password_hash = password
+
+    try:
+        db.session.add(user)
+        db.session.commit()
+
+        session["user_id"] = user.id
+
+        return make_response(user.to_dict(), 201)
+
+    except ValueError as e:
+        return make_response({"error": e.__str__()}, 400)
+    except IntegrityError:
+        return make_response({"error": "Database constraint error"}, 400)
+
+
+@app.route("/login", methods=("POST",))
+def login():
+    data = request.get_json()
+    email = data.get("email")
+    password = data.get("password")
+
+    user = User.query.filter(User.email == email).first()
+
+    if user:
+        if user.authenticate(password):
+            session["user_id"] = user.id
+            return make_response(user.to_dict(), 200)
+    return {"error": "Incorrect username or password"}, 401
+
+
+@app.route("/check_session")
+def check_session():
+    user = User.query.get(session.get("user_id"))
+    if user:
+        return make_response(user.to_dict(), 200)
+    else:
+        return make_response({}, 401)
+
+
+@app.route("/logout", methods=("DELETE",))
+def logout():
+    session.clear()
+    return make_response({}, 204)
+
+
 @app.route("/")
 def index():
     return ""
