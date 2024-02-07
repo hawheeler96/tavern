@@ -1,7 +1,27 @@
 import React, { useEffect, useState } from "react";
+import NavBar from "./NavBar"
 
-function Header() {
-    const [users, setUsers] = useState([])
+function Header({user, setUser}) {
+
+    const logout = () => {
+    fetch("/logout", { method: "DELETE" }).then(() => {
+        setUser(null);
+        window.location.href = "/";
+    });
+    };
+
+    let view;
+    if (user) {
+      view = (
+        <div>
+            <button type="button" onClick={logout} className="logout-button">
+            Log Out
+            </button>
+        </div>
+      );
+    } else if (user === null) {
+      view = null;
+    }
     return (
       <header
         style={{
@@ -17,9 +37,10 @@ function Header() {
             color: "white",
           }}
         >
-          Welcome to the Tavern, Traveller!
+          Welcome to the Tavern, {user ? user.name : "Traveller"}!
           <br />
         </h1>
+        {view}
       </header>
     );
 }
