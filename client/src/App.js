@@ -39,6 +39,10 @@ function App() {
                 <Route path="/create-character" element={<CreateCharacter />} />
                 <Route path="/parties" element={<Parties />} />
                 <Route path="/user-profile" element={<UserProfile />} />
+                <Route
+                  path="/character-sheet/:id"
+                  element={<CharacterSheet />}
+                />
               </Routes>
             </main>
           </div>

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Link, BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import CharacterSheet from "./CharacterSheet"
 
 function Home() {
   const [characters, setCharacters] = useState([]);
@@ -21,10 +23,16 @@ function Home() {
 
   return (
     <div>
-        <br />
+      <br />
       {characters.map((character, index) => (
         <div key={index}>
-          <p>{character.name}</p>
+          <nav>
+            <h3>
+              <Link to={`/character-sheet/${character.id}`}>
+                {character.name}
+              </Link>
+            </h3>
+          </nav>
         </div>
       ))}
     </div>
