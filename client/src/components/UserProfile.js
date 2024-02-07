@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-function UserProfile() {
+function UserProfile({user}) {
     return (
-        <h1>User profile info goes here</h1>
-    )
+      <div>
+        <h3>{user.name}</h3>
+        <p>{user.email}</p>
+      </div>
+    );
 }
 
 export default UserProfile

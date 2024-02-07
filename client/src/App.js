@@ -37,8 +37,8 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/create-character" element={<CreateCharacter />} />
-                <Route path="/parties" element={<Parties />} />
-                <Route path="/user-profile" element={<UserProfile />} />
+                <Route path="/parties-view" element={<Parties />} />
+                <Route path="/user-profile" element={<UserProfile user={user}/>} />
                 <Route
                   path="/character-sheet/:id"
                   element={<CharacterSheet />}
