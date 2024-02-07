@@ -13,21 +13,53 @@ import UserProfile from "./components/UserProfile";
 import ViewCharacters from "./components/ViewCharacters";
 
 function App() {
+    const [user, setUser] = useState(null);
 
-return (
-  <Router>
-    <Header />
-    <div>
-      <NavBar />
-      <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          {/* <Route path="/create-character" element={<CreateCharacter />} /> */}
-        </Routes>
-      </main>
-    </div>
-  </Router>
-);
+    useEffect(() => {
+    fetch("/check_session")
+        .then((r) => r.json())
+        .then((data) => {
+        if (data.id) {
+            setUser(data);
+        } else {
+            setUser(null);
+        }
+        })
+        .catch((error) => console.error("Error checking session:", error));
+    }, []);
+
+    let view;
+    if (user) {
+        view = (
+          <div>
+            <NavBar />
+            <main>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/create-character" element={<CreateCharacter />} />
+                <Route path="/parties" element={<Parties />} />
+                <Route path="/user-profile" element={<UserProfile />} />
+              </Routes>
+            </main>
+          </div>
+        );
+    } else if (user === null) {
+        view = (
+          <Routes>
+            <Route index element={<Login setUser={setUser} />} />
+            <Route path="signup" element={<Signup setUser={setUser} />} />
+          </Routes>
+        );
+    } else {
+        view = <p>Loading...</p>
+    }
+       
+    return (
+    <Router>
+        <Header setUser={setUser} user={user}/>
+        {view}
+    </Router>
+    );
 }
 
 
