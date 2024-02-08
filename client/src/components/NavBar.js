@@ -20,6 +20,13 @@ function NavBar() {
           Character Creator{" "}
         </Link>
         <Link
+          to="/all-characters"
+          class="p-2  bg-soft-blue text-white hover:bg-soft-gold"
+        >
+          {" "}
+          All Characters{" "}
+        </Link>
+        <Link
           to="/parties-view"
           class="p-2  bg-soft-blue text-white hover:bg-soft-gold"
         >
