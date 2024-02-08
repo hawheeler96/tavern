@@ -25,18 +25,12 @@ export default function Signup({ setUser }) {
   };
 
   return (
-    <div>
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          background: "white",
-          padding: "60px 20px",
-          display: "grid",
-          justifyContent: "start",
-        }}
-      >
+    <div class="bg-slate-blue">
+      <form onSubmit={handleSubmit} class="p-60px 20px grid justify-start mx-6">
         <div>
-          <label htmlFor="email">email: </label>
+          <label htmlFor="email" class="text-white">
+            Email:{" "}
+          </label>
           <input
             value={loginInfo.email}
             id="email"
@@ -50,7 +44,9 @@ export default function Signup({ setUser }) {
           />
         </div>
         <div>
-          <label htmlFor="password">Password: </label>
+          <label htmlFor="password" class="text-white">
+            Password:{" "}
+          </label>
           <input
             onChange={handleLoginChange}
             value={loginInfo.password}
@@ -64,7 +60,9 @@ export default function Signup({ setUser }) {
             }}
           />
           <div>
-            <label htmlFor="name">Name: </label>
+            <label htmlFor="name" class="text-white">
+              Name:{" "}
+            </label>
             <input
               value={loginInfo.name}
               id="name"
@@ -81,10 +79,7 @@ export default function Signup({ setUser }) {
             <input
               type="submit"
               value="Sign Up"
-              style={{
-                padding: "5px 20px",
-                margin: "10% 0",
-              }}
+              class="my-3 bg-soft-gold p-2 text-slate-blue cursor-pointer"
             />
           </div>
         </div>
@@ -93,10 +88,10 @@ export default function Signup({ setUser }) {
         to="/"
         style={{
           display: "block",
-          margin: "5px 20px",
         }}
+        class="m-6 text-white"
       >
-        Sign In
+        Already a user? Sign in
       </Link>
     </div>
   );

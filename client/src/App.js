@@ -58,6 +58,7 @@ function App() {
                   path="/"
                   element={
                     <Home
+                        user={user}
                       characters={characters}
                       setCharacters={setCharacters}
                     />
