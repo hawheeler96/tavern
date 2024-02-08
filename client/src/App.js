@@ -29,6 +29,24 @@ function App() {
         .catch((error) => console.error("Error checking session:", error));
     }, []);
 
+     const [characters, setCharacters] = useState([]);
+     useEffect(() => {
+       const fetchCharacter = async () => {
+         try {
+           const response = await fetch("/characters");
+           if (response.ok) {
+             const data = await response.json();
+             setCharacters(data);
+           } else {
+             console.error("Failed to fetch characters");
+           }
+         } catch (error) {
+           console.error("Error fetching characters:", error);
+         }
+       };
+       fetchCharacter();
+     }, []);
+
     let view;
     if (user) {
         view = (
@@ -36,13 +54,34 @@ function App() {
             <NavBar />
             <main>
               <Routes>
-                <Route path="/" element={<Home />} />
+                <Route
+                  path="/"
+                  element={
+                    <Home
+                      characters={characters}
+                      setCharacters={setCharacters}
+                    />
+                  }
+                />
                 <Route path="/create-character" element={<CreateCharacter />} />
                 <Route path="/parties-view" element={<Parties />} />
-                <Route path="/user-profile" element={<UserProfile user={user}/>} />
+                <Route
+                  path="/user-profile"
+                  element={<UserProfile user={user} />}
+                />
                 <Route
                   path="/character-sheet/:id"
                   element={<CharacterSheet />}
+                />
+                <Route
+                  path="/all-characters"
+                  element={
+                    <ViewCharacters
+                      user={user}
+                      characters={characters}
+                      setCharacters={setCharacters}
+                    />
+                  }
                 />
               </Routes>
             </main>
