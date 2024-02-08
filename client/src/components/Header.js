@@ -14,9 +14,9 @@ function Header({user, setUser}) {
     if (user) {
       view = (
         <div>
-            <button type="button" onClick={logout} className="logout-button">
+          <button type="button" onClick={logout} class="absolute end-5 top-4 p-2 bg-soft-gold text-slate-blue font-raleway">
             Log Out
-            </button>
+          </button>
         </div>
       );
     } else if (user === null) {
@@ -24,19 +24,9 @@ function Header({user, setUser}) {
     }
     return (
       <header
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          padding: "10px 20px",
-          background: "#5db6ff",
-          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-        }}
+        class="flex justify-self-stretch bg-slate-blue p-5"
       >
-        <h1
-          style={{
-            color: "white",
-          }}
-        >
+        <h1 class="flex justify-center items-center text-2xl text-white font-raleway">
           Welcome to the Tavern, {user ? user.name : "Traveller"}!
           <br />
         </h1>

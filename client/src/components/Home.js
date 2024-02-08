@@ -27,7 +27,7 @@ function Home() {
       {characters.map((character, index) => (
         <div key={index}>
           <nav>
-            <h3>
+            <h3 class="flex justify-center items-center text-xl text-white font-raleway">
               <Link to={`/character-sheet/${character.id}`}>
                 {character.name}
               </Link>

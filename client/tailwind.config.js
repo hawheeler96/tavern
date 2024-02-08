@@ -1,22 +1,19 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./components/CharacterSheet.js",
-    "./components/CreateCharacter.js",
-    "./components/EditCharacter.js",
-    "./components/Footer.js",
-    "./components/Header.js",
-    "./components/Home.js",
-    "./components/Login.js",
-    "./components/NavBar.js",
-    "./components/Parties.js",
-    "./components/Signup.js",
-    "./components/UserProfile.js",
-    "./components/ViewCharacters.js",
-  ],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  purge: ["./src/**/*.js", "./src/**/*.css"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "soft-gold": "#f9b17a",
+        "slate-grey": "#424769",
+        "soft-blue": "#676f9d",
+        "slate-blue": "#2d3250",
+      },
+      fontFamily: {
+        raleway: ["Raleway", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 };
-
