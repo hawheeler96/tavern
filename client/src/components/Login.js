@@ -24,16 +24,8 @@ export default function Login({ setUser }) {
   };
 
   return (
-    <div>
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          background: "white",
-          padding: "60px 20px",
-          display: "grid",
-          justifyContent: "start",
-        }}
-      >
+    <div class="bg-slate-blue text-white">
+      <form onSubmit={handleSubmit} class="p-60px 20px grid justify-start mx-6">
         <div>
           <label htmlFor="email">Email: </label>
           <input
@@ -46,6 +38,7 @@ export default function Login({ setUser }) {
               display: "block",
               margin: "5px 0",
             }}
+            class="bg-soft-blue"
           />
         </div>
         <label htmlFor="password">Password: </label>
@@ -60,15 +53,13 @@ export default function Login({ setUser }) {
             display: "block",
             margin: "5px 0",
           }}
+          class="bg-soft-blue"
         />
         <div>
           <input
             type="submit"
             value="Login"
-            style={{
-              padding: "5px 20px",
-              margin: "10% 0",
-            }}
+            class="my-3 bg-soft-gold p-2 text-slate-blue cursor-pointer"
           />
         </div>
       </form>
@@ -76,10 +67,10 @@ export default function Login({ setUser }) {
         to="/signup"
         style={{
           display: "block",
-          margin: "5px 20px",
         }}
+        class="m-6"
       >
-        Sign Up
+        Not a user? Sign up here
       </Link>
     </div>
   );
