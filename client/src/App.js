@@ -11,6 +11,7 @@ import Parties from "./components/Parties";
 import Signup from "./components/Signup";
 import UserProfile from "./components/UserProfile";
 import ViewCharacters from "./components/ViewCharacters";
+import "./index.css"
 
 function App() {
     const [user, setUser] = useState(null);
@@ -59,10 +60,12 @@ function App() {
     }
        
     return (
-    <Router>
-        <Header setUser={setUser} user={user}/>
-        {view}
-    </Router>
+      <div class="min-h-screen bg-slate-blue">
+        <Router>
+          <Header setUser={setUser} user={user} />
+          {view}
+        </Router>
+      </div>
     );
 }
 
