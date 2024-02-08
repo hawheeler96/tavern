@@ -1,30 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link, BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import CharacterSheet from "./CharacterSheet"
+import CharacterSheet from "./CharacterSheet";
 
-function Home({characters, setCharacters}) {
-//   const [characters, setCharacters] = useState([]);
-//   useEffect(() => {
-//       const fetchCharacter = async () => {
-//           try{
-//               const response = await fetch("/characters");
-//               if (response.ok) {
-//                 const data = await response.json();
-//                 setCharacters(data);
-//               } else {
-//                 console.error('Failed to fetch characters');
-//               }
-//           } catch (error) {
-//             console.error("Error fetching characters:", error)
-//           }
-//       }
-//       fetchCharacter();
-//   }, []);
+function Home({ characters, user }) {
+  const filteredCharacters = characters.filter(
+    (character) => character.user_id === user.id
+  );
 
   return (
     <div>
       <br />
-      {characters.map((character, index) => (
+      {filteredCharacters.map((character, index) => (
         <div key={index}>
           <nav>
             <h3 class="flex justify-center items-center text-xl text-white font-raleway">

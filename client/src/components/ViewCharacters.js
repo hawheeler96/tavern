@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import {Link} from "react-router-dom";
 
-function ViewCharacters({characters, setCharacters}) {
+function ViewCharacters({characters, user}) {
+    const filteredCharacters = characters.filter(
+      (character) => character.user_id === user.id
+    );
+
   return (
     <div class="grid grid-cols-auto gap-4 place-content-center">
       <br />
-      {characters.map((character, index) => (
+      {filteredCharacters.map((character, index) => (
         <div>
             <nav>
             <Link to={`/character-sheet/${character.id}`}>
