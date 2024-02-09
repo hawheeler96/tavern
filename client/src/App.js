@@ -47,6 +47,10 @@ function App() {
        fetchCharacter();
      }, []);
 
+     const handleCharacterCreate = async (newCharacter) => {
+        setCharacters((currentCharacters) => [...currentCharacters, newCharacter]);
+     }
+
     let view;
     if (user) {
         view = (
@@ -64,7 +68,7 @@ function App() {
                     />
                   }
                 />
-                <Route path="/create-character" element={<CreateCharacter />} />
+                <Route path="/create-character" element={<CreateCharacter onCharacterCreate = {handleCharacterCreate} user={user}/>} />
                 <Route path="/parties-view" element={<Parties />} />
                 <Route
                   path="/user-profile"
