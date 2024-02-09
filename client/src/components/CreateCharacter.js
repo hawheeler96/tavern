@@ -531,6 +531,9 @@ function CreateCharacter({ onCharacterCreate, user }) {
           ))}
       </div>
       <div>
+        <h2>HP</h2>
+        {dnd_class && <p>Hit dice: d{apiData.hit_die}</p>}
+        <input type="number" placeholder="HP" value={hp} onChange={(e) => setHp(e.target.value)} />
       </div>
       <button onClick={handleCreateCharacter}>Create character</button>
     </div>

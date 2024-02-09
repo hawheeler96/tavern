@@ -28,7 +28,7 @@ function CharacterSheet() {
         <h3>{character.name}</h3>
         <p>{character.dnd_class}</p>
         {character.dnd_class_level && <p>{character.dnd_class_level.level}</p>}
-        {character.subclasses && <p>{character.subclasses}</p>}
+        {/* {character.subclasses && <p>{character.subclasses}</p>} */}
         <p>HP {character.hp}</p>
         <div>
           <h4>Ability Scores</h4>
