@@ -107,17 +107,17 @@ function CreateCharacter({ onCharacterCreate, user }) {
     } else {
       return int_mod;
     }
-  }
+  };
 
   const calculateWisSkillScore = (skill) => {
-     const proficiencyString = `skill-${skill}`;
+    const proficiencyString = `skill-${skill}`;
 
-     if (proficiencies.includes(proficiencyString)) {
-       return wis_mod + prof_mod;
-     } else {
-       return wis_mod;
-     }
-  }
+    if (proficiencies.includes(proficiencyString)) {
+      return wis_mod + prof_mod;
+    } else {
+      return wis_mod;
+    }
+  };
 
   const calculateChaSkillScore = (skill) => {
     const proficiencyString = `skill-${skill}`;
@@ -127,7 +127,7 @@ function CreateCharacter({ onCharacterCreate, user }) {
     } else {
       return cha_mod;
     }
-  }
+  };
 
   const athletics = calculateStrSkillScore("athletics");
   const acrobatics = calculateDexSkillScore("acrobatics");
@@ -146,7 +146,7 @@ function CreateCharacter({ onCharacterCreate, user }) {
   const deception = calculateChaSkillScore("deception");
   const intimidation = calculateChaSkillScore("intimidation");
   const performance = calculateChaSkillScore("performance");
-  const persuasion = calculateChaSkillScore("persuasion")
+  const persuasion = calculateChaSkillScore("persuasion");
 
   const fetchApiData = async (endpoint) => {
     try {
@@ -287,7 +287,6 @@ function CreateCharacter({ onCharacterCreate, user }) {
     }
   };
 
-
   return (
     <div>
       <div>
@@ -344,7 +343,7 @@ function CreateCharacter({ onCharacterCreate, user }) {
           value={level}
           onChange={(e) => {
             setLevel(parseInt(e.target.value));
-            console.log(prof_mod)
+            console.log(prof_mod);
           }}
         >
           <option value={0}>Select a Level</option>
@@ -533,7 +532,12 @@ function CreateCharacter({ onCharacterCreate, user }) {
       <div>
         <h2>HP</h2>
         {dnd_class && <p>Hit dice: d{apiData.hit_die}</p>}
-        <input type="number" placeholder="HP" value={hp} onChange={(e) => setHp(e.target.value)} />
+        <input
+          type="number"
+          placeholder="HP"
+          value={hp}
+          onChange={(e) => setHp(e.target.value)}
+        />
       </div>
       <button onClick={handleCreateCharacter}>Create character</button>
     </div>

@@ -51,6 +51,14 @@ function App() {
         setCharacters((currentCharacters) => [...currentCharacters, newCharacter]);
      }
 
+     const Capitalize = (str) => {
+       if (str) {
+         return str.charAt(0).toUpperCase() + str.slice(1);
+       } else {
+         return "class not found";
+       }
+     };
+
     let view;
     if (user) {
         view = (
@@ -62,13 +70,21 @@ function App() {
                   path="/"
                   element={
                     <Home
-                        user={user}
+                      user={user}
                       characters={characters}
                       setCharacters={setCharacters}
                     />
                   }
                 />
-                <Route path="/create-character" element={<CreateCharacter onCharacterCreate = {handleCharacterCreate} user={user}/>} />
+                <Route
+                  path="/create-character"
+                  element={
+                    <CreateCharacter
+                      onCharacterCreate={handleCharacterCreate}
+                      user={user}
+                    />
+                  }
+                />
                 <Route path="/parties-view" element={<Parties />} />
                 <Route
                   path="/user-profile"
@@ -76,7 +92,12 @@ function App() {
                 />
                 <Route
                   path="/character-sheet/:id"
-                  element={<CharacterSheet />}
+                  element={
+                    <CharacterSheet
+                      Capitalize={Capitalize}
+                      setCharacters={setCharacters}
+                    />
+                  }
                 />
                 <Route
                   path="/all-characters"
@@ -85,6 +106,18 @@ function App() {
                       user={user}
                       characters={characters}
                       setCharacters={setCharacters}
+                      Capitalize={Capitalize}
+                    />
+                  }
+                />
+                <Route
+                  path="/character-sheet/:id/edit"
+                  element={
+                    <EditCharacter
+                      user={user}
+                      characters={characters}
+                      setCharacters={setCharacters}
+                      Capitalize={Capitalize}
                     />
                   }
                 />
