@@ -49,8 +49,8 @@ class Character(db.Model, SerializerMixin):
     dnd_class = db.Column(JSON, nullable=False)
     subclasses = db.Column(JSON, nullable=True)
     dnd_class_level = db.Column(JSON, nullable=False)
-    # total_level = db.Column(db.Integer, nullable=False)
-    # proficiency_mod = db.Column(db.Integer, nullable=False)
+    level = db.Column(db.Integer, nullable=False)
+    prof_mod = db.Column(db.Integer, nullable=True)
     hp = db.Column(db.Integer, nullable=False)
     hit_die = db.Column(db.String)
     proficiency_choices = db.Column(JSON, nullable=True)
@@ -63,6 +63,7 @@ class Character(db.Model, SerializerMixin):
     background = db.Column(db.String, nullable=False)
     languages = db.Column(db.String, nullable=False)
     gold = db.Column(db.Integer, nullable=False)
+    backstory = db.Column(db.Integer, nullable=True)
     party_id = db.Column(db.Integer, db.ForeignKey("parties.id"))
     race_id = db.Column(db.Integer, db.ForeignKey("races.id"))
     dnd_class_api_url = db.Column(db.String, nullable=False)
@@ -112,11 +113,11 @@ class Character(db.Model, SerializerMixin):
         }
         return class_api_urls.get(self.dnd_class.lower())
 
-    def get_class_level(self, level):
+    def get_class_level(self):
         if self.dnd_class_levels_api_url:
-            response = requests.get(f"{self.dnd_class_levels_api_url}/{level}")
+            response = requests.get(f"{self.dnd_class_levels_api_url}/{self.level}")
             data = response.json()
-            self.dnd_class_level = data.get("class", "level")
+            self.dnd_class_level = data.get("level")
    
     def get_prof_mod(self):
         if not self.dnd_class_levels_api_url:
