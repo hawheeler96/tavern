@@ -74,16 +74,11 @@ if __name__ == "__main__":
         print('Creating character...')
         nerezza = Character(
             name="Nerezza Nakadorova",
-            dnd_class="Fighter",
+            dnd_class="fighter",
+            level=3,
             subclasses="",
-            dnd_class_level={
-                "class": {
-                    "index": "fighter",
-                    "name": "Fighter",
-                    "url": "/api/classes/fighter",
-                },
-                "level": 3
-            },
+            dnd_class_level=3,
+            prof_mod=2,
             hp=23,
             hit_die="d10",
             proficiency_choices={
@@ -201,6 +196,7 @@ if __name__ == "__main__":
             background="Noble",
             languages="Common, Elvish, Primordial",
             gold=48,
+            backstory="Rezza was in line to be the next Lady of her town, but a rival family slaughtered hers and now she's on the run.",
             dnd_class_api_url="https://www.dnd5eapi.co/api/classes/fighter",
             dnd_class_levels_api_url="https://www.dnd5eapi.co/api/classes/fighter/levels",
             race=elf,
