@@ -50,14 +50,15 @@ class Character(db.Model, SerializerMixin):
     subclasses = db.Column(JSON, nullable=True)
     dnd_class_level = db.Column(JSON, nullable=False)
     level = db.Column(db.Integer, nullable=False)
-    prof_mod = db.Column(db.Integer, nullable=True)
+    proficienciesArr = db.Column(JSON, nullable=True)
+    # prof_mod = db.Column(db.Integer, nullable=True)
     hp = db.Column(db.Integer, nullable=False)
     hit_die = db.Column(db.String)
     proficiency_choices = db.Column(JSON, nullable=True)
     proficiencies = db.Column(JSON, nullable=True)
     saving_throws = db.Column(JSON, nullable=True)
     abilityscores_id = db.Column(db.Integer, db.ForeignKey("abilityscores.id"))
-    skills_id = db.Column(db.Integer, db.ForeignKey("skills.id"))
+    # skills_id = db.Column(db.Integer, db.ForeignKey("skills.id"))
     feats = db.Column(db.String)
     description = db.Column(db.String)
     background = db.Column(db.String, nullable=False)
@@ -131,13 +132,13 @@ class Character(db.Model, SerializerMixin):
 
     # relationships
     abilityscores = db.relationship("AbilityScore", back_populates="character")
-    skills = db.relationship("Skill", back_populates="character")
+    # skills = db.relationship("Skill", back_populates="character")
     user = db.relationship("User", back_populates="characters")
     party = db.relationship("Party", back_populates="character")
     race = db.relationship("Race", back_populates="character")
 
     # serialization rules
-    serialize_rules = ("-abilityscores", "-skills", "-user", "-race", "-party")
+    serialize_rules = ("-abilityscores", "-user", "-race", "-party")
 
 
 class Race(db.Model, SerializerMixin):
@@ -191,17 +192,11 @@ class AbilityScore(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     str_score = db.Column(db.Integer, nullable=False)
-    str_mod = db.Column(db.Integer)
     dex_score = db.Column(db.Integer, nullable=False)
-    dex_mod = db.Column(db.Integer)
     con_score = db.Column(db.Integer, nullable=False)
-    con_mod = db.Column(db.Integer)
     int_score = db.Column(db.Integer, nullable=False)
-    int_mod = db.Column(db.Integer)
     wis_score = db.Column(db.Integer, nullable=False)
-    wis_mod = db.Column(db.Integer)
     cha_score = db.Column(db.Integer, nullable=False)
-    cha_mod = db.Column(db.Integer)
 
     # relationships
     character = db.relationship("Character", back_populates="abilityscores")
@@ -210,35 +205,35 @@ class AbilityScore(db.Model, SerializerMixin):
     serialize_rules = ("-character",)
 
 
-class Skill(db.Model, SerializerMixin):
-    __tablename__ = "skills"
+# class Skill(db.Model, SerializerMixin):
+#     __tablename__ = "skills"
 
-    id = db.Column(db.Integer, primary_key=True)
-    acrobatics = db.Column(db.Integer, default=0)
-    animal_handling = db.Column(db.Integer, default=0)
-    arcana = db.Column(db.Integer, default=0)
-    athletics = db.Column(db.Integer, default=0)
-    deception = db.Column(db.Integer, default=0)
-    history = db.Column(db.Integer, default=0)
-    insight = db.Column(db.Integer, default=0)
-    intimidation = db.Column(db.Integer, default=0)
-    investigation = db.Column(db.Integer, default=0)
-    medicine = db.Column(db.Integer, default=0)
-    nature = db.Column(db.Integer, default=0)
-    perception = db.Column(db.Integer, default=0)
-    performance = db.Column(db.Integer, default=0)
-    persuasion = db.Column(db.Integer, default=0)
-    religion = db.Column(db.Integer, default=0)
-    sleight_of_hand = db.Column(db.Integer, default=0)
-    stealth = db.Column(db.Integer, default=0)
-    survival = db.Column(db.Integer, default=0)
+#     id = db.Column(db.Integer, primary_key=True)
+#     acrobatics = db.Column(db.Integer, default=0)
+#     animal_handling = db.Column(db.Integer, default=0)
+#     arcana = db.Column(db.Integer, default=0)
+#     athletics = db.Column(db.Integer, default=0)
+#     deception = db.Column(db.Integer, default=0)
+#     history = db.Column(db.Integer, default=0)
+#     insight = db.Column(db.Integer, default=0)
+#     intimidation = db.Column(db.Integer, default=0)
+#     investigation = db.Column(db.Integer, default=0)
+#     medicine = db.Column(db.Integer, default=0)
+#     nature = db.Column(db.Integer, default=0)
+#     perception = db.Column(db.Integer, default=0)
+#     performance = db.Column(db.Integer, default=0)
+#     persuasion = db.Column(db.Integer, default=0)
+#     religion = db.Column(db.Integer, default=0)
+#     sleight_of_hand = db.Column(db.Integer, default=0)
+#     stealth = db.Column(db.Integer, default=0)
+#     survival = db.Column(db.Integer, default=0)
 
-    # relationships
-    character = db.relationship("Character", back_populates="skills")
-    # abilityscores = db.relationship("AbilityScore", back_populates = "skills")
+#     # relationships
+#     character = db.relationship("Character", back_populates="skills")
+#     # abilityscores = db.relationship("AbilityScore", back_populates = "skills")
 
-    # serialization rules
-    serialize_rules = ("-character",)
+#     # serialization rules
+#     serialize_rules = ("-character",)
 
 
 class Party(db.Model, SerializerMixin):

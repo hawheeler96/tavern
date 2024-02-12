@@ -1,5 +1,5 @@
 from app import app
-from models import User, Character, AbilityScore, Skill, Party, Race, db
+from models import User, Character, AbilityScore, Party, Race, db
 import json
 
 if __name__ == "__main__":
@@ -8,7 +8,7 @@ if __name__ == "__main__":
         User.query.delete()
         Character.query.delete()
         AbilityScore.query.delete()
-        Skill.query.delete()
+        # Skill.query.delete()
         Party.query.delete()
 
         print('Creating user...')
@@ -30,40 +30,34 @@ if __name__ == "__main__":
         print('Populating ability scores...')
         ascores = AbilityScore(
             str_score = 11,
-            str_mod = 0,
             dex_score = 17,
-            dex_mod = 3,
             con_score = 14,
-            con_mod = 2,
             int_score= 13,
-            int_mod=1,
             wis_score=13,
-            wis_mod=1,
-            cha_score=17,
-            cha_mod=3
+            cha_score=17
         )
 
-        print('Populating skills...')
-        skills = Skill(
-            acrobatics=3,
-            animal_handling=1,
-            arcana=3,
-            athletics=0,
-            deception=3,
-            history=3,
-            insight=3,
-            intimidation=3,
-            investigation=1,
-            medicine=1,
-            nature=3,
-            perception=3,
-            performance=3,
-            persuasion=5,
-            religion=1,
-            sleight_of_hand=3,
-            stealth=3,
-            survival=1,
-        )
+        # print('Populating skills...')
+        # skills = Skill(
+        #     acrobatics=3,
+        #     animal_handling=1,
+        #     arcana=3,
+        #     athletics=0,
+        #     deception=3,
+        #     history=3,
+        #     insight=3,
+        #     intimidation=3,
+        #     investigation=1,
+        #     medicine=1,
+        #     nature=3,
+        #     perception=3,
+        #     performance=3,
+        #     persuasion=5,
+        #     religion=1,
+        #     sleight_of_hand=3,
+        #     stealth=3,
+        #     survival=1,
+        # )
 
         print('Creating party...')
         party = Party(
@@ -78,9 +72,10 @@ if __name__ == "__main__":
             level=3,
             subclasses="",
             dnd_class_level=3,
-            prof_mod=2,
+            # prof_mod=2,
             hp=23,
             hit_die="d10",
+            proficienciesArr=["skill-athletics", "skill-insight"],
             proficiency_choices={
                 "desc": "Choose two skills from Acrobatics, Animal Handling, Athletics, History, Insight, Intimidation, Perception, and Survival",
                 "choose": 2,
@@ -201,14 +196,14 @@ if __name__ == "__main__":
             dnd_class_levels_api_url="https://www.dnd5eapi.co/api/classes/fighter/levels",
             race=elf,
             abilityscores=ascores,
-            skills=skills,
+            # skills=skills,
             user=holly,
             party=party,
         )
 
         db.session.add(holly)
         db.session.add(elf)
-        db.session.add(skills)
+        # db.session.add(skills)
         db.session.add(party)
         db.session.add(nerezza)
         db.session.commit()

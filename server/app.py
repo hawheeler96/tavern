@@ -10,7 +10,7 @@ import ipdb
 from config import app, db, api
 
 # Model imports
-from models import User, Character, AbilityScore, Skill, Party, Race
+from models import User, Character, AbilityScore, Party, Race
 
 
 @app.route("/signup", methods=("POST",))
@@ -75,7 +75,7 @@ def index():
 class Characters(Resource):
     def get(self):
         characters = [
-            character.to_dict(rules=("abilityscores", "skills", "party", "race"))
+            character.to_dict(rules=("abilityscores", "party", "race"))
             for character in Character.query.all()
         ]
         return make_response(characters, 200)
@@ -83,7 +83,7 @@ class Characters(Resource):
     def post(self):
         character = Character()
         abscores = AbilityScore()
-        skills = Skill()
+        # skills = Skill()
         race = Race()
         data = request.get_json()
         try:
@@ -94,8 +94,9 @@ class Characters(Resource):
             character.dnd_class_level = data.get("dnd_class_level")
             character.hp = data.get("hp")
             character.level = data.get("level")
-            character.prof_mod = data.get("prof_mod")
-            character.skills_id = data.get("skills_id")
+            character.proficienciesArr = data.get("proficienciesArr")
+            # character.prof_mod = data.get("prof_mod")
+            # character.skills_id = data.get("skills_id")
             character.feats = data.get("feats")
             character.description = data.get("description")
             character.background = data.get("background")
@@ -108,35 +109,35 @@ class Characters(Resource):
                 character.get_dnd_class_levels_api_url()
             )
             abscores.str_score = data.get("str_score")
-            abscores.str_mod = data.get("str_mod")
+            # abscores.str_mod = data.get("str_mod")
             abscores.dex_score = data.get("dex_score")
-            abscores.dex_mod = data.get("dex_mod")
+            # abscores.dex_mod = data.get("dex_mod")
             abscores.con_score = data.get("con_score")
-            abscores.con_mod = data.get("con_mod")
+            # abscores.con_mod = data.get("con_mod")
             abscores.int_score = data.get("int_score")
-            abscores.int_mod = data.get("int_mod")
+            # abscores.int_mod = data.get("int_mod")
             abscores.wis_score = data.get("wis_score")
-            abscores.wis_mod = data.get("wis_mod")
+            # abscores.wis_mod = data.get("wis_mod")
             abscores.cha_score = data.get("cha_score")
-            abscores.cha_mod = data.get("cha_mod")
-            skills.acrobatics = data.get("acrobatics")
-            skills.animal_handling = data.get("animal_handling")
-            skills.arcana = data.get("arcana")
-            skills.athletics = data.get("athletics")
-            skills.deception = data.get("deception")
-            skills.history = data.get("history")
-            skills.insight = data.get("insight")
-            skills.intimidation = data.get("intimidation")
-            skills.investigation = data.get("investigation")
-            skills.medicine = data.get("medicine")
-            skills.nature = data.get("nature")
-            skills.perception = data.get("perception")
-            skills.performance = data.get("performance")
-            skills.persuasion = data.get("persuasion")
-            skills.religion = data.get("religion")
-            skills.sleight_of_hand = data.get("sleight_of_hand")
-            skills.stealth = data.get("stealth")
-            skills.survival = data.get("survival")
+            # abscores.cha_mod = data.get("cha_mod")
+            # skills.acrobatics = data.get("acrobatics")
+            # skills.animal_handling = data.get("animal_handling")
+            # skills.arcana = data.get("arcana")
+            # skills.athletics = data.get("athletics")
+            # skills.deception = data.get("deception")
+            # skills.history = data.get("history")
+            # skills.insight = data.get("insight")
+            # skills.intimidation = data.get("intimidation")
+            # skills.investigation = data.get("investigation")
+            # skills.medicine = data.get("medicine")
+            # skills.nature = data.get("nature")
+            # skills.perception = data.get("perception")
+            # skills.performance = data.get("performance")
+            # skills.persuasion = data.get("persuasion")
+            # skills.religion = data.get("religion")
+            # skills.sleight_of_hand = data.get("sleight_of_hand")
+            # skills.stealth = data.get("stealth")
+            # skills.survival = data.get("survival")
             race.name = data.get("race_name")
             race.creature_type = data.get("creature_type")
             race.dnd_race_api_url = race.get_dnd_class_api_url()
@@ -153,10 +154,10 @@ class Characters(Resource):
             )
             character.abilityscores_id = latest_abscores_id
 
-            db.session.add(skills)
-            db.session.commit()
-            latest_skills_id = Skill.query.order_by(Skill.id.desc()).first().id
-            character.skills_id = latest_skills_id
+            # db.session.add(skills)
+            # db.session.commit()
+            # latest_skills_id = Skill.query.order_by(Skill.id.desc()).first().id
+            # character.skills_id = latest_skills_id
 
             db.session.add(race)
             db.session.commit()
@@ -169,7 +170,7 @@ class Characters(Resource):
             response_data = {
                 "character": character.to_dict(),
                 "abscores": abscores.to_dict(),
-                "skills": skills.to_dict(),
+                # "skills": skills.to_dict(),
                 "race": race.to_dict(),
             }
 
@@ -187,7 +188,7 @@ class CharacterById(Resource):
         if not character:
             return make_response({"error": "Character not found"}, 404)
         return make_response(
-            character.to_dict(rules=("abilityscores", "skills", "party")), 200
+            character.to_dict(rules=("abilityscores", "party")), 200
         )
 
     def patch(self, id):
@@ -252,17 +253,11 @@ class AbilityScores(Resource):
         data = request.get_json()
         try:
             abscores.str_score = data.get("str_score")
-            abscores.str_mod = data.get("str_mod")
             abscores.dex_score = data.get("dex_score")
-            abscores.dex_mod = data.get("dex_mod")
             abscores.con_score = data.get("con_score")
-            abscores.con_mod = data.get("con_mod")
             abscores.int_score = data.get("int_score")
-            abscores.int_mod = data.get("int_mod")
             abscores.wis_score = data.get("wis_score")
-            abscores.wis_mod = data.get("wis_mod")
             abscores.cha_score = data.get("cha_score")
-            abscores.cha_mod = data.get("cha_mod")
 
             db.session.add(abscores)
             db.session.commit()
@@ -291,9 +286,9 @@ class AbilityScoresById(Resource):
         try:
             for attr in data:
                 setattr(abscores, attr, data[attr])
-                db.session.add(abscores)
-                db.session.commit()
-                return make_response(abscores.to_dict(), 202)
+            db.session.add(abscores)
+            db.session.commit()
+            return make_response(abscores.to_dict(), 202)
         except ValueError:
             return make_response({"error": "unable to PATCH"}, 400)
 
@@ -301,65 +296,65 @@ class AbilityScoresById(Resource):
 api.add_resource(AbilityScoresById, "/ability-scores/<int:id>")
 
 
-class Skills(Resource):
-    def post(self):
-        skills = Skill()
-        data = request.get_json()
-        try:
-            skills.acrobatics = data.get("acrobatics")
-            skills.animal_handling = data.get("animal_handling")
-            skills.arcana = data.get("arcana")
-            skills.athletics = data.get("athletics")
-            skills.deception = data.get("deception")
-            skills.history = data.get("history")
-            skills.insight = data.get("insight")
-            skills.intimidation = data.get("intimidation")
-            skills.investigation = data.get("investigation")
-            skills.medicine = data.get("medicine")
-            skills.nature = data.get("nature")
-            skills.perception = data.get("perception")
-            skills.performance = data.get("performance")
-            skills.persuasion = data.get("persuasion")
-            skills.religion = data.get("religion")
-            skills.sleight_of_hand = data.get("sleight_of_hand")
-            skills.stealth = data.get("stealth")
-            skills.survival = data.get("survival")
+# class Skills(Resource):
+#     def post(self):
+#         skills = Skill()
+#         data = request.get_json()
+#         try:
+#             skills.acrobatics = data.get("acrobatics")
+#             skills.animal_handling = data.get("animal_handling")
+#             skills.arcana = data.get("arcana")
+#             skills.athletics = data.get("athletics")
+#             skills.deception = data.get("deception")
+#             skills.history = data.get("history")
+#             skills.insight = data.get("insight")
+#             skills.intimidation = data.get("intimidation")
+#             skills.investigation = data.get("investigation")
+#             skills.medicine = data.get("medicine")
+#             skills.nature = data.get("nature")
+#             skills.perception = data.get("perception")
+#             skills.performance = data.get("performance")
+#             skills.persuasion = data.get("persuasion")
+#             skills.religion = data.get("religion")
+#             skills.sleight_of_hand = data.get("sleight_of_hand")
+#             skills.stealth = data.get("stealth")
+#             skills.survival = data.get("survival")
 
-            db.session.add(skills)
-            db.session.commit()
-            return make_response(skills.to_dict(), 201)
+#             db.session.add(skills)
+#             db.session.commit()
+#             return make_response(skills.to_dict(), 201)
 
-        except ValueError:
-            return make_response({"errors": "unable to POST"}, 400)
-
-
-api.add_resource(Skills, "/skills")
+#         except ValueError:
+#             return make_response({"errors": "unable to POST"}, 400)
 
 
-class SkillsById(Resource):
-    def get(self, id):
-        skills = Skill.query.get(id)
-        if not skills:
-            return make_response({"error": "Skills set not found"}, 404)
-
-        return make_response(skills.to_dict(), 200)
-
-    def patch(self, id):
-        skills = Skill.query.get(id)
-        if not skills:
-            return make_response({"error": "Skills set not found"}, 404)
-        data = request.get_json()
-        try:
-            for attr in data:
-                setattr(skills, attr, data[attr])
-                db.session.add(skills)
-                db.session.commit()
-                return make_response(skills.to_dict(), 202)
-        except ValueError:
-            return make_response({"error": "unable to PATCH"}, 400)
+# api.add_resource(Skills, "/skills")
 
 
-api.add_resource(SkillsById, "/skills/<int:id>")
+# class SkillsById(Resource):
+#     def get(self, id):
+#         skills = Skill.query.get(id)
+#         if not skills:
+#             return make_response({"error": "Skills set not found"}, 404)
+
+#         return make_response(skills.to_dict(), 200)
+
+#     def patch(self, id):
+#         skills = Skill.query.get(id)
+#         if not skills:
+#             return make_response({"error": "Skills set not found"}, 404)
+#         data = request.get_json()
+#         try:
+#             for attr in data:
+#                 setattr(skills, attr, data[attr])
+#                 db.session.add(skills)
+#                 db.session.commit()
+#                 return make_response(skills.to_dict(), 202)
+#         except ValueError:
+#             return make_response({"error": "unable to PATCH"}, 400)
+
+
+# api.add_resource(SkillsById, "/skills/<int:id>")
 
 
 class Races(Resource):

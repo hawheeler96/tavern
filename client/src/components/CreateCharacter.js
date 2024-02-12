@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const calculateModifier = (score) => {
   if (score === 1) {
@@ -44,7 +45,7 @@ const calculateProficiency = (level) => {
   }
 };
 
-function CreateCharacter({ onCharacterCreate, user }) {
+function CreateCharacter({ addCharacter, user }) {
   const [user_id, setUser_id] = useState(user.id);
   const [character_name, setCharacter_name] = useState("");
   const [dnd_class, setDnd_class] = useState("");
@@ -69,7 +70,7 @@ function CreateCharacter({ onCharacterCreate, user }) {
   const [race_name, setRace_name] = useState("");
   const [creature_type, setCreature_type] = useState("");
   const [apiData, setApiData] = useState([]);
-  const [proficiencies, setProficiencies] = useState([]);
+  const [proficienciesArr, setProficienciesArr] = useState([]);
   const [levelsData, setLevelsData] = useState([]);
   const prof_mod = calculateProficiency(level);
   const str_mod = calculateModifier(str_score);
@@ -78,11 +79,12 @@ function CreateCharacter({ onCharacterCreate, user }) {
   const int_mod = calculateModifier(int_score);
   const wis_mod = calculateModifier(wis_score);
   const cha_mod = calculateModifier(cha_score);
+  const navigate = useNavigate()
 
   const calculateStrSkillScore = (skill) => {
     const proficiencyString = `skill-${skill}`;
 
-    if (proficiencies.includes(proficiencyString)) {
+    if (proficienciesArr.includes(proficiencyString)) {
       return str_mod + prof_mod;
     } else {
       return str_mod;
@@ -92,7 +94,7 @@ function CreateCharacter({ onCharacterCreate, user }) {
   const calculateDexSkillScore = (skill) => {
     const proficiencyString = `skill-${skill}`;
 
-    if (proficiencies.includes(proficiencyString)) {
+    if (proficienciesArr.includes(proficiencyString)) {
       return dex_mod + prof_mod;
     } else {
       return dex_mod;
@@ -102,7 +104,7 @@ function CreateCharacter({ onCharacterCreate, user }) {
   const calculateIntSkillScore = (skill) => {
     const proficiencyString = `skill-${skill}`;
 
-    if (proficiencies.includes(proficiencyString)) {
+    if (proficienciesArr.includes(proficiencyString)) {
       return int_mod + prof_mod;
     } else {
       return int_mod;
@@ -112,7 +114,7 @@ function CreateCharacter({ onCharacterCreate, user }) {
   const calculateWisSkillScore = (skill) => {
     const proficiencyString = `skill-${skill}`;
 
-    if (proficiencies.includes(proficiencyString)) {
+    if (proficienciesArr.includes(proficiencyString)) {
       return wis_mod + prof_mod;
     } else {
       return wis_mod;
@@ -122,7 +124,7 @@ function CreateCharacter({ onCharacterCreate, user }) {
   const calculateChaSkillScore = (skill) => {
     const proficiencyString = `skill-${skill}`;
 
-    if (proficiencies.includes(proficiencyString)) {
+    if (proficienciesArr.includes(proficiencyString)) {
       return cha_mod + prof_mod;
     } else {
       return cha_mod;
@@ -180,15 +182,17 @@ function CreateCharacter({ onCharacterCreate, user }) {
     }
   };
 
+  console.log(`prof array ${proficienciesArr}`);
+
   const handleCreateCharacter = async () => {
     const newCharacter = {
       user_id,
       character_name,
       dnd_class,
       level,
+      proficienciesArr,
       subclasses,
       hp,
-      prof_mod,
       abilityscores_id,
       skills_id,
       feats,
@@ -199,35 +203,29 @@ function CreateCharacter({ onCharacterCreate, user }) {
       party_id,
       race_id,
       str_score,
-      str_mod,
       dex_score,
-      dex_mod,
       con_score,
-      con_mod,
       int_score,
-      int_mod,
       wis_score,
-      wis_mod,
       cha_score,
-      cha_mod,
-      acrobatics,
-      animal_handling,
-      arcana,
-      athletics,
-      deception,
-      history,
-      insight,
-      intimidation,
-      investigation,
-      medicine,
-      nature,
-      perception,
-      persuasion,
-      performance,
-      religion,
-      sleight_of_hand,
-      stealth,
-      survival,
+      //   acrobatics,
+      //   animal_handling,
+      //   arcana,
+      //   athletics,
+      //   deception,
+      //   history,
+      //   insight,
+      //   intimidation,
+      //   investigation,
+      //   medicine,
+      //   nature,
+      //   perception,
+      //   persuasion,
+      //   performance,
+      //   religion,
+      //   sleight_of_hand,
+      //   stealth,
+      //   survival,
       race_name,
       creature_type,
     };
@@ -242,8 +240,8 @@ function CreateCharacter({ onCharacterCreate, user }) {
       });
       const responseData = await response.json();
       if (response.ok) {
-        alert(`New character created!`);
-        onCharacterCreate(responseData);
+        addCharacter(responseData.character);
+        navigate(`/character-sheet/${responseData.character.id}`)
       } else {
         console.error("Failed to create character", responseData);
       }
@@ -279,267 +277,299 @@ function CreateCharacter({ onCharacterCreate, user }) {
   const handleCheckboxChange = (e, index) => {
     const isChecked = e.target.checked;
     if (isChecked) {
-      setProficiencies((prevProficiencies) => [...prevProficiencies, index]);
+      setProficienciesArr((prevProficienciesArr) => [
+        ...prevProficienciesArr,
+        index,
+      ]);
+      console.log(proficienciesArr);
     } else {
-      setProficiencies((prevProficiencies) =>
-        prevProficiencies.filter((item) => item !== index)
+      setProficienciesArr((prevProficienciesArr) =>
+        prevProficienciesArr.filter((item) => item !== index)
       );
+      console.log(proficienciesArr);
     }
   };
 
   return (
     <div>
-      <div>
-        <input
-          type="text"
-          placeholder="Character Name"
-          value={character_name}
-          onChange={(e) => {
-            console.log(e.target.value);
-            setCharacter_name(e.target.value);
-          }}
-        />
-        <select
-          value={race_name}
-          onChange={(e) => {
-            console.log(e.target.value);
-            setRace_name(e.target.value);
-          }}
-        >
-          <option value="">Select a Race</option>
-          <option value="dragonborn">Dragonborn</option>
-          <option value="dwarf">Dwarf</option>
-          <option value="elf">Elf</option>
-          <option value="gnome">Gnome</option>
-          <option value="half-elf">Half-Elf</option>
-          <option value="half-orc">Half-Orc</option>
-          <option value="halfling">Halfling</option>
-          <option value="human">Human</option>
-          <option value="tiefling">Tiefling</option>
-        </select>
-        <select
-          value={dnd_class}
-          onChange={(e) => {
-            console.log(e.target.value);
-            setDnd_class(e.target.value);
-            fetchApiData(e.target.value);
-            fetchProfData(e.target.value);
-          }}
-        >
-          <option value="">Select a Class</option>
-          <option value="barbarian">Barbarian</option>
-          <option value="bard">Bard</option>
-          <option value="cleric">Cleric</option>
-          <option value="druid">Druid</option>
-          <option value="fighter">Fighter</option>
-          <option value="monk">Monk</option>
-          <option value="paladin">Paladin</option>
-          <option value="rogue">Rogue</option>
-          <option value="sorcerer">Sorcerer</option>
-          <option value="warlock">Warlock</option>
-          <option value="wizard">Wizard</option>
-        </select>
-        <select
-          value={level}
-          onChange={(e) => {
-            setLevel(parseInt(e.target.value));
-            console.log(prof_mod);
-          }}
-        >
-          <option value={0}>Select a Level</option>
-          <option value={1}>1</option>
-          <option value={2}>2</option>
-          <option value={3}>3</option>
-          <option value={4}>4</option>
-          <option value={5}>5</option>
-          <option value={6}>6</option>
-          <option value={7}>7</option>
-          <option value={8}>8</option>
-          <option value={9}>9</option>
-          <option value={10}>10</option>
-          <option value={11}>11</option>
-          <option value={12}>12</option>
-          <option value={13}>13</option>
-          <option value={14}>14</option>
-          <option value={15}>15</option>
-          <option value={16}>16</option>
-          <option value={17}>17</option>
-          <option value={18}>18</option>
-          <option value={19}>19</option>
-          <option value={20}>20</option>
-        </select>
-        <input
-          type="text"
-          placeholder="Subclass (optional)"
-          value={subclasses}
-          onChange={(e) => {
-            console.log(e.target.value);
-            setSubclasses(e.target.value);
-          }}
-        />
-        <input
-          type="text"
-          placeholder="Feats (optional)"
-          value={feats}
-          onChange={(e) => {
-            console.log(e.target.value);
-            setFeats(e.target.value);
-          }}
-        />
-        <input
-          type="text"
-          placeholder="Background"
-          value={background}
-          onChange={(e) => {
-            console.log(e.target.value);
-            setBackground(e.target.value);
-          }}
-        />
-        <input
-          type="text"
-          placeholder="Description (optional)"
-          value={description}
-          onChange={(e) => {
-            console.log(e.target.value);
-            setDescription(e.target.value);
-          }}
-        />
-        <input
-          type="text"
-          placeholder="Languages"
-          value={languages}
-          onChange={(e) => {
-            console.log(e.target.value);
-            setLanguages(e.target.value);
-          }}
-        />
-        <input
-          type="text"
-          placeholder="Gold (optional)"
-          value={gold}
-          onChange={(e) => {
-            console.log(e.target.value);
-            setGold(e.target.value);
-          }}
-        />
-      </div>
-      <div>
-        <h2>Strength</h2>
-        <input
-          type="number"
-          placeholder="Strength"
-          value={str_score}
-          onChange={(e) => {
-            let str = parseInt(e.target.value);
-            if (isNaN(str)) {
-              str = "";
-            }
-            setStr_score(str);
-          }}
-        />
-        <p>{str_mod}</p>
-        <h2>Dexterity</h2>
-        <input
-          type="number"
-          placeholder="Dexterity"
-          value={dex_score}
-          onChange={(e) => {
-            let dex = parseInt(e.target.value);
-            if (isNaN(dex)) {
-              dex = "";
-            }
-            setDex_score(dex);
-          }}
-        />
-        <p>{dex_mod}</p>
-        <h2>Constitution</h2>
-        <input
-          type="number"
-          placeholder="Constitution"
-          value={con_score}
-          onChange={(e) => {
-            let con = parseInt(e.target.value);
-            if (isNaN(con)) {
-              con = "";
-            }
-            setCon_score(con);
-          }}
-        />
-        <p>{con_mod}</p>
-        <h2>Intelligence</h2>
-        <input
-          type="number"
-          placeholder="Intelligence"
-          value={int_score}
-          onChange={(e) => {
-            let int = parseInt(e.target.value);
-            if (isNaN(int)) {
-              int = "";
-            }
-            setInt_score(int);
-          }}
-        />
-        <p>{int_mod}</p>
-        <h2>Wisdom</h2>
-        <input
-          type="text"
-          placeholder="Wisdom"
-          value={wis_score}
-          onChange={(e) => {
-            let wis = parseInt(e.target.value);
-            if (isNaN(wis)) {
-              wis = "";
-            }
-            setWis_score(wis);
-          }}
-        />
-        <p>{wis_mod}</p>
-        <h2>Charisma</h2>
-        <input
-          type="text"
-          placeholder="Charisma"
-          value={cha_score}
-          onChange={(e) => {
-            let cha = parseInt(e.target.value);
-            if (isNaN(cha)) {
-              cha = "";
-            }
-            setCha_score(cha);
-          }}
-        />
-        <p>{cha_mod}</p>
-      </div>
-      <div>
-        {dnd_class && apiData.proficiency_choices && (
-          <h2>{apiData.proficiency_choices[0]?.desc}</h2>
-        )}
-        {apiData.proficiency_choices &&
-          apiData.proficiency_choices[0]?.from?.options &&
-          apiData.proficiency_choices[0].from.options.map((option, index) => (
-            <div key={index}>
+      <div className="flex flex-col items-center h-screen">
+        <div className="w-full max-w-xl">
+          <form className="shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-white flex flex-col">
+            <input
+              type="text"
+              placeholder="Character Name"
+              value={character_name}
+              onChange={(e) => {
+                console.log(e.target.value);
+                setCharacter_name(e.target.value);
+              }}
+              className="mb-2 border-b-2"
+            />
+            <select
+              value={race_name}
+              onChange={(e) => {
+                console.log(e.target.value);
+                setRace_name(e.target.value);
+              }}
+              className="mb-2"
+            >
+              <option value="">Select a Race</option>
+              <option value="dragonborn">Dragonborn</option>
+              <option value="dwarf">Dwarf</option>
+              <option value="elf">Elf</option>
+              <option value="gnome">Gnome</option>
+              <option value="half-elf">Half-Elf</option>
+              <option value="half-orc">Half-Orc</option>
+              <option value="halfling">Halfling</option>
+              <option value="human">Human</option>
+              <option value="tiefling">Tiefling</option>
+            </select>
+            <select
+              value={dnd_class}
+              onChange={(e) => {
+                console.log(e.target.value);
+                setDnd_class(e.target.value);
+                fetchApiData(e.target.value);
+                fetchProfData(e.target.value);
+              }}
+              className="mb-2"
+            >
+              <option value="">Select a Class</option>
+              <option value="barbarian">Barbarian</option>
+              <option value="bard">Bard</option>
+              <option value="cleric">Cleric</option>
+              <option value="druid">Druid</option>
+              <option value="fighter">Fighter</option>
+              <option value="monk">Monk</option>
+              <option value="paladin">Paladin</option>
+              <option value="rogue">Rogue</option>
+              <option value="sorcerer">Sorcerer</option>
+              <option value="warlock">Warlock</option>
+              <option value="wizard">Wizard</option>
+            </select>
+            <select
+              value={level}
+              onChange={(e) => {
+                setLevel(parseInt(e.target.value));
+                console.log(prof_mod);
+              }}
+              className="mb-2"
+            >
+              <option value={0}>Select a Level</option>
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+              <option value={4}>4</option>
+              <option value={5}>5</option>
+              <option value={6}>6</option>
+              <option value={7}>7</option>
+              <option value={8}>8</option>
+              <option value={9}>9</option>
+              <option value={10}>10</option>
+              <option value={11}>11</option>
+              <option value={12}>12</option>
+              <option value={13}>13</option>
+              <option value={14}>14</option>
+              <option value={15}>15</option>
+              <option value={16}>16</option>
+              <option value={17}>17</option>
+              <option value={18}>18</option>
+              <option value={19}>19</option>
+              <option value={20}>20</option>
+            </select>
+            <input
+              type="text"
+              placeholder="Subclass (optional)"
+              value={subclasses}
+              onChange={(e) => {
+                console.log(e.target.value);
+                setSubclasses(e.target.value);
+              }}
+              className="mb-2 border-b-2"
+            />
+            <input
+              type="text"
+              placeholder="Feats (optional)"
+              value={feats}
+              onChange={(e) => {
+                console.log(e.target.value);
+                setFeats(e.target.value);
+              }}
+              className="mb-2 border-b-2"
+            />
+            <input
+              type="text"
+              placeholder="Background"
+              value={background}
+              onChange={(e) => {
+                console.log(e.target.value);
+                setBackground(e.target.value);
+              }}
+              className="mb-2 border-b-2"
+            />
+            <input
+              type="text"
+              placeholder="Description (optional)"
+              value={description}
+              onChange={(e) => {
+                console.log(e.target.value);
+                setDescription(e.target.value);
+              }}
+              className="mb-2 border-b-2"
+            />
+            <input
+              type="text"
+              placeholder="Languages"
+              value={languages}
+              onChange={(e) => {
+                console.log(e.target.value);
+                setLanguages(e.target.value);
+              }}
+              className="mb-2 border-b-2"
+            />
+            <input
+              type="text"
+              placeholder="Gold (optional)"
+              value={gold}
+              onChange={(e) => {
+                console.log(e.target.value);
+                setGold(e.target.value);
+              }}
+              className="border-b-2"
+            />
+          </form>
+        </div>
+        <div className="w-full max-w-xl">
+          <form className="shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-white flex flex-col">
+            <div>
+              <h2>Strength</h2>
               <input
-                type="checkbox"
-                id={option.item.index}
-                value={option.item.index}
+                type="number"
+                placeholder="Strength"
+                value={str_score}
                 onChange={(e) => {
-                  handleCheckboxChange(e, option.item.index);
+                  let str = parseInt(e.target.value);
+                  if (isNaN(str)) {
+                    str = "";
+                  }
+                  setStr_score(str);
                 }}
               />
-              <label htmlFor={option.item.index}>{option.item.name}</label>
+              <p>{str_mod}</p>
+              <h2>Dexterity</h2>
+              <input
+                type="number"
+                placeholder="Dexterity"
+                value={dex_score}
+                onChange={(e) => {
+                  let dex = parseInt(e.target.value);
+                  if (isNaN(dex)) {
+                    dex = "";
+                  }
+                  setDex_score(dex);
+                }}
+              />
+              <p>{dex_mod}</p>
+              <h2>Constitution</h2>
+              <input
+                type="number"
+                placeholder="Constitution"
+                value={con_score}
+                onChange={(e) => {
+                  let con = parseInt(e.target.value);
+                  if (isNaN(con)) {
+                    con = "";
+                  }
+                  setCon_score(con);
+                }}
+              />
+              <p>{con_mod}</p>
+              <h2>Intelligence</h2>
+              <input
+                type="number"
+                placeholder="Intelligence"
+                value={int_score}
+                onChange={(e) => {
+                  let int = parseInt(e.target.value);
+                  if (isNaN(int)) {
+                    int = "";
+                  }
+                  setInt_score(int);
+                }}
+              />
+              <p>{int_mod}</p>
+              <h2>Wisdom</h2>
+              <input
+                type="text"
+                placeholder="Wisdom"
+                value={wis_score}
+                onChange={(e) => {
+                  let wis = parseInt(e.target.value);
+                  if (isNaN(wis)) {
+                    wis = "";
+                  }
+                  setWis_score(wis);
+                }}
+              />
+              <p>{wis_mod}</p>
+              <h2>Charisma</h2>
+              <input
+                type="text"
+                placeholder="Charisma"
+                value={cha_score}
+                onChange={(e) => {
+                  let cha = parseInt(e.target.value);
+                  if (isNaN(cha)) {
+                    cha = "";
+                  }
+                  setCha_score(cha);
+                }}
+              />
+              <p>{cha_mod}</p>
             </div>
-          ))}
+            <div>
+              {dnd_class && apiData.proficiency_choices && (
+                <h2>{apiData.proficiency_choices[0]?.desc}</h2>
+              )}
+              {apiData.proficiency_choices &&
+                apiData.proficiency_choices[0]?.from?.options &&
+                apiData.proficiency_choices[0].from.options.map(
+                  (option, index) => (
+                    <div key={index}>
+                      <input
+                        type="checkbox"
+                        id={option.item.index}
+                        value={option.item.index}
+                        onChange={(e) => {
+                          handleCheckboxChange(e, option.item.index);
+                        }}
+                      />
+                      <label htmlFor={option.item.index}>
+                        {option.item.name}
+                      </label>
+                    </div>
+                  )
+                )}
+            </div>
+            <div>
+              <h2>HP</h2>
+              {dnd_class && <p>Hit dice: d{apiData.hit_die}</p>}
+              <input
+                type="number"
+                placeholder="HP"
+                value={hp}
+                onChange={(e) => setHp(e.target.value)}
+              />
+            </div>
+          </form>
+        </div>
+        <button
+          onClick={handleCreateCharacter}
+          className="my-3 bg-soft-gold p-2 text-slate-blue cursor-pointer"
+        >
+          Create character
+        </button>
       </div>
-      <div>
-        <h2>HP</h2>
-        {dnd_class && <p>Hit dice: d{apiData.hit_die}</p>}
-        <input
-          type="number"
-          placeholder="HP"
-          value={hp}
-          onChange={(e) => setHp(e.target.value)}
-        />
-      </div>
-      <button onClick={handleCreateCharacter}>Create character</button>
     </div>
   );
 }
