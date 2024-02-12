@@ -231,7 +231,7 @@ function CreateCharacter({ addCharacter, user }) {
     };
 
     try {
-      const response = await fetch("/characters", {
+      const response = await fetch("/api/characters", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

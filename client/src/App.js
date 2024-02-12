@@ -17,7 +17,7 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetch("/check_session")
+    fetch("/api/check_session")
       .then((r) => r.json())
       .then((data) => {
         if (data.id) {
@@ -34,7 +34,7 @@ function App() {
   useEffect(() => {
     const fetchCharacter = async () => {
       try {
-        const response = await fetch("/characters");
+        const response = await fetch("/api/characters");
         if (response.ok) {
           const data = await response.json();
           setCharacters(data);
