@@ -161,7 +161,7 @@ function EditCharacter({
   useEffect(() => {
     const fetchCharacter = async () => {
       try {
-        const response = await fetch(`/characters/${id}`);
+        const response = await fetch(`/api/characters/${id}`);
         if (response.ok) {
           const data = await response.json();
           console.log("Character Data:", data);
@@ -187,7 +187,7 @@ function EditCharacter({
         hp: character.hp,
       };
 
-      const response = await fetch(`/characters/${id}`, {
+      const response = await fetch(`/api/characters/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedCharacter),
@@ -223,7 +223,7 @@ function EditCharacter({
 
       console.log(updatedAbscores);
 
-      const response = await fetch(`/ability-scores/${abscore_id}`, {
+      const response = await fetch(`/api/ability-scores/${abscore_id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedAbscores),

@@ -141,7 +141,7 @@ function CharacterSheet({ Capitalize, setCharacters }) {
   useEffect(() => {
     const fetchCharacter = async () => {
       try {
-        const response = await fetch(`/characters/${id}`);
+        const response = await fetch(`/api/characters/${id}`);
         if (response.ok) {
           const data = await response.json();
           setCharacter(data);
@@ -163,7 +163,7 @@ function CharacterSheet({ Capitalize, setCharacters }) {
       return;
     }
     try {
-      const response = await fetch(`/characters/${id}`, {
+      const response = await fetch(`/api/characters/${id}`, {
         method: "DELETE",
       });
       if (response.ok) {

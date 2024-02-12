@@ -6,7 +6,7 @@ function Parties() {
   useEffect(() => {
     const fetchParty = async () => {
       try {
-        const response = await fetch("/parties");
+        const response = await fetch("/api/parties");
         if (response.ok) {
           const data = await response.json();
           setParties(data);

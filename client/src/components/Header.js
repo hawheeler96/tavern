@@ -4,7 +4,7 @@ import NavBar from "./NavBar"
 function Header({user, setUser}) {
 
     const logout = () => {
-    fetch("/logout", { method: "DELETE" }).then(() => {
+    fetch("/api/logout", { method: "DELETE" }).then(() => {
         setUser(null);
         window.location.href = "/";
     });
