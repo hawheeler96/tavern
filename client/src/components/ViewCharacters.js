@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
-function ViewCharacters({characters, setCharacters, user, Capitalize}) {
-    const filteredCharacters = characters.filter(
-      (character) => character.user_id === user.id
-    );
-
+function ViewCharacters({ characters, setCharacters, user, Capitalize }) {
+  const filteredCharacters = characters.filter(
+    (character) => character.user_id === user.id
+  );
+  console.log(characters);
   return (
     <div class="grid grid-cols-auto gap-4 place-content-center">
       <br />

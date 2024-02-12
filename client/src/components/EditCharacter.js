@@ -51,37 +51,122 @@ function EditCharacter({
   setCharacters,
   Capitalize,
   onCharacterEdit,
+  onAbscoreEdit,
 }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [character, setCharacter] = useState({
     name: "",
     dnd_class: "",
-    level: 1, // Default level set to 1
-    hp: 0, // Default hp set to 0, adjust this based on your application logic
+    level: 1,
+    hp: 0,
+    proficienciesArr: [],
   });
-  const prof_mod = calculateProficiency(character.level);
 
-  let str_mod;
-  if (character.abilityscores) {
-    str_mod = calculateModifier(character.abilityscores.str_score);
-    // const dex_mod = calculateModifier(dex_score);
-    // const con_mod = calculateModifier(con_score);
-    // const int_mod = calculateModifier(int_score);
-    // const wis_mod = calculateModifier(wis_score);
-    // const cha_mod = calculateModifier(cha_score);
-  }
+  const [abscores, setAbscores] = useState({
+    str_score: 0,
+    dex_score: 0,
+    con_score: 0,
+    int_score: 0,
+    wis_score: 0,
+    cha_score: 0,
+  });
+
+  const prof_mod = calculateProficiency(character.level);
+  const str_mod = calculateModifier(abscores.str_score);
+  const dex_mod = calculateModifier(abscores.dex_score);
+  const con_mod = calculateModifier(abscores.con_score);
+  const int_mod = calculateModifier(abscores.int_score);
+  const wis_mod = calculateModifier(abscores.wis_score);
+  const cha_mod = calculateModifier(abscores.cha_score);
+  const proficienciesArr = character.proficienciesArr;
+
+  const plusOrMinus = (num) => {
+    if (0 <= num) {
+      return `+${num}`;
+    } else {
+      return `${num}`;
+    }
+  };
+
+  const calculateStrSkillScore = (skill) => {
+    const proficiencyString = `skill-${skill}`;
+
+    if (proficienciesArr.includes(proficiencyString)) {
+      return plusOrMinus(str_mod + prof_mod);
+    } else {
+      return str_mod;
+    }
+  };
+
+  const calculateDexSkillScore = (skill) => {
+    const proficiencyString = `skill-${skill}`;
+
+    if (proficienciesArr.includes(proficiencyString)) {
+      return plusOrMinus(dex_mod + prof_mod);
+    } else {
+      return plusOrMinus(dex_mod);
+    }
+  };
+
+  const calculateIntSkillScore = (skill) => {
+    const proficiencyString = `skill-${skill}`;
+
+    if (proficienciesArr.includes(proficiencyString)) {
+      return plusOrMinus(int_mod + prof_mod);
+    } else {
+      return plusOrMinus(int_mod);
+    }
+  };
+
+  const calculateWisSkillScore = (skill) => {
+    const proficiencyString = `skill-${skill}`;
+
+    if (proficienciesArr.includes(proficiencyString)) {
+      return plusOrMinus(wis_mod + prof_mod);
+    } else {
+      return plusOrMinus(wis_mod);
+    }
+  };
+
+  const calculateChaSkillScore = (skill) => {
+    const proficiencyString = `skill-${skill}`;
+
+    if (proficienciesArr.includes(proficiencyString)) {
+      return plusOrMinus(cha_mod + prof_mod);
+    } else {
+      return plusOrMinus(cha_mod);
+    }
+  };
+
+  const athletics = calculateStrSkillScore("athletics");
+  const acrobatics = calculateDexSkillScore("acrobatics");
+  const sleight_of_hand = calculateDexSkillScore("sleight_of_hand");
+  const stealth = calculateDexSkillScore("stealth");
+  const arcana = calculateIntSkillScore("arcana");
+  const history = calculateIntSkillScore("history");
+  const investigation = calculateIntSkillScore("investigation");
+  const nature = calculateIntSkillScore("nature");
+  const religion = calculateIntSkillScore("religion");
+  const animal_handling = calculateWisSkillScore("animal_handling");
+  const insight = calculateWisSkillScore("insight");
+  const medicine = calculateWisSkillScore("medicine");
+  const perception = calculateWisSkillScore("perception");
+  const survival = calculateWisSkillScore("survival");
+  const deception = calculateChaSkillScore("deception");
+  const intimidation = calculateChaSkillScore("intimidation");
+  const performance = calculateChaSkillScore("performance");
+  const persuasion = calculateChaSkillScore("persuasion");
+
   useEffect(() => {
     const fetchCharacter = async () => {
       try {
         const response = await fetch(`/characters/${id}`);
         if (response.ok) {
           const data = await response.json();
-          if (data && typeof data === "object") {
-            setCharacter(data);
-          } else {
-            console.error("Invalid character data:", data);
-          }
+          console.log("Character Data:", data);
+          setCharacter(data);
+          setAbscores(data.abilityscores);
         } else {
           console.error("Failed to fetch character");
         }
@@ -89,6 +174,7 @@ function EditCharacter({
         console.error("Error fetching character:", error);
       }
     };
+
     fetchCharacter();
   }, [id]);
 
@@ -112,6 +198,7 @@ function EditCharacter({
         onCharacterEdit(responseData);
         if (character.abilityscores && character.abilityscores.id) {
           handleEditAbscores(character.abilityscores.id);
+          navigate(`/character-sheet/${responseData.character.id}`);
         } else {
           console.error("Ability scores ID is not available.");
         }
@@ -126,9 +213,15 @@ function EditCharacter({
   const handleEditAbscores = async (abscore_id) => {
     try {
       const updatedAbscores = {
-        str_score: character.abilityscores.str_score,
-        str_mod: str_mod,
+        str_score: abscores.str_score,
+        dex_score: abscores.dex_score,
+        con_score: abscores.con_score,
+        int_score: abscores.int_score,
+        wis_score: abscores.wis_score,
+        cha_score: abscores.cha_score,
       };
+
+      console.log(updatedAbscores);
 
       const response = await fetch(`/ability-scores/${abscore_id}`, {
         method: "PATCH",
@@ -138,7 +231,9 @@ function EditCharacter({
 
       const responseData = await response.json();
       if (response.ok) {
-        onCharacterEdit(responseData);
+        setAbscores(responseData);
+        // redirect
+        // maybe update character if there's a bug
       } else {
         console.error("Failed to update abilityscores:", responseData);
       }
@@ -146,14 +241,6 @@ function EditCharacter({
       console.error("Error updating abilityscores:", error);
     }
   };
-
-//   const plusOrMinus = (num) => {
-//     if (0 <= num) {
-//       return `+${num}`;
-//     } else {
-//       return `${num}`;
-//     }
-//   };
 
   return (
     <div>
@@ -214,55 +301,116 @@ function EditCharacter({
             <h3>Strength</h3>
             <input
               type="number"
-              value={character.abilityscores.str_score}
+              value={abscores.str_score}
               onChange={(e) => {
                 const strScore = parseInt(e.target.value);
-                setCharacter((prevCharacter) => ({
-                  ...prevCharacter,
-                  abilityscores: {
-                    ...prevCharacter.abilityscores,
-                    str_score: strScore,
-                  },
+                setAbscores((prevAbscores) => ({
+                  ...prevAbscores,
+                  str_score: strScore,
                 }));
                 console.log(e.target.value);
-                console.log(
-                  `mod: ${str_mod}`
-                );
               }}
             />
-            <p>Strength mod: {character.abilityscores.str_mod}</p>
-            <p>Dexterity {character.abilityscores.dex_score}</p>
-            <p>Constitution {character.abilityscores.con_score}</p>
-            <p>Intelligence {character.abilityscores.int_score}</p>
-            <p>Wisdom {character.abilityscores.wis_score}</p>
-            <p>Charisma {character.abilityscores.cha_score}</p>
+            <p>Strength mod: {str_mod}</p>
+
+            <h3>Dexterity</h3>
+            <input
+              type="number"
+              value={abscores.dex_score}
+              onChange={(e) => {
+                const dexScore = parseInt(e.target.value);
+                setAbscores((prevAbscores) => ({
+                  ...prevAbscores,
+                  dex_score: dexScore,
+                }));
+                console.log(e.target.value);
+                console.log(`dex: ${dexScore}`);
+              }}
+            />
+            <p>Dexterity mod: {dex_mod}</p>
+
+            <h3>Constitution</h3>
+            <input
+              type="number"
+              value={abscores.con_score}
+              onChange={(e) => {
+                const conScore = parseInt(e.target.value);
+                setAbscores((prevAbscores) => ({
+                  ...prevAbscores,
+                  con_score: conScore,
+                }));
+                console.log(e.target.value);
+              }}
+            />
+            <p>Constitution mod: {con_mod}</p>
+
+            <h3>Intelligence</h3>
+            <input
+              type="number"
+              value={abscores.int_score}
+              onChange={(e) => {
+                const intScore = parseInt(e.target.value);
+                setAbscores((prevAbscores) => ({
+                  ...prevAbscores,
+                  int_score: intScore,
+                }));
+                console.log(e.target.value);
+              }}
+            />
+            <p>Intelligence mod: {int_mod}</p>
+
+            <h3>Wisdom</h3>
+            <input
+              type="number"
+              value={abscores.wis_score}
+              onChange={(e) => {
+                const wisScore = parseInt(e.target.value);
+                setAbscores((prevAbscores) => ({
+                  ...prevAbscores,
+                  wis_score: wisScore,
+                }));
+                console.log(e.target.value);
+              }}
+            />
+            <p>Wisdom mod: {wis_mod}</p>
+
+            <h3>Charisma</h3>
+            <input
+              type="number"
+              value={abscores.cha_score}
+              onChange={(e) => {
+                const chaScore = parseInt(e.target.value);
+                setAbscores((prevAbscores) => ({
+                  ...prevAbscores,
+                  cha_score: chaScore,
+                }));
+                console.log(e.target.value);
+              }}
+            />
+            <p>Charisma mod: {cha_mod}</p>
           </>
         )}
       </div>
       <div>
         <h4>Skills</h4>
-        {character.skills && (
-          <>
-            <p>Acrobatics {character.skills.acrobatics}</p>
-            <p>Animal Handling {character.skills.animal_handling}</p>
-            <p>Arcana {character.skills.arcana}</p>
-            <p>Athletics {character.skills.athletics}</p>
-            <p>Deception {character.skills.deception}</p>
-            <p>History {character.skills.history}</p>
-            <p>Insight {character.skills.insight}</p>
-            <p>Intimidation {character.skills.intimidation}</p>
-            <p>Investigation {character.skills.investigation}</p>
-            <p>Medicine {character.skills.medicine}</p>
-            <p>Nature {character.skills.nature}</p>
-            <p>Perception {character.skills.perception}</p>
-            <p>Performance {character.skills.performance}</p>
-            <p>Persuasion {character.skills.persuasion}</p>
-            <p>Religion {character.skills.religion}</p>
-            <p>Sleight of Hand {character.skills.sleight_of_hand}</p>
-            <p>Stealth {character.skills.stealth}</p>
-            <p>Survival {character.skills.survival}</p>
-          </>
-        )}
+        <p>Acrobatics {acrobatics}</p>
+        <p>Animal Handling {animal_handling}</p>
+        <p>Arcana {arcana}</p>
+        <p>Athletics {athletics}</p>
+        <p>Deception {deception}</p>
+        <p>History {history}</p>
+        <p>Insight {insight}</p>
+        <p>Intimidation {intimidation}</p>
+        <p>Investigation {investigation}</p>
+        <p>Medicine {medicine}</p>
+        <p>Nature {nature}</p>
+        <p>Perception {perception}</p>
+        <p>Performance {performance}</p>
+        <p>Persuasion {persuasion}</p>
+        <p>Religion {religion}</p>
+        <p>Sleight of Hand {sleight_of_hand}</p>
+        <p>Stealth {stealth}</p>
+        <p>Survival {survival}</p>
       </div>
       <div>
         <button
