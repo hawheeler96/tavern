@@ -1,7 +1,7 @@
 # Remote library imports
 from sqlite3 import paramstyle
 from tempfile import TemporaryFile
-from flask import Flask, request, make_response, jsonify, session
+from flask import Flask, request, make_response, jsonify, session, render_template
 from flask_restful import Api, Resource
 from sqlalchemy.exc import IntegrityError
 import ipdb
@@ -13,7 +13,7 @@ from config import app, db, api
 from models import User, Character, AbilityScore, Skill, Party, Race
 
 
-@app.route("/signup", methods=("POST",))
+@app.route("/api/signup", methods=("POST",))
 def signup():
     data = request.get_json()
     email = data.get("email")
@@ -37,7 +37,7 @@ def signup():
         return make_response({"error": "Database constraint error"}, 400)
 
 
-@app.route("/login", methods=("POST",))
+@app.route("/api/login", methods=("POST",))
 def login():
     data = request.get_json()
     email = data.get("email")
@@ -52,7 +52,7 @@ def login():
     return {"error": "Incorrect username or password"}, 401
 
 
-@app.route("/check_session")
+@app.route("/api/check_session")
 def check_session():
     user = User.query.get(session.get("user_id"))
     if user:
@@ -61,15 +61,11 @@ def check_session():
         return make_response({}, 401)
 
 
-@app.route("/logout", methods=("DELETE",))
+@app.route("/api/logout", methods=("DELETE",))
 def logout():
     session.clear()
     return make_response({}, 204)
 
-
-@app.route("/")
-def index():
-    return ""
 
 
 class Characters(Resource):
@@ -178,7 +174,7 @@ class Characters(Resource):
             return make_response({"errors": "unable to POST"}, 400)
 
 
-api.add_resource(Characters, "/characters")
+api.add_resource(Characters, "/api/characters")
 
 
 class CharacterById(Resource):
@@ -243,7 +239,7 @@ class CharacterById(Resource):
         return make_response({}, 204)
 
 
-api.add_resource(CharacterById, "/characters/<int:id>")
+api.add_resource(CharacterById, "/api/characters/<int:id>")
 
 
 class AbilityScores(Resource):
@@ -272,7 +268,7 @@ class AbilityScores(Resource):
             return make_response({"errors": "unable to POST"}, 400)
 
 
-api.add_resource(AbilityScores, "/ability-scores")
+api.add_resource(AbilityScores, "/api/ability-scores")
 
 
 class AbilityScoresById(Resource):
@@ -298,7 +294,7 @@ class AbilityScoresById(Resource):
             return make_response({"error": "unable to PATCH"}, 400)
 
 
-api.add_resource(AbilityScoresById, "/ability-scores/<int:id>")
+api.add_resource(AbilityScoresById, "/api/ability-scores/<int:id>")
 
 
 class Skills(Resource):
@@ -333,7 +329,7 @@ class Skills(Resource):
             return make_response({"errors": "unable to POST"}, 400)
 
 
-api.add_resource(Skills, "/skills")
+api.add_resource(Skills, "/api/skills")
 
 
 class SkillsById(Resource):
@@ -359,7 +355,7 @@ class SkillsById(Resource):
             return make_response({"error": "unable to PATCH"}, 400)
 
 
-api.add_resource(SkillsById, "/skills/<int:id>")
+api.add_resource(SkillsById, "/api/skills/<int:id>")
 
 
 class Races(Resource):
@@ -387,7 +383,7 @@ class Races(Resource):
             return make_response({"error": "unable to POST"}, 400)
 
 
-api.add_resource(Races, "/races")
+api.add_resource(Races, "/api/races")
 
 
 class RacesById(Resource):
@@ -399,7 +395,7 @@ class RacesById(Resource):
         return make_response(race.to_dict(), 200)
 
 
-api.add_resource(RacesById, "/races/<int:id>")
+api.add_resource(RacesById, "/api/races/<int:id>")
 
 
 class Parties(Resource):
@@ -424,7 +420,7 @@ class Parties(Resource):
             return make_response({"error": "unable to POST"}, 400)
 
 
-api.add_resource(Parties, "/parties")
+api.add_resource(Parties, "/api/parties")
 
 
 class PartyById(Resource):
@@ -460,7 +456,17 @@ class PartyById(Resource):
         return make_response({}, 204)
 
 
-api.add_resource(PartyById, "/parties/<int:id>")
+api.add_resource(PartyById, "/api/parties/<int:id>")
+
+
+@app.route("/api/")
+def index():
+    return render_template("index.html")
+
+
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
