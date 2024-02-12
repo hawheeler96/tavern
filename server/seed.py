@@ -4,37 +4,42 @@ import json
 
 if __name__ == "__main__":
     with app.app_context():
-        print('Deleting data....')
+        print("Deleting data....")
+
         User.query.delete()
         Character.query.delete()
         AbilityScore.query.delete()
         # Skill.query.delete()
         Party.query.delete()
 
-        print('Creating user...')
-        holly = User(name="Holly Wheeler", email="hollyawheeler.96@gmail.com", password_hash="1234")
-
-        print('Populating race...')
-        elf = Race(
-            name = "Elf",
-            languages = "Common, Elvish, Primordial",
-            ability_bonuses = "Dexterity +2, Charisma +1",
-            creature_type = "Humanoid",
-            size = "Medium",
-            speed = "30",
-            traits = "Darkvision, Fey Ancestry, Trance",
-            starting_proficiencies = "Skill: Perception",
-            dnd_race_api_url = "https://www.dnd5eapi.co/api/races/elf"
+        print("Creating user...")
+        holly = User(
+            name="Holly Wheeler",
+            email="hollyawheeler.96@gmail.com",
+            password_hash="1234",
         )
 
-        print('Populating ability scores...')
+        print("Populating race...")
+        elf = Race(
+            name="Elf",
+            languages="Common, Elvish, Primordial",
+            ability_bonuses="Dexterity +2, Charisma +1",
+            creature_type="Humanoid",
+            size="Medium",
+            speed="30",
+            traits="Darkvision, Fey Ancestry, Trance",
+            starting_proficiencies="Skill: Perception",
+            dnd_race_api_url="https://www.dnd5eapi.co/api/races/elf",
+        )
+
+        print("Populating ability scores...")
         ascores = AbilityScore(
-            str_score = 11,
-            dex_score = 17,
-            con_score = 14,
-            int_score= 13,
+            str_score=11,
+            dex_score=17,
+            con_score=14,
+            int_score=13,
             wis_score=13,
-            cha_score=17
+            cha_score=17,
         )
 
         # print('Populating skills...')
@@ -59,13 +64,10 @@ if __name__ == "__main__":
         #     survival=1,
         # )
 
-        print('Creating party...')
-        party = Party(
-            name="Adrucad's Most Wanted",
-            description="Just a bunch of bozos"
-        )
+        print("Creating party...")
+        party = Party(name="Adrucad's Most Wanted", description="Just a bunch of bozos")
 
-        print('Creating character...')
+        print("Creating character...")
         nerezza = Character(
             name="Nerezza Nakadorova",
             dnd_class="fighter",
@@ -208,4 +210,4 @@ if __name__ == "__main__":
         db.session.add(nerezza)
         db.session.commit()
 
-        print('Seeding done!')
+        print("Seeding done!")
