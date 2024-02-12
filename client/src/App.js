@@ -51,6 +51,10 @@ function App() {
         setCharacters((currentCharacters) => [...currentCharacters, newCharacter]);
      }
 
+     const handleCharacterEdit = async (editedCharacter) => {
+        setCharacters((currentCharacters) => [...currentCharacters, editedCharacter]);
+     }
+
      const Capitalize = (str) => {
        if (str) {
          return str.charAt(0).toUpperCase() + str.slice(1);
@@ -118,6 +122,7 @@ function App() {
                       characters={characters}
                       setCharacters={setCharacters}
                       Capitalize={Capitalize}
+                      onCharacterEdit={handleCharacterEdit}
                     />
                   }
                 />

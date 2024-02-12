@@ -192,15 +192,44 @@ class CharacterById(Resource):
 
     def patch(self, id):
         character = Character.query.get(id)
+        # abscore_id = character.abilityscores_id
+        # abscores = AbilityScore.query.get(abscore_id)
+        # skills_id = character.skills_id
+        # skills = Skill.query.get(skills_id)
+
         if not character:
             return make_response({"error": "Character not found"}, 404)
+        # elif not abscores:
+        #     return make_response({"error": "Ability scores not found"}, 404)
+        # elif not skills:
+        #     return make_response({"error": "Skills not found"}, 404)
         data = request.get_json()
         try:
             for attr in data:
                 setattr(character, attr, data[attr])
                 db.session.add(character)
                 db.session.commit()
-                return make_response(character.to_dict(), 200)
+
+                # setattr(abscores, attr, data[attr])
+                # db.session.add(abscores)
+                # db.session.commit()
+
+                # setattr(skills, attr, data[attr])
+                # db.session.add(skills)
+                # db.session.commit()
+
+                # Fetch D&D class info and update character
+                character.fetch_dnd_class_info()
+
+                # Update class level
+                character.get_class_level()
+
+            response_data = {
+                "character": character.to_dict(),
+                # "abscores": abscores.to_dict(),
+                # "skills": skills.to_dict(),
+            }
+            return make_response(response_data, 200)
         except ValueError:
             return make_response({"error": "unable to PATCH"}, 400)
 
