@@ -58,6 +58,11 @@ function CharacterSheet({ Capitalize, setCharacters }) {
   return (
     <div>
       <h3>{character.name}</h3>
+      <img
+        src="/images/tavern_avatar_img.png"
+        alt="Silhouette of an androgenous figure with pointed ears"
+        className="w-40 h-40"
+      />
       <p>{Capitalize(character.dnd_class)}</p>
       {character.dnd_class_level && <p>{character.dnd_class_level}</p>}
       {/* {character.subclasses && <p>{character.subclasses}</p>} */}
@@ -107,7 +112,9 @@ function CharacterSheet({ Capitalize, setCharacters }) {
         )}
       </div>
       <div class="flex justify-center items-center align-bottom bg-white text-soft-blue hover:bg-soft-gold">
-        <button onClick={() => handleDelete(character.id)}>Delete Character</button>
+        <button onClick={() => handleDelete(character.id)}>
+          Delete Character
+        </button>
       </div>
       <div>
         <Link to={`/character-sheet/${character.id}/edit`}>Edit Character</Link>
