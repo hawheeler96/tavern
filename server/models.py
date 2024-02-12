@@ -1,12 +1,13 @@
 from flask_sqlalchemy import SQLAlchemy
 from itsdangerous import Serializer
-from sqlalchemy import MetaData, JSON
+from sqlalchemy import MetaData, JSON, text
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.util import b
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.hybrid import hybrid_property
 import requests
+from sqlalchemy.dialects.postgresql import JSONB
 
 from config import db, bcrypt
 
@@ -15,7 +16,7 @@ class User(db.Model, SerializerMixin):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.Integer, nullable=False)
+    email = db.Column(db.String, nullable=False)
     name = db.Column(db.String, nullable=False)
     _password_hash = db.Column(db.String, nullable=False)
 
@@ -46,17 +47,17 @@ class Character(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     name = db.Column(db.String, nullable=False)
-    dnd_class = db.Column(JSON, nullable=False)
-    subclasses = db.Column(JSON, nullable=True)
-    dnd_class_level = db.Column(JSON, nullable=False)
+    dnd_class = db.Column(db.JSON, nullable=False)
+    subclasses = db.Column(db.JSON, nullable=True)
+    dnd_class_level = db.Column(db.JSON, nullable=False)
     level = db.Column(db.Integer, nullable=False)
-    proficienciesArr = db.Column(JSON, nullable=True)
+    proficienciesArr = db.Column(db.ARRAY(db.String), nullable=True)
     # prof_mod = db.Column(db.Integer, nullable=True)
     hp = db.Column(db.Integer, nullable=False)
     hit_die = db.Column(db.String)
-    proficiency_choices = db.Column(JSON, nullable=True)
-    proficiencies = db.Column(JSON, nullable=True)
-    saving_throws = db.Column(JSON, nullable=True)
+    proficiency_choices = db.Column(db.JSON, nullable=True)
+    proficiencies = db.Column(db.JSON, nullable=True)
+    saving_throws = db.Column(db.JSON, nullable=True)
     abilityscores_id = db.Column(db.Integer, db.ForeignKey("abilityscores.id"))
     # skills_id = db.Column(db.Integer, db.ForeignKey("skills.id"))
     feats = db.Column(db.String)
@@ -64,7 +65,7 @@ class Character(db.Model, SerializerMixin):
     background = db.Column(db.String, nullable=False)
     languages = db.Column(db.String, nullable=False)
     gold = db.Column(db.Integer, nullable=False)
-    backstory = db.Column(db.Integer, nullable=True)
+    backstory = db.Column(db.String, nullable=True)
     party_id = db.Column(db.Integer, db.ForeignKey("parties.id"))
     race_id = db.Column(db.Integer, db.ForeignKey("races.id"))
     dnd_class_api_url = db.Column(db.String, nullable=False)
@@ -119,13 +120,15 @@ class Character(db.Model, SerializerMixin):
             response = requests.get(f"{self.dnd_class_levels_api_url}/{self.level}")
             data = response.json()
             self.dnd_class_level = data.get("level")
-   
+
     def get_prof_mod(self):
         if not self.dnd_class_levels_api_url:
             return None
         if not self.dnd_class_level:
             return None
-        response = requests.get(f"{self.dnd_class_levels_api_url}/{self.dnd_class_level.level}")
+        response = requests.get(
+            f"{self.dnd_class_levels_api_url}/{self.dnd_class_level.level}"
+        )
         data = response.json()
         prof_mod = data.get("prof_mod")
         return prof_mod
@@ -205,35 +208,35 @@ class AbilityScore(db.Model, SerializerMixin):
     serialize_rules = ("-character",)
 
 
-# class Skill(db.Model, SerializerMixin):
-#     __tablename__ = "skills"
+class Skill(db.Model, SerializerMixin):
+    __tablename__ = "skills"
 
-#     id = db.Column(db.Integer, primary_key=True)
-#     acrobatics = db.Column(db.Integer, default=0)
-#     animal_handling = db.Column(db.Integer, default=0)
-#     arcana = db.Column(db.Integer, default=0)
-#     athletics = db.Column(db.Integer, default=0)
-#     deception = db.Column(db.Integer, default=0)
-#     history = db.Column(db.Integer, default=0)
-#     insight = db.Column(db.Integer, default=0)
-#     intimidation = db.Column(db.Integer, default=0)
-#     investigation = db.Column(db.Integer, default=0)
-#     medicine = db.Column(db.Integer, default=0)
-#     nature = db.Column(db.Integer, default=0)
-#     perception = db.Column(db.Integer, default=0)
-#     performance = db.Column(db.Integer, default=0)
-#     persuasion = db.Column(db.Integer, default=0)
-#     religion = db.Column(db.Integer, default=0)
-#     sleight_of_hand = db.Column(db.Integer, default=0)
-#     stealth = db.Column(db.Integer, default=0)
-#     survival = db.Column(db.Integer, default=0)
+    id = db.Column(db.Integer, primary_key=True)
+    acrobatics = db.Column(db.Integer, default=0)
+    animal_handling = db.Column(db.Integer, default=0)
+    arcana = db.Column(db.Integer, default=0)
+    athletics = db.Column(db.Integer, default=0)
+    deception = db.Column(db.Integer, default=0)
+    history = db.Column(db.Integer, default=0)
+    insight = db.Column(db.Integer, default=0)
+    intimidation = db.Column(db.Integer, default=0)
+    investigation = db.Column(db.Integer, default=0)
+    medicine = db.Column(db.Integer, default=0)
+    nature = db.Column(db.Integer, default=0)
+    perception = db.Column(db.Integer, default=0)
+    performance = db.Column(db.Integer, default=0)
+    persuasion = db.Column(db.Integer, default=0)
+    religion = db.Column(db.Integer, default=0)
+    sleight_of_hand = db.Column(db.Integer, default=0)
+    stealth = db.Column(db.Integer, default=0)
+    survival = db.Column(db.Integer, default=0)
 
-#     # relationships
-#     character = db.relationship("Character", back_populates="skills")
-#     # abilityscores = db.relationship("AbilityScore", back_populates = "skills")
+    # relationships
+    # character = db.relationship("Character", back_populates="skills")
+    # abilityscores = db.relationship("AbilityScore", back_populates = "skills")
 
-#     # serialization rules
-#     serialize_rules = ("-character",)
+    # serialization rules
+    serialize_rules = ("-character",)
 
 
 class Party(db.Model, SerializerMixin):

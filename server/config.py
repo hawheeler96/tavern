@@ -12,7 +12,6 @@ from sqlalchemy import MetaData
 from flask_bcrypt import Bcrypt
 
 BASE_DIR = path.abspath(path.dirname(__file__))
-DATABASE = environ.get("DB_URI", f"sqlite:///{path.join(BASE_DIR, 'app.db')}")
 
 load_dotenv(".env")
 
@@ -20,7 +19,7 @@ load_dotenv(".env")
 # Instantiate app, set attributes
 app = Flask(__name__)
 app.secret_key = environ.get("SECRET_KEY")
-app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE
+app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DATABASE_URI")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.json.compact = False
 
