@@ -37,7 +37,7 @@ def signup():
         return make_response({"error": "Database constraint error"}, 400)
 
 
-@app.route("/api/login", methods=("POST",))
+@app.route("/api/login", methods=["POST"])
 def login():
     data = request.get_json()
     email = data.get("email")
@@ -49,7 +49,10 @@ def login():
         if user.authenticate(password):
             session["user_id"] = user.id
             return make_response(user.to_dict(), 200)
-    return {"error": "Incorrect username or password"}, 401
+        else:
+            return {"error": "Incorrect username or password"}, 401
+    else:
+        return {"error": "User not found"}, 401
 
 
 @app.route("/api/check_session")
@@ -65,7 +68,6 @@ def check_session():
 def logout():
     session.clear()
     return make_response({}, 204)
-
 
 
 class Characters(Resource):
@@ -92,6 +94,8 @@ class Characters(Resource):
             character.level = data.get("level")
             # character.prof_mod = data.get("prof_mod")
             character.proficienciesArr = data.get("proficienciesArr")
+            import ipdb
+            ipdb.set_trace()
             # character.skills_id = data.get("skills_id")
             character.feats = data.get("feats")
             character.description = data.get("description")
@@ -162,6 +166,7 @@ class Characters(Resource):
 
             db.session.add(character)
             db.session.commit()
+            ipdb.set_trace()
 
             response_data = {
                 "character": character.to_dict(),

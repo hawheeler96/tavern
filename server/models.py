@@ -51,7 +51,7 @@ class Character(db.Model, SerializerMixin):
     subclasses = db.Column(db.JSON, nullable=True)
     dnd_class_level = db.Column(db.JSON, nullable=False)
     level = db.Column(db.Integer, nullable=False)
-    proficienciesArr = db.Column(db.ARRAY(db.String), nullable=True)
+    proficienciesArr = db.Column(db.ARRAY(db.String(120)), nullable=True)
     # prof_mod = db.Column(db.Integer, nullable=True)
     hp = db.Column(db.Integer, nullable=False)
     hit_die = db.Column(db.String)

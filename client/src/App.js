@@ -14,9 +14,12 @@ import ViewCharacters from "./components/ViewCharacters";
 
 import "./index.css";
 
+const UserContext = React.createContext();
+
 function App() {
   const [user, setUser] = useState(null);
-  
+  const [characters, setCharacters] = useState([]);
+
   useEffect(() => {
     fetch("/api/check_session")
       .then((r) => r.json())
@@ -30,8 +33,6 @@ function App() {
       .catch((error) => console.error("Error checking session:", error));
   }, []);
 
-  const [characters, setCharacters] = useState([]);
-  const [abscores, setAbscores] = useState([]);
   useEffect(() => {
     const fetchCharacter = async () => {
       try {
@@ -49,23 +50,6 @@ function App() {
     fetchCharacter();
   }, []);
 
-//    useEffect(() => {
-//       const fetchAbscores = async () => {
-//           try {
-//               const response = await fetch("/ability-scores");
-//               if (response.ok) {
-//                   const data = await response.json();
-//                   setAbscores(data);
-//               } else {
-//                   console.error("failed to fetch ability scores");
-//               }
-//           } catch (error) {
-//               console.error("Error fetching ability scores:", error)
-//           }
-//       };
-//       fetchAbscores();
-//    }, []);
-
   const handleCharacterCreate = (newCharacter) => {
     setCharacters((currentCharacters) => [...currentCharacters, newCharacter]);
   };
@@ -77,10 +61,6 @@ function App() {
     ]);
   };
 
-  //  const handleAbscoreEdit = async (editedAbscore) => {
-  //     setAbscores((currentAbscores) => [...currentAbscores, editedAbscore]);
-  //  }
-
   const Capitalize = (str) => {
     if (str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
@@ -89,87 +69,57 @@ function App() {
     }
   };
 
-  let view;
-  if (user) {
-    view = (
-      <div>
-        <NavBar />
-        <main>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Home
-                  user={user}
-                  characters={characters}
-                  setCharacters={setCharacters}
-                />
-              }
-            />
-            <Route
-              path="/create-character"
-              element={
-                <CreateCharacter
-                  addCharacter={handleCharacterCreate}
-                  user={user}
-                />
-              }
-            />
-            <Route path="/parties-view" element={<Parties />} />
-            <Route path="/user-profile" element={<UserProfile user={user} />} />
-            <Route
-              path="/character-sheet/:id"
-              element={
-                <CharacterSheet
-                  Capitalize={Capitalize}
-                  setCharacters={setCharacters}
-                />
-              }
-            />
-            <Route
-              path="/all-characters"
-              element={
-                <ViewCharacters
-                  user={user}
-                  characters={characters}
-                  setCharacters={setCharacters}
-                  Capitalize={Capitalize}
-                />
-              }
-            />
-            <Route
-              path="/character-sheet/:id/edit"
-              element={
-                <EditCharacter
-                  user={user}
-                  characters={characters}
-                  setCharacters={setCharacters}
-                  Capitalize={Capitalize}
-                  onCharacterEdit={handleCharacterEdit}
-                  //   onAbscoreEdit={handleAbscoreEdit}
-                />
-              }
-            />
-          </Routes>
-        </main>
-      </div>
-    );
-  } else if (user === null) {
-    view = (
-      <Routes>
-        <Route index element={<Login setUser={setUser} />} />
-        <Route path="signup" element={<Signup setUser={setUser} />} />
-      </Routes>
-    );
-  } else {
-    view = <p>Loading...</p>;
-  }
-
   return (
     <div class="min-h-screen bg-slate-blue">
       <Router>
-        <Header setUser={setUser} user={user} />
-        {view}
+        <UserContext.Provider value={user}>
+          <Header setUser={setUser} user={user} />
+          {user === null ? (
+            <Routes>
+              <Route index element={<Login setUser={setUser} />} />
+              <Route path="signup" element={<Signup setUser={setUser} />} />
+            </Routes>
+          ) : (
+            <main>
+              <NavBar />
+              <Routes>
+                <Route path="/" element={<Home characters={characters} user={user}/>} />
+                <Route
+                  path="/create-character"
+                  element={
+                    <CreateCharacter addCharacter={handleCharacterCreate} user={user} />
+                  }
+                />
+                <Route path="/parties-view" element={<Parties />} />
+                <Route path="/user-profile" element={<UserProfile user={user}/>} />
+                <Route
+                  path="/character-sheet/:id"
+                  element={<CharacterSheet Capitalize={Capitalize} />}
+                />
+                <Route
+                  path="/all-characters"
+                  element={
+                    <ViewCharacters
+                      characters={characters}
+                      Capitalize={Capitalize}
+                      user={user}
+                    />
+                  }
+                />
+                <Route
+                  path="/character-sheet/:id/edit"
+                  element={
+                    <EditCharacter
+                      characters={characters}
+                      Capitalize={Capitalize}
+                      onCharacterEdit={handleCharacterEdit}
+                    />
+                  }
+                />
+              </Routes>
+            </main>
+          )}
+        </UserContext.Provider>
       </Router>
     </div>
   );

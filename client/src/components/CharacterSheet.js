@@ -69,6 +69,12 @@ function CharacterSheet({ Capitalize, setCharacters }) {
    };
    
 
+   const findProficientSkills = (skill) => {
+    const proficiencyString = `skill-${skill}`;
+    if (proficienciesArr.includes(proficiencyString)) {
+      return skill;
+   }}
+
    const calculateStrSkillScore = (skill) => {
      const proficiencyString = `skill-${skill}`;
 
@@ -179,10 +185,25 @@ function CharacterSheet({ Capitalize, setCharacters }) {
     }
   };
 
+   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+   useEffect(() => {
+     const handleResize = () => {
+       setWindowWidth(window.innerWidth);
+     };
+
+     window.addEventListener("resize", handleResize);
+
+     return () => {
+       window.removeEventListener("resize", handleResize);
+     };
+   }, []);
+
+
   return (
     <div>
       <div className="flex justify-center">
-        <div className="text-white bg-soft-blue w-1/2 flex items-center rounded-md p-4">
+        <div className="text-white bg-soft-blue w-4/5 lg:w-1/2 flex items-center rounded-md p-4">
           <div className="flex flex-col justify-center items-center m-2 mt-6">
             <h3 className="text-xl">{character.name}</h3>
             <img
@@ -201,7 +222,7 @@ function CharacterSheet({ Capitalize, setCharacters }) {
                 <p>HP {character.hp}</p>
               </div>
               <div className="flex justify-center items-center">
-                <p>{character.race?.name}</p>
+                <p>{Capitalize(character.race?.name)}</p>
               </div>
               <div className="flex justify-center w-48 text-xs text-center italic">
                 {character.description}
@@ -301,11 +322,11 @@ function CharacterSheet({ Capitalize, setCharacters }) {
                 <p key={index}>{proficiency.name}</p>
               ))}
             </div>
-            {/* <div>
+            <div>
               {character.proficienciesArr?.map((proficiency, index) => (
                 <p key={index}>{proficiency}</p>
               ))}
-            </div> */}
+            </div>
 
             <div className="mt-5">
               <p className="border-b">Languages</p>

@@ -6,11 +6,11 @@ if __name__ == "__main__":
     with app.app_context():
         print("Deleting data....")
 
-        User.query.delete()
         Character.query.delete()
         AbilityScore.query.delete()
         # Skill.query.delete()
         Party.query.delete()
+        User.query.delete()
 
         print("Creating user...")
         holly = User(
@@ -75,9 +75,9 @@ if __name__ == "__main__":
             subclasses="",
             dnd_class_level=3,
             # prof_mod=2,
+            proficienciesArr=["skill-athletics", "skill-insight"],
             hp=23,
             hit_die="d10",
-            proficienciesArr=["skill-athletics", "skill-insight"],
             proficiency_choices={
                 "desc": "Choose two skills from Acrobatics, Animal Handling, Athletics, History, Insight, Intimidation, Perception, and Survival",
                 "choose": 2,
@@ -200,7 +200,7 @@ if __name__ == "__main__":
             abilityscores=ascores,
             # skills=skills,
             user=holly,
-            party=party,
+            # party=party,
         )
 
         db.session.add(holly)

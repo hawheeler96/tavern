@@ -10,6 +10,10 @@ export default function Login({ setUser }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (loginInfo.email.trim() === "" || loginInfo.password.trim() === "") {
+      alert("Email and password must be filled in.");
+      return;
+    }
     fetch("/api/login", {
       method: "POST",
       headers: {
@@ -17,11 +21,23 @@ export default function Login({ setUser }) {
       },
       body: JSON.stringify(loginInfo),
     })
-      .then((r) => r.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else if (response.status === 401) {
+          throw new Error("User not found");
+        } else {
+          throw new Error("Server error");
+        }
+      })
       .then((data) => {
         setUser(data);
+      })
+      .catch((error) => {
+        alert(error.message);
       });
   };
+
 
   return (
     <div class="bg-slate-blue text-white">
