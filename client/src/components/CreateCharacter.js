@@ -292,7 +292,7 @@ function CreateCharacter({ addCharacter, user }) {
 
   return (
     <div>
-      <div className="flex flex-col items-center h-screen">
+      <div className="flex flex-col items-center h-screen bg-slate-blue">
         <div className="w-full max-w-xl">
           <form className="shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-white flex flex-col">
             <input
@@ -429,7 +429,7 @@ function CreateCharacter({ addCharacter, user }) {
             />
             <input
               type="text"
-              placeholder="Gold (optional)"
+              placeholder="Gold"
               value={gold}
               onChange={(e) => {
                 console.log(e.target.value);

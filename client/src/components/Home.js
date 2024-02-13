@@ -6,16 +6,21 @@ function Home({ characters, user }) {
   const [currentCharacters, setCurrentCharacters] = useState(0);
   const charNum = 4;
 
-  const filteredCharacters = characters.filter(
-    (character) => character.user_id === user.id
-  );
+  console.log(user)
+
+  const filteredCharacters =
+    characters && user
+      ? characters.filter((character) => character.user_id === user.id)
+      : [];
 
   function scrollBeltForward() {
-    setCurrentCharacters(currentCharacters + charNum);
+    if (currentCharacters + charNum < filteredCharacters.length) {
+      setCurrentCharacters(currentCharacters + charNum);
+    }
   }
 
   function scrollBeltBackward() {
-    if (currentCharacters > 0) {
+    if (currentCharacters >= charNum) {
       setCurrentCharacters(currentCharacters - charNum);
     }
   }
@@ -30,7 +35,7 @@ function Home({ characters, user }) {
           ❮
         </button>
         {filteredCharacters
-          .slice(currentCharacters, charNum + currentCharacters)
+          .slice(currentCharacters, currentCharacters + charNum)
           .map((character, index) => (
             <div key={index} className="w-1/6 p-4 flex flex-col items-center">
               <nav className="flex flex-col items-center">
