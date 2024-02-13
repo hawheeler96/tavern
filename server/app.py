@@ -71,7 +71,7 @@ def logout():
 class Characters(Resource):
     def get(self):
         characters = [
-            character.to_dict(rules=("abilityscores", "party", "race"))
+            character.to_dict(rules=("abilityscores", "race"))
             for character in Character.query.all()
         ]
         return make_response(characters, 200)
