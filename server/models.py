@@ -66,7 +66,7 @@ class Character(db.Model, SerializerMixin):
     languages = db.Column(db.String, nullable=False)
     gold = db.Column(db.Integer, nullable=False)
     backstory = db.Column(db.String, nullable=True)
-    party_id = db.Column(db.Integer, db.ForeignKey("parties.id"))
+    # party_id = db.Column(db.Integer, db.ForeignKey("parties.id"))
     race_id = db.Column(db.Integer, db.ForeignKey("races.id"))
     dnd_class_api_url = db.Column(db.String, nullable=False)
     dnd_class_levels_api_url = db.Column(db.String, nullable=False)
@@ -137,11 +137,11 @@ class Character(db.Model, SerializerMixin):
     abilityscores = db.relationship("AbilityScore", back_populates="character")
     # skills = db.relationship("Skill", back_populates="character")
     user = db.relationship("User", back_populates="characters")
-    party = db.relationship("Party", back_populates="character")
+    # party = db.relationship("Party", back_populates="character")
     race = db.relationship("Race", back_populates="character")
 
     # serialization rules
-    serialize_rules = ("-abilityscores", "-user", "-race", "-party")
+    serialize_rules = ("-abilityscores", "-user", "-race")
 
 
 class Race(db.Model, SerializerMixin):
@@ -248,7 +248,7 @@ class Party(db.Model, SerializerMixin):
 
     # relationships
     user = association_proxy("characters", "user")
-    character = db.relationship("Character", back_populates="party")
+    # character = db.relationship("Character", back_populates="party")
 
     # serialization rules
     serialize_rules = ("-character",)
