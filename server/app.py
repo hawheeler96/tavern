@@ -184,7 +184,7 @@ class CharacterById(Resource):
         if not character:
             return make_response({"error": "Character not found"}, 404)
         return make_response(
-            character.to_dict(rules=("abilityscores",)), 200
+            character.to_dict(rules=("abilityscores", "race")), 200
         )
 
     def patch(self, id):
