@@ -288,9 +288,9 @@ class AbilityScoresById(Resource):
         try:
             for attr in data:
                 setattr(abscores, attr, data[attr])
-                db.session.add(abscores)
-                db.session.commit()
-                return make_response(abscores.to_dict(), 202)
+            db.session.add(abscores)
+            db.session.commit()
+            return make_response(abscores.to_dict(), 202)
         except ValueError:
             return make_response({"error": "unable to PATCH"}, 400)
 
@@ -460,7 +460,7 @@ class PartyById(Resource):
 api.add_resource(PartyById, "/api/parties/<int:id>")
 
 
-@app.route("/api/")
+@app.route("/")
 def index():
     return render_template("index.html")
 

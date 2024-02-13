@@ -48,22 +48,22 @@ function App() {
     fetchCharacter();
   }, []);
 
-  //  useEffect(() => {
-  //     const fetchAbscores = async () => {
-  //         try {
-  //             const response = await fetch("/ability-scores");
-  //             if (response.ok) {
-  //                 const data = await response.json();
-  //                 setAbscores(data);
-  //             } else {
-  //                 console.error("failed to fetch ability scores");
-  //             }
-  //         } catch (error) {
-  //             console.error("Error fetching ability scores:", error)
-  //         }
-  //     };
-  //     fetchAbscores();
-  //  }, []);
+//    useEffect(() => {
+//       const fetchAbscores = async () => {
+//           try {
+//               const response = await fetch("/ability-scores");
+//               if (response.ok) {
+//                   const data = await response.json();
+//                   setAbscores(data);
+//               } else {
+//                   console.error("failed to fetch ability scores");
+//               }
+//           } catch (error) {
+//               console.error("Error fetching ability scores:", error)
+//           }
+//       };
+//       fetchAbscores();
+//    }, []);
 
   const handleCharacterCreate = (newCharacter) => {
     setCharacters((currentCharacters) => [...currentCharacters, newCharacter]);
