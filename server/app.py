@@ -90,7 +90,7 @@ class Characters(Resource):
             character.dnd_class_level = data.get("dnd_class_level")
             character.hp = data.get("hp")
             character.level = data.get("level")
-            character.prof_mod = data.get("prof_mod")
+            # character.prof_mod = data.get("prof_mod")
             character.proficienciesArr = data.get("proficienciesArr")
             # character.skills_id = data.get("skills_id")
             character.feats = data.get("feats")
