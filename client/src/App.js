@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import CharacterSheet from "./components/CharacterSheet";
 import CreateCharacter from "./components/CreateCharacter";
@@ -11,11 +11,12 @@ import Parties from "./components/Parties";
 import Signup from "./components/Signup";
 import UserProfile from "./components/UserProfile";
 import ViewCharacters from "./components/ViewCharacters";
+
 import "./index.css";
 
 function App() {
   const [user, setUser] = useState(null);
-
+  
   useEffect(() => {
     fetch("/api/check_session")
       .then((r) => r.json())

@@ -75,7 +75,7 @@ function CharacterSheet({ Capitalize, setCharacters }) {
      if (proficienciesArr.includes(proficiencyString)) {
        return plusOrMinus(str_mod + prof_mod);
      } else {
-       return str_mod;
+       return plusOrMinus(str_mod);
      }
    };
 
@@ -181,37 +181,100 @@ function CharacterSheet({ Capitalize, setCharacters }) {
 
   return (
     <div>
-      <h3>{character.name}</h3>
-      <img
-        src="/images/tavern_avatar_img.png"
-        alt="Silhouette of an androgenous figure with pointed ears"
-        className="w-40 h-40"
-      />
-      <p>{Capitalize(character.dnd_class)}</p>
-      {character.dnd_class_level && <p>Level {character.dnd_class_level}</p>}
-      {/* {character.subclasses && <p>{character.subclasses}</p>} */}
-      <p>HP {character.hp}</p>
-      <div>
-        <h4>Ability Scores</h4>
-        {character.abilityscores && (
-          <>
-            <p>Strength {character.abilityscores.str_score}</p>
-            <p>{str_mod}</p>
-            <p>Dexterity {character.abilityscores.dex_score}</p>
-            <p>{dex_mod}</p>
-            <p>Constitution {character.abilityscores.con_score}</p>
-            <p>{con_mod}</p>
-            <p>Intelligence {character.abilityscores.int_score}</p>
-            <p>{int_mod}</p>
-            <p>Wisdom {character.abilityscores.wis_score}</p>
-            <p>{wis_mod}</p>
-            <p>Charisma {character.abilityscores.cha_score}</p>
-            <p>{cha_mod}</p>
-          </>
-        )}
-      </div>
-      <div>
-        <h4>Skills</h4>
+      <div className="flex justify-center">
+        <div className="text-white bg-soft-blue w-1/2 flex items-center rounded-md p-4">
+          <div className="flex flex-col justify-center items-center m-2 mt-6">
+            <h3 className="text-xl">{character.name}</h3>
+            <img
+              src="/images/tavern_avatar_img.png"
+              alt="Silhouette of an androgenous figure with pointed ears"
+              className="w-40 h-40"
+            />
+            <div>
+              <div className="flex justify-center space-x-1">
+                {character.dnd_class_level && (
+                  <p>Level {character.dnd_class_level}</p>
+                )}
+                <p>{Capitalize(character.dnd_class)}</p>
+              </div>
+              <div className="flex justify-center items-center">
+                <p>HP {character.hp}</p>
+              </div>
+              <div className="flex justify-center items-center">
+                <p>{character.race?.name}</p>
+              </div>
+              <div className="flex justify-center w-48 text-xs text-center italic">
+                {character.description}
+              </div>
+              <div className="flex justify-center items-center align-bottom bg-white text-soft-blue hover:bg-soft-gold m-2">
+                <button onClick={() => handleDelete(character.id)}>
+                  Delete Character
+                </button>
+              </div>
+              <div className="flex justify-center items-center align-bottom bg-white text-soft-blue hover:bg-soft-gold m-2">
+                <Link to={`/character-sheet/${character.id}/edit`}>
+                  Edit Character
+                </Link>
+              </div>
+            </div>
+          </div>
+          {/* {character.subclasses && <p>{character.subclasses}</p>} */}
+
+          <div>
+            {character.abilityscores && (
+              <>
+                <div className="flex">
+                  <div className="flex flex-col ml-10">
+                    <div className="border flex flex-col justify-center items-center rounded-md mx-4 mb-2 px-4">
+                      <p>Strength</p>
+                      <p className="text-3xl mt-2">{plusOrMinus(str_mod)}</p>
+                      <p className="mt-3 mb-1 border px-2 py-1 rounded-full">
+                        {character.abilityscores.str_score}
+                      </p>
+                    </div>
+                    <div className="border flex flex-col justify-center items-center rounded-md mx-4 mb-2">
+                      <p>Dexterity</p>
+                      <p className="text-3xl mt-2">{plusOrMinus(dex_mod)}</p>
+                      <p className="mt-3 mb-1 border px-2 py-1 rounded-full">
+                        {character.abilityscores.dex_score}
+                      </p>
+                    </div>
+                    <div className="border flex flex-col justify-center items-center rounded-md mx-4 mb-2">
+                      <p>Constitution</p>
+                      <p className="text-3xl mt-2">{plusOrMinus(con_mod)}</p>
+                      <p className="mt-3 mb-1 border px-2 py-1 rounded-full">
+                        {character.abilityscores.con_score}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="border flex flex-col justify-center items-center rounded-md mx-4 mb-2 px-1">
+                      <p>Intelligence</p>
+                      <p className="text-3xl mt-2">{plusOrMinus(int_mod)}</p>
+                      <p className="mt-3 mb-1 border px-2 py-1 rounded-full">
+                        {character.abilityscores.int_score}
+                      </p>
+                    </div>
+                    <div className="border flex flex-col justify-center items-center rounded-md mx-4 mb-2">
+                      <p>Wisdom</p>
+                      <p className="text-3xl mt-2">{plusOrMinus(wis_mod)}</p>
+                      <p className="mt-3 mb-1 border px-2 py-1 rounded-full">
+                        {character.abilityscores.wis_score}
+                      </p>
+                    </div>
+                    <div className="border flex flex-col justify-center items-center rounded-md mx-4">
+                      <p>Charisma</p>
+                      <p className="text-3xl mt-2">{plusOrMinus(cha_mod)}</p>
+                      <p className="mt-3 mb-1 border px-2 py-1 rounded-full">
+                        {character.abilityscores.cha_score}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+          <div className="flex flex-col ms-10">
             <p>Acrobatics {acrobatics}</p>
             <p>Animal Handling {animal_handling}</p>
             <p>Arcana {arcana}</p>
@@ -230,14 +293,30 @@ function CharacterSheet({ Capitalize, setCharacters }) {
             <p>Sleight of Hand {sleight_of_hand}</p>
             <p>Stealth {stealth}</p>
             <p>Survival {survival}</p>
-      </div>
-      <div class="flex justify-center items-center align-bottom bg-white text-soft-blue hover:bg-soft-gold">
-        <button onClick={() => handleDelete(character.id)}>
-          Delete Character
-        </button>
-      </div>
-      <div>
-        <Link to={`/character-sheet/${character.id}/edit`}>Edit Character</Link>
+          </div>
+          <div className="flex flex-col justify-center text-center m-8">
+            <p className="border-b">Proficiencies</p>
+            <div>
+              {character.proficiencies?.map((proficiency, index) => (
+                <p key={index}>{proficiency.name}</p>
+              ))}
+            </div>
+            {/* <div>
+              {character.proficienciesArr?.map((proficiency, index) => (
+                <p key={index}>{proficiency}</p>
+              ))}
+            </div> */}
+
+            <div className="mt-5">
+              <p className="border-b">Languages</p>
+              {character.languages}
+            </div>
+            <div className="mt-5">
+                <p className="border-b">Equipment</p>
+                <p>Gold: {character.gold}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
