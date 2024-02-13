@@ -29,6 +29,8 @@ function App() {
       .catch((error) => console.error("Error checking session:", error));
   }, []);
 
+  console.log(`user: ${user.id}`)
+
   const [characters, setCharacters] = useState([]);
   const [abscores, setAbscores] = useState([]);
   useEffect(() => {
