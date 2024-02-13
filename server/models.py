@@ -64,7 +64,7 @@ class Character(db.Model, SerializerMixin):
     description = db.Column(db.String)
     background = db.Column(db.String, nullable=False)
     languages = db.Column(db.String, nullable=False)
-    gold = db.Column(db.Integer, nullable=False)
+    gold = db.Column(db.Integer, nullable=True)
     backstory = db.Column(db.String, nullable=True)
     # party_id = db.Column(db.Integer, db.ForeignKey("parties.id"))
     race_id = db.Column(db.Integer, db.ForeignKey("races.id"))
