@@ -208,35 +208,35 @@ class AbilityScore(db.Model, SerializerMixin):
     serialize_rules = ("-character",)
 
 
-class Skill(db.Model, SerializerMixin):
-    __tablename__ = "skills"
+# class Skill(db.Model, SerializerMixin):
+#     __tablename__ = "skills"
 
-    id = db.Column(db.Integer, primary_key=True)
-    acrobatics = db.Column(db.Integer, default=0)
-    animal_handling = db.Column(db.Integer, default=0)
-    arcana = db.Column(db.Integer, default=0)
-    athletics = db.Column(db.Integer, default=0)
-    deception = db.Column(db.Integer, default=0)
-    history = db.Column(db.Integer, default=0)
-    insight = db.Column(db.Integer, default=0)
-    intimidation = db.Column(db.Integer, default=0)
-    investigation = db.Column(db.Integer, default=0)
-    medicine = db.Column(db.Integer, default=0)
-    nature = db.Column(db.Integer, default=0)
-    perception = db.Column(db.Integer, default=0)
-    performance = db.Column(db.Integer, default=0)
-    persuasion = db.Column(db.Integer, default=0)
-    religion = db.Column(db.Integer, default=0)
-    sleight_of_hand = db.Column(db.Integer, default=0)
-    stealth = db.Column(db.Integer, default=0)
-    survival = db.Column(db.Integer, default=0)
+#     id = db.Column(db.Integer, primary_key=True)
+#     acrobatics = db.Column(db.Integer, default=0)
+#     animal_handling = db.Column(db.Integer, default=0)
+#     arcana = db.Column(db.Integer, default=0)
+#     athletics = db.Column(db.Integer, default=0)
+#     deception = db.Column(db.Integer, default=0)
+#     history = db.Column(db.Integer, default=0)
+#     insight = db.Column(db.Integer, default=0)
+#     intimidation = db.Column(db.Integer, default=0)
+#     investigation = db.Column(db.Integer, default=0)
+#     medicine = db.Column(db.Integer, default=0)
+#     nature = db.Column(db.Integer, default=0)
+#     perception = db.Column(db.Integer, default=0)
+#     performance = db.Column(db.Integer, default=0)
+#     persuasion = db.Column(db.Integer, default=0)
+#     religion = db.Column(db.Integer, default=0)
+#     sleight_of_hand = db.Column(db.Integer, default=0)
+#     stealth = db.Column(db.Integer, default=0)
+#     survival = db.Column(db.Integer, default=0)
 
-    # relationships
-    # character = db.relationship("Character", back_populates="skills")
-    # abilityscores = db.relationship("AbilityScore", back_populates = "skills")
+#     # relationships
+#     # character = db.relationship("Character", back_populates="skills")
+#     # abilityscores = db.relationship("AbilityScore", back_populates = "skills")
 
-    # serialization rules
-    serialize_rules = ("-character",)
+#     # serialization rules
+#     serialize_rules = ("-character",)
 
 
 class Party(db.Model, SerializerMixin):
