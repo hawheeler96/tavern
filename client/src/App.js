@@ -94,7 +94,7 @@ function App() {
                 <Route path="/user-profile" element={<UserProfile user={user}/>} />
                 <Route
                   path="/character-sheet/:id"
-                  element={<CharacterSheet Capitalize={Capitalize} />}
+                  element={<CharacterSheet Capitalize={Capitalize} setCharacters={setCharacters}/>}
                 />
                 <Route
                   path="/all-characters"
