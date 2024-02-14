@@ -8,20 +8,23 @@ function NavBar() {
         What can I get for you?
       </h2>
       <div class="flex flex-row flex-nowrap space-x-5 justify-center text-xl m-5 font-raleway">
-        <Link to="/" class="p-2 bg-soft-blue text-white hover:bg-soft-gold">
+        <Link
+          to="/"
+          class="p-2 rounded-md bg-soft-blue text-white transition-colors ease-in-out delay-50 hover:bg-soft-gold hover:shadow-inner"
+        >
           {" "}
           Home{" "}
         </Link>
         <Link
           to="/create-character"
-          class="p-2  bg-soft-blue text-white hover:bg-soft-gold"
+          class="p-2 rounded-md bg-soft-blue text-white transition-colors ease-in-out delay-50 hover:bg-soft-gold hover:shadow-inner"
         >
           {" "}
           Character Creator{" "}
         </Link>
         <Link
           to="/all-characters"
-          class="p-2  bg-soft-blue text-white hover:bg-soft-gold"
+          class="p-2 rounded-md bg-soft-blue text-white transition-colors ease-in-out delay-50 hover:bg-soft-gold hover:shadow-inner"
         >
           {" "}
           All Characters{" "}
@@ -35,7 +38,7 @@ function NavBar() {
         </Link> */}
         <Link
           to="/user-profile"
-          class="p-2  bg-soft-blue text-white hover:bg-soft-gold"
+          class="p-2 rounded-md bg-soft-blue text-white transition-colors ease-in-out delay-50 hover:bg-soft-gold hover:shadow-inner"
         >
           {" "}
           User Profile{" "}

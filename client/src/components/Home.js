@@ -31,7 +31,7 @@ function Home({ characters, user }) {
         {filteredCharacters.length > 0 ? (
           <button
             onClick={scrollBeltBackward}
-            className="text-5xl text-white flex flex-wrap align-middle py-16"
+            className="text-5xl text-white flex flex-wrap align-middle py-16 transition ease-in-out delay-50 hover:scale-110"
           >
             ❮
           </button>
@@ -41,7 +41,7 @@ function Home({ characters, user }) {
             .slice(currentCharacters, currentCharacters + charNum)
             .map((character, index) => (
               <div key={index} className="w-1/6 p-4 flex flex-col items-center">
-                <nav className="flex flex-col items-center">
+                <nav className="flex flex-col items-center transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110">
                   <div className="mb-2">
                     <img
                       src="/images/tavern_avatar_img.png"
@@ -50,7 +50,7 @@ function Home({ characters, user }) {
                     />
                   </div>
                   <div className="text-center">
-                    <h3 className="text-xl text-white font-raleway">
+                    <h3 className="text-xl text-white font-raleway transition ease-in-out delay-50 hover:text-soft-gold">
                       <Link to={`/character-sheet/${character.id}`}>
                         {character.name}
                       </Link>
@@ -76,7 +76,7 @@ function Home({ characters, user }) {
         {filteredCharacters.length > 0 ? (
           <button
             onClick={scrollBeltForward}
-            className="text-5xl text-white flex flex-wrap align-middle py-16"
+            className="text-5xl text-white flex flex-wrap align-middle py-16 transition ease-in-out delay-50 hover:scale-110"
           >
             ❯
           </button>
@@ -84,16 +84,25 @@ function Home({ characters, user }) {
       </div>
       <div
         className={`bg bg-soft-blue ${
-          showAbout ? "mt-96" : ""
+          showAbout ? "mt-96 " : ""
         } fixed bottom-0 left-0 right-0`}
       >
         <div className="flex justify-center items-center">
-          <button
-            onClick={() => setShowAbout(!showAbout)}
-            className="text-xl m-3 text-white flex justify-center items-center"
-          >
-            ▲
-          </button>
+          {!showAbout ? (
+            <button
+              onClick={() => setShowAbout(!showAbout)}
+              className="text-xl m-3 text-white flex justify-center items-center transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110"
+            >
+              ▲
+            </button>
+          ) : (
+            <button
+              onClick={() => setShowAbout(!showAbout)}
+              className="text-xl m-3 text-white flex justify-center items-center transition ease-in-out delay-50 hover:scale-110"
+            >
+              ▼
+            </button>
+          )}
         </div>
         <h1 className="flex justify-center items-center text-3xl m-3 text-white font-raleway">
           About

@@ -445,7 +445,7 @@ function CreateCharacter({ addCharacter, user }) {
               <h2>Strength</h2>
               <input
                 type="number"
-                placeholder="Strength"
+                placeholder="Enter Strength..."
                 value={str_score}
                 onChange={(e) => {
                   let str = parseInt(e.target.value);
@@ -455,11 +455,11 @@ function CreateCharacter({ addCharacter, user }) {
                   setStr_score(str);
                 }}
               />
-              <p>{str_mod}</p>
-              <h2>Dexterity</h2>
+              {str_score !== "" ? <p>{str_mod}</p> : null}
+              <h2 className="mt-2">Dexterity</h2>
               <input
                 type="number"
-                placeholder="Dexterity"
+                placeholder="Enter Dexterity..."
                 value={dex_score}
                 onChange={(e) => {
                   let dex = parseInt(e.target.value);
@@ -469,11 +469,11 @@ function CreateCharacter({ addCharacter, user }) {
                   setDex_score(dex);
                 }}
               />
-              <p>{dex_mod}</p>
-              <h2>Constitution</h2>
+              {dex_score !== "" ? <p>{dex_mod}</p> : null}
+              <h2 className="mt-2">Constitution</h2>
               <input
                 type="number"
-                placeholder="Constitution"
+                placeholder="Enter Constitution..."
                 value={con_score}
                 onChange={(e) => {
                   let con = parseInt(e.target.value);
@@ -483,11 +483,11 @@ function CreateCharacter({ addCharacter, user }) {
                   setCon_score(con);
                 }}
               />
-              <p>{con_mod}</p>
-              <h2>Intelligence</h2>
+              {con_score !== "" ? <p>{con_mod}</p> : null}
+              <h2 className="mt-2">Intelligence</h2>
               <input
                 type="number"
-                placeholder="Intelligence"
+                placeholder="Enter Intelligence..."
                 value={int_score}
                 onChange={(e) => {
                   let int = parseInt(e.target.value);
@@ -497,11 +497,11 @@ function CreateCharacter({ addCharacter, user }) {
                   setInt_score(int);
                 }}
               />
-              <p>{int_mod}</p>
-              <h2>Wisdom</h2>
+              {int_score !== "" ? <p>{int_mod}</p> : null}
+              <h2 className="mt-2">Wisdom</h2>
               <input
                 type="text"
-                placeholder="Wisdom"
+                placeholder="Enter Wisdom..."
                 value={wis_score}
                 onChange={(e) => {
                   let wis = parseInt(e.target.value);
@@ -511,11 +511,11 @@ function CreateCharacter({ addCharacter, user }) {
                   setWis_score(wis);
                 }}
               />
-              <p>{wis_mod}</p>
-              <h2>Charisma</h2>
+              {wis_score !== "" ? <p>{wis_mod}</p> : null}
+              <h2 className="mt-2">Charisma</h2>
               <input
                 type="text"
-                placeholder="Charisma"
+                placeholder="Enter Charisma..."
                 value={cha_score}
                 onChange={(e) => {
                   let cha = parseInt(e.target.value);
@@ -525,7 +525,7 @@ function CreateCharacter({ addCharacter, user }) {
                   setCha_score(cha);
                 }}
               />
-              <p>{cha_mod}</p>
+              {cha_score !== "" ? <p>{cha_mod}</p> : null}
             </div>
             <div>
               {dnd_class && apiData.proficiency_choices && (
@@ -556,7 +556,7 @@ function CreateCharacter({ addCharacter, user }) {
               {dnd_class && <p>Hit dice: d{apiData.hit_die}</p>}
               <input
                 type="number"
-                placeholder="HP"
+                placeholder="Enter HP..."
                 value={hp}
                 onChange={(e) => setHp(e.target.value)}
               />
