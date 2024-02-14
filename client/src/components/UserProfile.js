@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-function UserProfile({user}) {
+function UserProfile({user, characters}) {
     const [unclicked, setClicked] = useState(false);
+
+    const filteredCharacters =
+      characters && user
+        ? characters.filter((character) => character.user_id === user.id)
+        : [];
 
     const handleClick = () => {
         setClicked(!unclicked);
@@ -28,7 +33,7 @@ function UserProfile({user}) {
 
     return (
       <div className="flex flex-col justify-center items-center text-center">
-        <div className="bg-white p-5 font-raleway rounded-md">
+        <div className="bg-soft-blue text-white p-5 font-raleway rounded-md">
           {unclicked ? (
             <div className="flex flex-col w-96">
               <input type="text" value={user.name} className="border"></input>
@@ -41,10 +46,11 @@ function UserProfile({user}) {
             <div>
               <h3>Name: {user.name}</h3>
               <p>Email: {user.email}</p>
+              <p>Characters: {filteredCharacters.length}</p>
             </div>
           )}
         </div>
-        {unclicked ? (
+        {/* {unclicked ? (
           <button
             onClick={handleClick}
             className="my-3 bg-soft-gold p-2 text-slate-blue cursor-pointer"
@@ -58,7 +64,7 @@ function UserProfile({user}) {
           >
             Edit User
           </button>
-        )}
+        )} */}
       </div>
     );
 }

@@ -292,9 +292,10 @@ function CreateCharacter({ addCharacter, user }) {
 
   return (
     <div>
-      <div className="flex flex-col items-center h-screen bg-slate-blue font-raleway">
+      <div className="flex flex-col items-center h-full bg-slate-blue font-raleway">
         <div className="w-full max-w-xl">
           <form className="shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-white flex flex-col">
+            <h3 className="text-xl italic mb-4 text-center">Adventurer Registration</h3>
             <input
               type="text"
               placeholder="Character Name"

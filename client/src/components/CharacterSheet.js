@@ -57,6 +57,7 @@ function CharacterSheet({ Capitalize, setCharacters }) {
    const wis_mod = calculateModifier(character.abilityscores?.wis_score);
    const cha_mod = calculateModifier(character.abilityscores?.cha_score);
    const proficienciesArr = character.proficienciesArr
+   let proficientSkills = [];
 
    console.log(proficienciesArr)
 
@@ -67,19 +68,24 @@ function CharacterSheet({ Capitalize, setCharacters }) {
        return `${num}`;
      }
    };
-   
 
-   const findProficientSkills = (skill) => {
-    const proficiencyString = `skill-${skill}`;
-    if (proficienciesArr.includes(proficiencyString)) {
-      return skill;
-   }}
+   const findProficientSkills = (skills) => {
+    for (let skill of skills) {
+        const proficiencyString = `skill-${skill}`;
+        if (proficienciesArr.includes(proficiencyString)) {
+            
+        }
+    }
+    return proficientSkills;
+  }
 
    const calculateStrSkillScore = (skill) => {
      const proficiencyString = `skill-${skill}`;
 
      if (proficienciesArr.includes(proficiencyString)) {
+       proficientSkills.push(skill);
        return plusOrMinus(str_mod + prof_mod);
+      
      } else {
        return plusOrMinus(str_mod);
      }
@@ -89,6 +95,7 @@ function CharacterSheet({ Capitalize, setCharacters }) {
      const proficiencyString = `skill-${skill}`;
 
      if (proficienciesArr.includes(proficiencyString)) {
+       proficientSkills.push(skill);
        return plusOrMinus(dex_mod + prof_mod);
      } else {
        return plusOrMinus(dex_mod);
@@ -99,6 +106,7 @@ function CharacterSheet({ Capitalize, setCharacters }) {
      const proficiencyString = `skill-${skill}`;
 
      if (proficienciesArr.includes(proficiencyString)) {
+       proficientSkills.push(skill);
        return plusOrMinus(int_mod + prof_mod);
      } else {
        return plusOrMinus(int_mod);
@@ -109,6 +117,7 @@ function CharacterSheet({ Capitalize, setCharacters }) {
      const proficiencyString = `skill-${skill}`;
 
      if (proficienciesArr.includes(proficiencyString)) {
+       proficientSkills.push(skill);
        return plusOrMinus(wis_mod + prof_mod);
      } else {
        return plusOrMinus(wis_mod);
@@ -119,6 +128,7 @@ function CharacterSheet({ Capitalize, setCharacters }) {
      const proficiencyString = `skill-${skill}`;
 
      if (proficienciesArr.includes(proficiencyString)) {
+       proficientSkills.push(skill);
        return plusOrMinus(cha_mod + prof_mod);
      } else {
        return plusOrMinus(cha_mod);
@@ -328,8 +338,8 @@ function CharacterSheet({ Capitalize, setCharacters }) {
               ))}
             </div>
             <div>
-              {character.proficienciesArr?.map((proficiency, index) => (
-                <p key={index}>{proficiency}</p>
+              {proficientSkills.map((proficiency, index) => (
+                <p key={index}>{Capitalize(proficiency)}</p>
               ))}
             </div>
 

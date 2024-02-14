@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { Transition } from "@headlessui/react"
 
 function Home({ characters, user }) {
   const [showAbout, setShowAbout] = useState(false);
   const [currentCharacters, setCurrentCharacters] = useState(0);
   const charNum = 4;
 
-  console.log(user)
+  console.log(user);
 
   const filteredCharacters =
     characters && user
@@ -83,9 +84,9 @@ function Home({ characters, user }) {
         ) : null}
       </div>
       <div
-        className={`bg bg-soft-blue ${
+        className={`${
           showAbout ? "mt-96 " : ""
-        } fixed bottom-0 left-0 right-0`}
+        } fixed bottom-0 left-0 right-0 bg bg-soft-blue`}
       >
         <div className="flex justify-center items-center">
           {!showAbout ? (
@@ -111,8 +112,16 @@ function Home({ characters, user }) {
           As is the case in so many campaigns, it begins in a tavern.
         </p>
         <br />
-        {showAbout && (
-          <>
+        <Transition
+          show={showAbout}
+          enter="transition ease-in-out duration-300 transform"
+          enterFrom="translate-y-full"
+          enterTo="translate-y-0"
+          leave="transition ease-in-out duration-300 trasnform"
+          leaveFrom="translate-y-0"
+          leaveTo="translate-y-full"
+        >
+          <div className="bg-soft-blue">
             <p className="text-white font-raleway">
               Welcome to Tavern, an online character creator for Dungeons &
               Dragons 5e. Currently in its early alpha stage, Tavern is poised
@@ -159,8 +168,8 @@ function Home({ characters, user }) {
               of Dungeons & Dragons.
             </p>
             <br />
-          </>
-        )}
+          </div>
+        </Transition>
       </div>
     </div>
   );
