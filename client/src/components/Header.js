@@ -14,7 +14,11 @@ function Header({user, setUser}) {
     if (user) {
       view = (
         <div>
-          <button type="button" onClick={logout} class="absolute end-5 top-4 p-2 bg-soft-gold text-slate-blue font-raleway">
+          <button
+            type="button"
+            onClick={logout}
+            class="absolute end-5 top-4 p-2 rounded-md bg-soft-gold text-slate-blue font-raleway transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110"
+          >
             Log Out
           </button>
         </div>

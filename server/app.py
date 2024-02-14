@@ -442,9 +442,9 @@ class PartyById(Resource):
         try:
             for attr in data:
                 setattr(party, attr, data[attr])
-                db.session.add(party)
-                db.session.commit()
-            return make_response(party, 202)
+            db.session.add(party)
+            db.session.commit()
+            return make_response(party.to_dict(), 202)
         except ValueError:
             return make_response({"error": "unable to PATCH"}, 400)
 
@@ -460,6 +460,23 @@ class PartyById(Resource):
 
 
 api.add_resource(PartyById, "/api/parties/<int:id>")
+
+class UserById(Resource):
+    def patch(self, id):
+        user = User.query.get(id)
+        if not user:
+            return make_response({"error": "User not found"}, 404)
+        data = request.get_json()
+        try: 
+            for attr in data:
+                setattr(user, attr, data[attr])
+            db.session.add(user)
+            return make_response(user.to_dict(), 202)
+        except ValueError:
+            return make_response({"error:" "Unable to PATCH"}, 400)
+        
+api.add_resource(UserById, "/api/users/<int:id>")
+                
 
 
 @app.route("/")

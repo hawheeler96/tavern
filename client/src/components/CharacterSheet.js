@@ -210,7 +210,7 @@ function CharacterSheet({ Capitalize, setCharacters }) {
             <img
               src="/images/tavern_avatar_img.png"
               alt="Silhouette of an androgenous figure with pointed ears"
-              className="w-40 h-40"
+              className="w-40 h-40 rounded-md"
             />
             <div>
               <div className="flex justify-center space-x-1">
@@ -228,12 +228,12 @@ function CharacterSheet({ Capitalize, setCharacters }) {
               <div className="flex justify-center w-48 text-xs text-center italic">
                 {character.description}
               </div>
-              <div className="flex justify-center items-center align-bottom bg-white text-soft-blue hover:bg-soft-gold m-2">
+              <div className="flex justify-center items-center align-bottom bg-white text-soft-blue hover:bg-soft-gold m-2 delay-50 rounded">
                 <button onClick={() => handleDelete(character.id)}>
                   Delete Character
                 </button>
               </div>
-              <div className="flex justify-center items-center align-bottom bg-white text-soft-blue hover:bg-soft-gold m-2">
+              <div className="flex justify-center items-center align-bottom bg-white text-soft-blue hover:bg-soft-gold m-2 delay-50 rounded">
                 <Link to={`/character-sheet/${character.id}/edit`}>
                   Edit Character
                 </Link>
