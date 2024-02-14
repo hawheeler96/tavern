@@ -295,7 +295,9 @@ function CreateCharacter({ addCharacter, user }) {
       <div className="flex flex-col items-center h-full bg-slate-blue font-raleway">
         <div className="w-full max-w-xl">
           <form className="shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-white flex flex-col">
-            <h3 className="text-xl italic mb-4 text-center">Adventurer Registration</h3>
+            <h3 className="text-xl italic mb-4 text-center">
+              Adventurer Registration
+            </h3>
             <input
               type="text"
               placeholder="Character Name"
@@ -378,7 +380,7 @@ function CreateCharacter({ addCharacter, user }) {
               <option value={19}>19</option>
               <option value={20}>20</option>
             </select>
-            <input
+            {/* <input
               type="text"
               placeholder="Subclass (optional)"
               value={subclasses}
@@ -387,7 +389,26 @@ function CreateCharacter({ addCharacter, user }) {
                 setSubclasses(e.target.value);
               }}
               className="mb-2 border-b-2"
-            />
+            /> */}
+            {dnd_class &&
+              apiData.subclasses &&
+              apiData.subclasses.length > 0 && (
+                <select
+                  value={subclasses}
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    setSubclasses(e.target.value);
+                  }}
+                  className="mb-2"
+                >
+                  <option value="">Select a Subclass - Optional</option>
+                  {apiData.subclasses.map((subclass, index) => (
+                    <option key={index} value={subclass.name}>
+                      {subclass.name}
+                    </option>
+                  ))}
+                </select>
+              )}
             <input
               type="text"
               placeholder="Feats (optional)"

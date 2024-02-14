@@ -97,7 +97,6 @@ class Character(db.Model, SerializerMixin):
             self.proficiency_choices = data.get("proficiency_choices")
             self.proficiencies = data.get("proficiencies")
             self.saving_throws = data.get("saving_throws")
-            self.subclasses = data.get("subclasses")
 
     def get_dnd_class_levels_api_url(self):
         class_api_urls = {
