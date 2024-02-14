@@ -91,7 +91,7 @@ function App() {
                   }
                 />
                 <Route path="/parties-view" element={<Parties />} />
-                <Route path="/user-profile" element={<UserProfile user={user}/>} />
+                <Route path="/user-profile" element={<UserProfile user={user} characters={characters}/>} />
                 <Route
                   path="/character-sheet/:id"
                   element={<CharacterSheet Capitalize={Capitalize} setCharacters={setCharacters}/>}
