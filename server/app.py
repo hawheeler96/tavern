@@ -94,8 +94,6 @@ class Characters(Resource):
             character.level = data.get("level")
             # character.prof_mod = data.get("prof_mod")
             character.proficienciesArr = data.get("proficienciesArr")
-            import ipdb
-            ipdb.set_trace()
             # character.skills_id = data.get("skills_id")
             character.feats = data.get("feats")
             character.description = data.get("description")
@@ -166,7 +164,6 @@ class Characters(Resource):
 
             db.session.add(character)
             db.session.commit()
-            ipdb.set_trace()
 
             response_data = {
                 "character": character.to_dict(),
