@@ -28,40 +28,59 @@ function Home({ characters, user }) {
   return (
     <div>
       <div className="flex flex-wrap justify-center my-32">
-        <button
-          onClick={scrollBeltBackward}
-          className="text-5xl text-white flex flex-wrap align-middle py-16"
-        >
-          ❮
-        </button>
-        {filteredCharacters
-          .slice(currentCharacters, currentCharacters + charNum)
-          .map((character, index) => (
-            <div key={index} className="w-1/6 p-4 flex flex-col items-center">
-              <nav className="flex flex-col items-center">
-                <div className="mb-2">
-                  <img
-                    src="/images/tavern_avatar_img.png"
-                    alt="Silhouette of an androgenous figure with pointed ears"
-                    className="rounded-full w-40 h-40"
-                  />
-                </div>
-                <div className="text-center">
-                  <h3 className="text-xl text-white font-raleway">
-                    <Link to={`/character-sheet/${character.id}`}>
-                      {character.name}
-                    </Link>
-                  </h3>
-                </div>
-              </nav>
-            </div>
-          ))}
-        <button
-          onClick={scrollBeltForward}
-          className="text-5xl text-white flex flex-wrap align-middle py-16"
-        >
-          ❯
-        </button>
+        {filteredCharacters.length > 0 ? (
+          <button
+            onClick={scrollBeltBackward}
+            className="text-5xl text-white flex flex-wrap align-middle py-16"
+          >
+            ❮
+          </button>
+        ) : null}
+        {filteredCharacters.length > 0 ? (
+          filteredCharacters
+            .slice(currentCharacters, currentCharacters + charNum)
+            .map((character, index) => (
+              <div key={index} className="w-1/6 p-4 flex flex-col items-center">
+                <nav className="flex flex-col items-center">
+                  <div className="mb-2">
+                    <img
+                      src="/images/tavern_avatar_img.png"
+                      alt="Silhouette of an androgenous figure with pointed ears"
+                      className="rounded-full w-40 h-40"
+                    />
+                  </div>
+                  <div className="text-center">
+                    <h3 className="text-xl text-white font-raleway">
+                      <Link to={`/character-sheet/${character.id}`}>
+                        {character.name}
+                      </Link>
+                    </h3>
+                  </div>
+                </nav>
+              </div>
+            ))
+        ) : (
+          <div className="flex justify-center items-center flex-col">
+            <p className="text-xl text-white font-raleway mt-10">
+              It looks like no one's here yet. Would you like to make a
+              character?
+            </p>
+            <Link
+              to="/create-character"
+              class="flex justify-center items-center w-1/2 p-2 mt-8 bg-soft-blue text-white hover:bg-soft-gold"
+            >
+              Create a Character
+            </Link>
+          </div>
+        )}
+        {filteredCharacters.length > 0 ? (
+          <button
+            onClick={scrollBeltForward}
+            className="text-5xl text-white flex flex-wrap align-middle py-16"
+          >
+            ❯
+          </button>
+        ) : null}
       </div>
       <div
         className={`bg bg-soft-blue ${

@@ -244,182 +244,209 @@ function EditCharacter({
 
   return (
     <div>
-      <h3>Name</h3>
-      <input
-        type="text"
-        value={character.name}
-        onChange={(e) => {
-          setCharacter((prevCharacter) => ({
-            ...prevCharacter,
-            name: e.target.value,
-          }));
-        }}
-      />
-      <h3>Class {`(in lower case)`}</h3>
-      <input
-        type="text"
-        value={character.dnd_class}
-        onChange={(e) => {
-          setCharacter((prevCharacter) => ({
-            ...prevCharacter,
-            dnd_class: e.target.value,
-          }));
-          console.log(e.target.value);
-          console.log(`class: ${character.dnd_class}`);
-        }}
-      />
-      <h3>Level</h3>
-      <input
-        type="number"
-        value={character.level}
-        onChange={(e) => {
-          setCharacter((prevCharacter) => ({
-            ...prevCharacter,
-            level: e.target.value,
-          }));
-          console.log(e.target.value);
-        }}
-      />
-      {/* {character.subclasses && <p>{character.subclasses}</p>} */}
-      <h3>HP</h3>
-      <input
-        type="number"
-        value={character.hp}
-        onChange={(e) => {
-          setCharacter((prevCharacter) => ({
-            ...prevCharacter,
-            hp: e.target.value,
-          }));
-          console.log(e.target.value);
-          console.log(character.hp);
-        }}
-      />
-      <div>
-        <h4>Ability Scores</h4>
-        {character.abilityscores && (
-          <>
-            <h3>Strength</h3>
+      <div className="flex flex-col items-center h-screen bg-slate-blue font-raleway">
+        <div className="w-full max-w-xl">
+          <div className="shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-soft-blue flex flex-col">
+            <h3 className="text-white">Name</h3>
+            <input
+              type="text"
+              value={character.name}
+              onChange={(e) => {
+                setCharacter((prevCharacter) => ({
+                  ...prevCharacter,
+                  name: e.target.value,
+                }));
+              }}
+              className="rounded"
+            />
+            <h3 className="text-white mt-4">Class {`(in lower case)`}</h3>
+            <input
+              type="text"
+              value={character.dnd_class}
+              onChange={(e) => {
+                setCharacter((prevCharacter) => ({
+                  ...prevCharacter,
+                  dnd_class: e.target.value,
+                }));
+                console.log(e.target.value);
+                console.log(`class: ${character.dnd_class}`);
+              }}
+              className="rounded"
+            />
+            <h3 className="text-white mt-4">Level</h3>
             <input
               type="number"
-              value={abscores.str_score}
+              value={character.level}
               onChange={(e) => {
-                const strScore = parseInt(e.target.value);
-                setAbscores((prevAbscores) => ({
-                  ...prevAbscores,
-                  str_score: strScore,
+                setCharacter((prevCharacter) => ({
+                  ...prevCharacter,
+                  level: e.target.value,
                 }));
                 console.log(e.target.value);
               }}
+              className="rounded"
             />
-            <p>Strength mod: {str_mod}</p>
+            <p className="text-white italic">
+              Proficiency Modifier: {prof_mod}
+            </p>
+            {/* {character.subclasses && <p>{character.subclasses}</p>} */}
+            <h3 className="text-white mt-4">HP</h3>
+            <input
+              type="number"
+              value={character.hp}
+              onChange={(e) => {
+                setCharacter((prevCharacter) => ({
+                  ...prevCharacter,
+                  hp: e.target.value,
+                }));
+                console.log(e.target.value);
+                console.log(character.hp);
+              }}
+              className="rounded"
+            />
+            <div className="flex justify-center flex-col">
+              <h4 className="text-xl text-white text-center align-center mt-8">
+                Ability Scores
+              </h4>
+              {character.abilityscores && (
+                <>
+                  <h3 className="text-white">Strength</h3>
+                  <input
+                    type="number"
+                    value={abscores.str_score}
+                    onChange={(e) => {
+                      const strScore = parseInt(e.target.value);
+                      setAbscores((prevAbscores) => ({
+                        ...prevAbscores,
+                        str_score: strScore,
+                      }));
+                      console.log(e.target.value);
+                    }}
+                    className="rounded"
+                  />
+                  <p className="text-white italic">Strength mod: {str_mod}</p>
 
-            <h3>Dexterity</h3>
-            <input
-              type="number"
-              value={abscores.dex_score}
-              onChange={(e) => {
-                const dexScore = parseInt(e.target.value);
-                setAbscores((prevAbscores) => ({
-                  ...prevAbscores,
-                  dex_score: dexScore,
-                }));
-                console.log(e.target.value);
-                console.log(`dex: ${dexScore}`);
-              }}
-            />
-            <p>Dexterity mod: {dex_mod}</p>
+                  <h3 className="text-white mt-4">Dexterity</h3>
+                  <input
+                    type="number"
+                    value={abscores.dex_score}
+                    onChange={(e) => {
+                      const dexScore = parseInt(e.target.value);
+                      setAbscores((prevAbscores) => ({
+                        ...prevAbscores,
+                        dex_score: dexScore,
+                      }));
+                      console.log(e.target.value);
+                      console.log(`dex: ${dexScore}`);
+                    }}
+                    className="rounded"
+                  />
+                  <p className="text-white italic">Dexterity mod: {dex_mod}</p>
 
-            <h3>Constitution</h3>
-            <input
-              type="number"
-              value={abscores.con_score}
-              onChange={(e) => {
-                const conScore = parseInt(e.target.value);
-                setAbscores((prevAbscores) => ({
-                  ...prevAbscores,
-                  con_score: conScore,
-                }));
-                console.log(e.target.value);
-              }}
-            />
-            <p>Constitution mod: {con_mod}</p>
+                  <h3 className="text-white mt-4">Constitution</h3>
+                  <input
+                    type="number"
+                    value={abscores.con_score}
+                    onChange={(e) => {
+                      const conScore = parseInt(e.target.value);
+                      setAbscores((prevAbscores) => ({
+                        ...prevAbscores,
+                        con_score: conScore,
+                      }));
+                      console.log(e.target.value);
+                    }}
+                    className="rounded"
+                  />
+                  <p className="text-white italic">
+                    Constitution mod: {con_mod}
+                  </p>
 
-            <h3>Intelligence</h3>
-            <input
-              type="number"
-              value={abscores.int_score}
-              onChange={(e) => {
-                const intScore = parseInt(e.target.value);
-                setAbscores((prevAbscores) => ({
-                  ...prevAbscores,
-                  int_score: intScore,
-                }));
-                console.log(e.target.value);
-              }}
-            />
-            <p>Intelligence mod: {int_mod}</p>
+                  <h3 className="text-white mt-4">Intelligence</h3>
+                  <input
+                    type="number"
+                    value={abscores.int_score}
+                    onChange={(e) => {
+                      const intScore = parseInt(e.target.value);
+                      setAbscores((prevAbscores) => ({
+                        ...prevAbscores,
+                        int_score: intScore,
+                      }));
+                      console.log(e.target.value);
+                    }}
+                    className="rounded"
+                  />
+                  <p className="text-white italic">
+                    {" "}
+                    Intelligence mod: {int_mod}
+                  </p>
 
-            <h3>Wisdom</h3>
-            <input
-              type="number"
-              value={abscores.wis_score}
-              onChange={(e) => {
-                const wisScore = parseInt(e.target.value);
-                setAbscores((prevAbscores) => ({
-                  ...prevAbscores,
-                  wis_score: wisScore,
-                }));
-                console.log(e.target.value);
-              }}
-            />
-            <p>Wisdom mod: {wis_mod}</p>
+                  <h3 className="text-white mt-4">Wisdom</h3>
+                  <input
+                    type="number"
+                    value={abscores.wis_score}
+                    onChange={(e) => {
+                      const wisScore = parseInt(e.target.value);
+                      setAbscores((prevAbscores) => ({
+                        ...prevAbscores,
+                        wis_score: wisScore,
+                      }));
+                      console.log(e.target.value);
+                    }}
+                    className="rounded"
+                  />
+                  <p className="text-white italic">Wisdom mod: {wis_mod}</p>
 
-            <h3>Charisma</h3>
-            <input
-              type="number"
-              value={abscores.cha_score}
-              onChange={(e) => {
-                const chaScore = parseInt(e.target.value);
-                setAbscores((prevAbscores) => ({
-                  ...prevAbscores,
-                  cha_score: chaScore,
-                }));
-                console.log(e.target.value);
-              }}
-            />
-            <p>Charisma mod: {cha_mod}</p>
-          </>
-        )}
-      </div>
-      <div>
-        <h4>Skills</h4>
-        <p>Acrobatics {acrobatics}</p>
-        <p>Animal Handling {animal_handling}</p>
-        <p>Arcana {arcana}</p>
-        <p>Athletics {athletics}</p>
-        <p>Deception {deception}</p>
-        <p>History {history}</p>
-        <p>Insight {insight}</p>
-        <p>Intimidation {intimidation}</p>
-        <p>Investigation {investigation}</p>
-        <p>Medicine {medicine}</p>
-        <p>Nature {nature}</p>
-        <p>Perception {perception}</p>
-        <p>Performance {performance}</p>
-        <p>Persuasion {persuasion}</p>
-        <p>Religion {religion}</p>
-        <p>Sleight of Hand {sleight_of_hand}</p>
-        <p>Stealth {stealth}</p>
-        <p>Survival {survival}</p>
-      </div>
-      <div>
-        <button
-          onClick={() => {
-            handleEditCharacter();
-          }}
-        >
-          Edit Character
-        </button>
+                  <h3 className="text-white mt-4">Charisma</h3>
+                  <input
+                    type="number"
+                    value={abscores.cha_score}
+                    onChange={(e) => {
+                      const chaScore = parseInt(e.target.value);
+                      setAbscores((prevAbscores) => ({
+                        ...prevAbscores,
+                        cha_score: chaScore,
+                      }));
+                      console.log(e.target.value);
+                    }}
+                    className="rounded"
+                  />
+                  <p className="text-white italic">Charisma mod: {cha_mod}</p>
+                </>
+              )}
+            </div>
+            {/* <div>
+              <h4>Skills</h4>
+              <p>Acrobatics {acrobatics}</p>
+              <p>Animal Handling {animal_handling}</p>
+              <p>Arcana {arcana}</p>
+              <p>Athletics {athletics}</p>
+              <p>Deception {deception}</p>
+              <p>History {history}</p>
+              <p>Insight {insight}</p>
+              <p>Intimidation {intimidation}</p>
+              <p>Investigation {investigation}</p>
+              <p>Medicine {medicine}</p>
+              <p>Nature {nature}</p>
+              <p>Perception {perception}</p>
+              <p>Performance {performance}</p>
+              <p>Persuasion {persuasion}</p>
+              <p>Religion {religion}</p>
+              <p>Sleight of Hand {sleight_of_hand}</p>
+              <p>Stealth {stealth}</p>
+              <p>Survival {survival}</p>
+            </div> */}
+            <div className="flex justify-center items-center">
+              <button
+                onClick={() => {
+                  handleEditCharacter();
+                }}
+                className="my-3 bg-soft-gold p-2 text-slate-blue cursor-pointer"
+              >
+                Edit Character
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

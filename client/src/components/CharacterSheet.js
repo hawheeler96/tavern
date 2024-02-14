@@ -203,9 +203,10 @@ function CharacterSheet({ Capitalize, setCharacters }) {
   return (
     <div>
       <div className="flex justify-center">
-        <div className="text-white bg-soft-blue w-4/5 lg:w-1/2 flex items-center rounded-md p-4">
+        <div className="text-white bg-soft-blue w-4/5 lg:w-1/2 flex items-center rounded-md p-4 relative font-raleway shadow-lg">
+            <h3 className="absolute top-5 left-5 text-2xl border-b border-r shadow-inner p-2 rounded italic">Adventurer's License</h3>
           <div className="flex flex-col justify-center items-center m-2 mt-6">
-            <h3 className="text-xl">{character.name}</h3>
+            <h3 className="text-xl text-center">{character.name}</h3>
             <img
               src="/images/tavern_avatar_img.png"
               alt="Silhouette of an androgenous figure with pointed ears"
@@ -316,7 +317,11 @@ function CharacterSheet({ Capitalize, setCharacters }) {
             <p>Survival {survival}</p>
           </div>
           <div className="flex flex-col justify-center text-center m-8">
-            <p className="border-b">Proficiencies</p>
+            <div>
+                <p className="border-b">Proficiency Modifier</p>
+                <p className="mt-2 mb-1 border px-3 py-1 rounded-full inline-block">{prof_mod}</p>
+            </div>
+            <p className="border-b mt-5">Proficiencies</p>
             <div>
               {character.proficiencies?.map((proficiency, index) => (
                 <p key={index}>{proficiency.name}</p>
