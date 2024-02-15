@@ -14,7 +14,7 @@ function ViewCharacters({ characters, setCharacters, user, Capitalize }) {
       </div>
       <div className="flex flex-row justify-center">
         <div className="bg-slate-grey p-10 rounded-md">
-          <div class="flex gap-5">
+          <div className="flex gap-5">
             <br />
             {filteredCharacters.map((character, index) => (
               <div>
@@ -22,12 +22,12 @@ function ViewCharacters({ characters, setCharacters, user, Capitalize }) {
                   <Link to={`/character-sheet/${character.id}`}>
                     <div
                       key={index}
-                      class="text-white font-raleway 
+                      className="text-white font-raleway 
                   p-4 w-60 h-80 rounded-md
                    bg-soft-blue shadow-lg 
                     hover:animate-wiggle"
                     >
-                      <h3 class="flex justify-center items-center text-xl my-5">
+                      <h3 className="flex justify-center items-center text-xl my-5">
                         {character.name}
                       </h3>
                       <div className="flex">
@@ -38,7 +38,7 @@ function ViewCharacters({ characters, setCharacters, user, Capitalize }) {
                         />
                       </div>
                       {character.dnd_class_level && (
-                        <p class="flex justify-center items-center align-bottom text-xl mt-3 my-3">
+                        <p className="flex justify-center items-center align-bottom text-xl mt-3 my-3">
                           Level {character.dnd_class_level}{" "}
                           {Capitalize(character.dnd_class)}
                         </p>

@@ -17,9 +17,9 @@ function Header({user, setUser}) {
           <button
             type="button"
             onClick={logout}
-            class="absolute end-5 top-4 p-2 rounded-md bg-soft-gold text-slate-blue font-raleway transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110"
+            className="absolute end-5 top-4 p-2 rounded-md bg-soft-gold text-slate-blue font-raleway transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110"
           >
-            Log Out
+            Sign Out
           </button>
         </div>
       );
@@ -28,10 +28,10 @@ function Header({user, setUser}) {
     }
     return (
       <header
-        class="flex justify-self-stretch bg-slate-blue p-5"
+        className="flex justify-self-stretch bg-slate-blue p-5"
       >
-        <h1 class="flex justify-center items-center text-2xl text-white font-raleway">
-          Welcome to the Tavern, {user ? user.name : "Traveller"}!
+        <h1 className="flex justify-center items-center text-2xl text-white font-raleway">
+          Welcome to the Tavern, {user ? user.name : "Traveler"}!
           <br />
         </h1>
         {view}

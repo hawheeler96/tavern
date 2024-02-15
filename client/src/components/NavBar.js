@@ -4,27 +4,27 @@ import { Link, NavLink } from "react-router-dom";
 function NavBar() {
   return (
     <div>
-      <h2 class="flex justify-center items-center text-3xl mt-20 text-white font-raleway">
+      <h2 className="flex justify-center items-center text-3xl mt-20 text-white font-raleway">
         What can I get for you?
       </h2>
-      <div class="flex flex-row flex-nowrap space-x-5 justify-center text-xl m-5 font-raleway">
+      <div className="flex flex-row flex-nowrap space-x-5 justify-center text-xl m-5 font-raleway">
         <Link
           to="/"
-          class="p-2 rounded-md bg-soft-blue text-white transition-colors ease-in-out delay-50 hover:bg-soft-gold hover:shadow-inner"
+          className="p-2 rounded-md bg-soft-blue text-white transition-colors ease-in-out delay-50 hover:bg-soft-gold hover:shadow-inner"
         >
           {" "}
           Home{" "}
         </Link>
         <Link
           to="/create-character"
-          class="p-2 rounded-md bg-soft-blue text-white transition-colors ease-in-out delay-50 hover:bg-soft-gold hover:shadow-inner"
+          className="p-2 rounded-md bg-soft-blue text-white transition-colors ease-in-out delay-50 hover:bg-soft-gold hover:shadow-inner"
         >
           {" "}
           Character Creator{" "}
         </Link>
         <Link
           to="/all-characters"
-          class="p-2 rounded-md bg-soft-blue text-white transition-colors ease-in-out delay-50 hover:bg-soft-gold hover:shadow-inner"
+          className="p-2 rounded-md bg-soft-blue text-white transition-colors ease-in-out delay-50 hover:bg-soft-gold hover:shadow-inner"
         >
           {" "}
           All Characters{" "}
@@ -38,7 +38,7 @@ function NavBar() {
         </Link> */}
         <Link
           to="/user-profile"
-          class="p-2 rounded-md bg-soft-blue text-white transition-colors ease-in-out delay-50 hover:bg-soft-gold hover:shadow-inner"
+          className="p-2 rounded-md bg-soft-blue text-white transition-colors ease-in-out delay-50 hover:bg-soft-gold hover:shadow-inner"
         >
           {" "}
           User Profile{" "}

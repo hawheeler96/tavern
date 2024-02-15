@@ -229,6 +229,9 @@ function CharacterSheet({ Capitalize, setCharacters }) {
                 )}
                 <p>{Capitalize(character.dnd_class)}</p>
               </div>
+              {character.subclasses && (
+                <p>{character.subclass}</p>
+              )}
               <div className="flex justify-center items-center">
                 <p>HP {character.hp}</p>
               </div>
