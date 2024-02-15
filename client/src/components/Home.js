@@ -44,11 +44,13 @@ function Home({ characters, user }) {
               <div key={index} className="w-1/6 p-4 flex flex-col items-center">
                 <nav className="flex flex-col items-center transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110">
                   <div className="mb-2">
+                    <Link to={`/character-sheet/${character.id}`}>
                     <img
                       src="/images/tavern_avatar_img.png"
                       alt="Silhouette of an androgenous figure with pointed ears"
                       className="rounded-full w-40 h-40"
                     />
+                    </Link>
                   </div>
                   <div className="text-center">
                     <h3 className="text-xl text-white font-raleway transition ease-in-out delay-50 hover:text-soft-gold">
