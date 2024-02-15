@@ -214,7 +214,7 @@ function CharacterSheet({ Capitalize, setCharacters }) {
     <div>
       <div className="flex justify-center">
         <div className="text-white bg-soft-blue w-4/5 lg:w-1/2 flex items-center rounded-md p-4 relative font-raleway shadow-lg">
-            <h3 className="absolute top-5 left-5 text-2xl border-b border-r shadow-inner p-2 rounded italic">Adventurer's License</h3>
+            <h3 className="absolute top-5 left-5 text-2xl border-b border-r shadow-inner p-2 rounded font-bold">Adventurer's License</h3>
           <div className="flex flex-col justify-center items-center m-2 mt-6">
             <h3 className="text-xl text-center">{character.name}</h3>
             <img
