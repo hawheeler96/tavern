@@ -295,7 +295,7 @@ function CreateCharacter({ addCharacter, user }) {
       <div className="flex flex-col items-center h-full bg-slate-blue font-raleway">
         <div className="w-full max-w-xl">
           <form className="shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-white flex flex-col">
-            <h3 className="text-xl italic mb-4 text-center">
+            <h3 className="text-xl mb-4 text-center font-bold">
               Adventurer Registration
             </h3>
             <input
@@ -450,7 +450,7 @@ function CreateCharacter({ addCharacter, user }) {
               className="mb-2 border-b-2"
             />
             <input
-              type="text"
+              type="number"
               placeholder="Gold"
               value={gold}
               onChange={(e) => {
@@ -476,8 +476,9 @@ function CreateCharacter({ addCharacter, user }) {
                   }
                   setStr_score(str);
                 }}
+                className="italic"
               />
-              {str_score !== "" ? <p>{str_mod}</p> : null}
+              {str_score !== "" ? <p>Modifier: {str_mod}</p> : null}
               <h2 className="mt-2">Dexterity</h2>
               <input
                 type="number"
@@ -490,8 +491,9 @@ function CreateCharacter({ addCharacter, user }) {
                   }
                   setDex_score(dex);
                 }}
+                className="italic"
               />
-              {dex_score !== "" ? <p>{dex_mod}</p> : null}
+              {dex_score !== "" ? <p>Modifier: {dex_mod}</p> : null}
               <h2 className="mt-2">Constitution</h2>
               <input
                 type="number"
@@ -504,8 +506,9 @@ function CreateCharacter({ addCharacter, user }) {
                   }
                   setCon_score(con);
                 }}
+                className="italic"
               />
-              {con_score !== "" ? <p>{con_mod}</p> : null}
+              {con_score !== "" ? <p>Modifier: {con_mod}</p> : null}
               <h2 className="mt-2">Intelligence</h2>
               <input
                 type="number"
@@ -518,8 +521,9 @@ function CreateCharacter({ addCharacter, user }) {
                   }
                   setInt_score(int);
                 }}
+                className="italic"
               />
-              {int_score !== "" ? <p>{int_mod}</p> : null}
+              {int_score !== "" ? <p>Modifier: {int_mod}</p> : null}
               <h2 className="mt-2">Wisdom</h2>
               <input
                 type="text"
@@ -532,8 +536,9 @@ function CreateCharacter({ addCharacter, user }) {
                   }
                   setWis_score(wis);
                 }}
+                className="italic"
               />
-              {wis_score !== "" ? <p>{wis_mod}</p> : null}
+              {wis_score !== "" ? <p>Modifier: {wis_mod}</p> : null}
               <h2 className="mt-2">Charisma</h2>
               <input
                 type="text"
@@ -546,12 +551,16 @@ function CreateCharacter({ addCharacter, user }) {
                   }
                   setCha_score(cha);
                 }}
+                className="italic"
               />
-              {cha_score !== "" ? <p>{cha_mod}</p> : null}
+              {cha_score !== "" ? <p>Modifier: {cha_mod}</p> : null}
             </div>
             <div>
               {dnd_class && apiData.proficiency_choices && (
+                <div>
+                <br />
                 <h2>{apiData.proficiency_choices[0]?.desc}</h2>
+                </div>
               )}
               {apiData.proficiency_choices &&
                 apiData.proficiency_choices[0]?.from?.options &&
@@ -567,13 +576,14 @@ function CreateCharacter({ addCharacter, user }) {
                         }}
                       />
                       <label htmlFor={option.item.index}>
-                        {option.item.name}
+                         {" " + option.item.name}
                       </label>
                     </div>
                   )
                 )}
             </div>
             <div>
+              <br />
               <h2>HP</h2>
               {dnd_class && <p>Hit dice: d{apiData.hit_die}</p>}
               <input
@@ -581,6 +591,7 @@ function CreateCharacter({ addCharacter, user }) {
                 placeholder="Enter HP..."
                 value={hp}
                 onChange={(e) => setHp(e.target.value)}
+                className="italic"
               />
             </div>
           </form>
@@ -589,7 +600,7 @@ function CreateCharacter({ addCharacter, user }) {
           onClick={handleCreateCharacter}
           className="my-3 bg-soft-gold p-2 text-slate-blue cursor-pointer"
         >
-          Create character
+          Create Character
         </button>
       </div>
     </div>

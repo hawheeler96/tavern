@@ -244,7 +244,7 @@ function EditCharacter({
 
   return (
     <div>
-      <div className="flex flex-col items-center h-screen bg-slate-blue font-raleway">
+      <div className="flex flex-col items-center h-full bg-slate-blue font-raleway">
         <div className="w-full max-w-xl">
           <div className="shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-soft-blue flex flex-col">
             <h3 className="text-white">Name</h3>
@@ -440,7 +440,7 @@ function EditCharacter({
                 onClick={() => {
                   handleEditCharacter();
                 }}
-                className="my-3 bg-soft-gold p-2 text-slate-blue cursor-pointer"
+                className="my-3 bg-soft-gold p-2 text-slate-blue cursor-pointer rounded"
               >
                 Edit Character
               </button>

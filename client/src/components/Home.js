@@ -68,7 +68,7 @@ function Home({ characters, user }) {
             </p>
             <Link
               to="/create-character"
-              class="flex justify-center items-center w-1/2 p-2 mt-8 bg-soft-blue text-white hover:bg-soft-gold"
+              className="flex justify-center items-center w-1/2 p-2 mt-8 bg-soft-blue text-white hover:bg-soft-gold"
             >
               Create a Character
             </Link>

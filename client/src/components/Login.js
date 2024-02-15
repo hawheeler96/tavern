@@ -45,7 +45,7 @@ export default function Login({ setUser }) {
       <div class=" bg-soft-blue align-middle static mb-28 p-6 rounded-md">
         <form
           onSubmit={handleSubmit}
-          class="p-60px 20px grid justify-start mx-6"
+          className="p-60px 20px grid justify-start mx-6"
         >
           <div>
             <label htmlFor="email" className="text-white">
@@ -76,13 +76,13 @@ export default function Login({ setUser }) {
               width: "100%",
               margin: "5px 0",
             }}
-            class="bg-white rounded"
+            className="bg-white rounded"
           />
           <div>
             <input
               type="submit"
-              value="Login"
-              class="my-3 bg-soft-gold p-2 text-slate-blue cursor-pointer rounded"
+              value="Sign In"
+              className="my-3 bg-soft-gold p-2 text-slate-blue cursor-pointer rounded"
             />
           </div>
         </form>
@@ -91,7 +91,7 @@ export default function Login({ setUser }) {
           style={{
             display: "block",
           }}
-          class="m-6 text-white hover:text-soft-gold"
+          className="m-6 text-white hover:text-soft-gold"
         >
           New here? Sign up!
         </Link>
