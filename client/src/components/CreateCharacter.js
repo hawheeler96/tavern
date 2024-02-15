@@ -598,7 +598,7 @@ function CreateCharacter({ addCharacter, user }) {
         </div>
         <button
           onClick={handleCreateCharacter}
-          className="my-3 bg-soft-gold p-2 text-slate-blue cursor-pointer"
+          className="my-3 bg-soft-gold p-2 text-slate-blue cursor-pointer rounded"
         >
           Create Character
         </button>
