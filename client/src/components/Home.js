@@ -45,11 +45,11 @@ function Home({ characters, user }) {
                 <nav className="flex flex-col items-center transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110">
                   <div className="mb-2">
                     <Link to={`/character-sheet/${character.id}`}>
-                    <img
-                      src="/images/tavern_avatar_img.png"
-                      alt="Silhouette of an androgenous figure with pointed ears"
-                      className="rounded-full w-40 h-40"
-                    />
+                      <img
+                        src="/images/tavern_avatar_img.png"
+                        alt="Silhouette of an androgenous figure with pointed ears"
+                        className="rounded-full w-40 h-40"
+                      />
                     </Link>
                   </div>
                   <div className="text-center">
@@ -76,7 +76,8 @@ function Home({ characters, user }) {
             </Link>
           </div>
         )}
-        {filteredCharacters.length > 0 && (currentCharacters + charNum) <= 4 ? (
+        {filteredCharacters.length > 0 &&
+        currentCharacters + charNum < filteredCharacters.length ? (
           <button
             onClick={scrollBeltForward}
             className="text-5xl text-white flex flex-wrap align-middle py-16 transition ease-in-out delay-50 hover:scale-110"
