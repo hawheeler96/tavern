@@ -29,7 +29,7 @@ function Home({ characters, user }) {
   return (
     <div>
       <div className="flex flex-wrap justify-center my-32">
-        {filteredCharacters.length > 0 && currentCharacters > 4 ? (
+        {filteredCharacters.length > 0 && currentCharacters > 0 ? (
           <button
             onClick={scrollBeltBackward}
             className="text-5xl text-white flex flex-wrap align-middle py-16 transition ease-in-out delay-50 hover:scale-110"
@@ -76,7 +76,7 @@ function Home({ characters, user }) {
             </Link>
           </div>
         )}
-        {filteredCharacters.length > 0 && currentCharacters < 4 ? (
+        {filteredCharacters.length > 0 && (currentCharacters + charNum) <= 4 ? (
           <button
             onClick={scrollBeltForward}
             className="text-5xl text-white flex flex-wrap align-middle py-16 transition ease-in-out delay-50 hover:scale-110"
