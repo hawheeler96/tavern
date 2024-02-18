@@ -464,7 +464,7 @@ function CreateCharacter({ addCharacter, user }) {
         <div className="w-full max-w-xl">
           <form className="shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-white flex flex-col">
             <div>
-              <h2>Strength</h2>
+              <h2 className="font-bold">Strength</h2>
               <input
                 type="number"
                 placeholder="Enter Strength..."
@@ -479,7 +479,7 @@ function CreateCharacter({ addCharacter, user }) {
                 className="italic"
               />
               {str_score !== "" ? <p>Modifier: {str_mod}</p> : null}
-              <h2 className="mt-2">Dexterity</h2>
+              <h2 className="mt-2 font-bold">Dexterity</h2>
               <input
                 type="number"
                 placeholder="Enter Dexterity..."
@@ -494,7 +494,7 @@ function CreateCharacter({ addCharacter, user }) {
                 className="italic"
               />
               {dex_score !== "" ? <p>Modifier: {dex_mod}</p> : null}
-              <h2 className="mt-2">Constitution</h2>
+              <h2 className="mt-2 font-bold">Constitution</h2>
               <input
                 type="number"
                 placeholder="Enter Constitution..."
@@ -509,7 +509,7 @@ function CreateCharacter({ addCharacter, user }) {
                 className="italic"
               />
               {con_score !== "" ? <p>Modifier: {con_mod}</p> : null}
-              <h2 className="mt-2">Intelligence</h2>
+              <h2 className="mt-2 font-bold">Intelligence</h2>
               <input
                 type="number"
                 placeholder="Enter Intelligence..."
@@ -524,9 +524,9 @@ function CreateCharacter({ addCharacter, user }) {
                 className="italic"
               />
               {int_score !== "" ? <p>Modifier: {int_mod}</p> : null}
-              <h2 className="mt-2">Wisdom</h2>
+              <h2 className="mt-2 font-bold">Wisdom</h2>
               <input
-                type="text"
+                type="number"
                 placeholder="Enter Wisdom..."
                 value={wis_score}
                 onChange={(e) => {
@@ -539,9 +539,9 @@ function CreateCharacter({ addCharacter, user }) {
                 className="italic"
               />
               {wis_score !== "" ? <p>Modifier: {wis_mod}</p> : null}
-              <h2 className="mt-2">Charisma</h2>
+              <h2 className="mt-2 font-bold">Charisma</h2>
               <input
-                type="text"
+                type="number"
                 placeholder="Enter Charisma..."
                 value={cha_score}
                 onChange={(e) => {
