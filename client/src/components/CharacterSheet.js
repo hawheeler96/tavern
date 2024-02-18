@@ -225,7 +225,7 @@ function CharacterSheet({ Capitalize, setCharacters }) {
             <div>
               <div className="flex justify-center space-x-1">
                 {character.dnd_class_level && (
-                  <p>Level {character.dnd_class_level}</p>
+                  <p>Level {character.dnd_class_level} </p>
                 )}
                 <p>{Capitalize(character.dnd_class)}</p>
               </div>
